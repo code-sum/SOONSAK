@@ -1,0 +1,239 @@
+/* base.html 네비게이션바 아이콘 효과 CSS */
+
+ul{
+  position: absolute;
+  top:50%;
+  left:50%;
+  transform: translate(-50%, -50%);
+  margin: 0;
+  padding: 0;
+  display: flex;    
+}
+
+ul li{
+  list-style: none;
+}
+
+ul li a
+{
+  position: relative;
+  display: block;
+  width: 60px;
+  height: 60px;
+  background: #FDAFAB;
+  color: #fff;
+  text-align: center;
+  line-height: 60px;
+  margin: 0 10px;
+  box-shadow: 0 0 0 3px #FDAFAB;
+  overflow: hidden;
+  border-radius: 50%;
+}
+
+ul li a i.fas
+{
+  position: relative;
+  font-size: 30px;
+  width: 100%;
+  height: 100%;
+  line-height: 60px;
+  transition: 0.5s;    
+}
+
+ul li a:hover i.fas
+{
+  transform: translateY(-100%);
+  color: #FDAFAB;
+}
+
+ul li a:before
+{
+  content: ' ';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #fff;
+  transform-origin: top;
+  transform: scaleY(0);
+  transition: transform 0.5s;
+}
+
+ul li a:hover:before
+{
+  transform: scale(1);
+}
+
+/* base.html 네비게이션바 밑줄 효과 CSS */
+
+.menu {
+  display: flex;
+  margin-right: 2rem;
+  font-size: 20px;
+}
+
+.menu li a {
+  position: relative;
+  text-decoration: none;
+  color: #949494;
+  margin-left: 1rem;
+}
+
+.menu li a::before {
+  content: "";
+  height: 4px;
+  width: 0;
+  border-radius: 2px;
+  transition: 0.3s;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+
+.menu li a:hover::before {
+  width: 100%;
+  background-color: #B6E3E9;
+}
+
+
+/* base.html 검색창 CSS */
+
+#content {
+  position: absolute;
+  height: 50px;
+  width: 300px;
+  margin-left: 170px;
+  top: 28%;
+  left: 80%;
+  transform: translate(-50%, -50%);
+}
+
+#content.on {
+  -webkit-animation-name: in-out;
+  animation-name: in-out;
+  -webkit-animation-duration: 0.7s;
+  animation-duration: 0.7s;
+  -webkit-animation-timing-function: linear;
+  animation-timing-function: linear;
+  -webkit-animation-iteration-count: 1;
+  animation-iteration-count: 1;
+}
+
+input {
+  box-sizing: border-box;
+  width: 50px;
+  height: 50px;
+  border: 4px solid #FADEE1;
+  border-radius: 50%;
+  background: none;
+  color: #FADEE1;
+  font-size: 16px;
+  font-weight: 400;
+  font-family: Roboto;
+  outline: 0;
+  -webkit-transition: width 0.4s ease-in-out, border-radius 0.8s ease-in-out,
+    padding 0.2s;
+  transition: width 0.4s ease-in-out, border-radius 0.8s ease-in-out,
+    padding 0.2s;
+  -webkit-transition-delay: 0.4s;
+  transition-delay: 0.4s;
+  -webkit-transform: translate(-100%, -50%);
+  -ms-transform: translate(-100%, -50%);
+  transform: translate(-100%, -50%);
+}
+
+.search {
+  background: none;
+  position: absolute;
+  top: 0px;
+  left: 0;
+  height: 50px;
+  width: 50px;
+  padding: 0;
+  border-radius: 100%;
+  outline: 0;
+  border: 0;
+  color: inherit;
+  cursor: pointer;
+  -webkit-transition: 0.2s ease-in-out;
+  transition: 0.2s ease-in-out;
+  -webkit-transform: translate(-100%, -50%);
+  -ms-transform: translate(-100%, -50%);
+  transform: translate(-100%, -50%);
+}
+
+.search:before {
+  content: "";
+  position: absolute;
+  width: 20px;
+  height: 4px;
+  background-color: #FADEE1;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+  margin-top: 26px;
+  margin-left: 17px;
+  -webkit-transition: 0.2s ease-in-out;
+  transition: 0.2s ease-in-out;
+}
+
+.close {
+  -webkit-transition: 0.4s ease-in-out;
+  transition: 0.4s ease-in-out;
+  -webkit-transition-delay: 0.4s;
+  transition-delay: 0.4s;
+}
+
+.close:before {
+  content: "";
+  position: absolute;
+  width: 27px;
+  height: 4px;
+  margin-top: -1px;
+  margin-left: -13px;
+  background-color: #FADEE1;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+  -webkit-transition: 0.2s ease-in-out;
+  transition: 0.2s ease-in-out;
+}
+
+.close:after {
+  content: "";
+  position: absolute;
+  width: 27px;
+  height: 4px;
+  background-color: #FADEE1;
+  margin-top: -1px;
+  margin-left: -13px;
+  cursor: pointer;
+  -webkit-transform: rotate(-45deg);
+  -ms-transform: rotate(-45deg);
+  transform: rotate(-45deg);
+}
+
+.square {
+  box-sizing: border-box;
+  padding: 0 40px 0 10px;
+  width: 300px;
+  height: 50px;
+  border: 4px solid #FADEE1;
+  border-radius: 0;
+  background: none;
+  color: #000000;
+  font-family: Roboto;
+  font-size: 16px;
+  font-weight: 400;
+  outline: 0;
+  -webkit-transition: width 0.4s ease-in-out, border-radius 0.4s ease-in-out,
+    padding 0.2s;
+  transition: width 0.4s ease-in-out, border-radius 0.4s ease-in-out,
+    padding 0.2s;
+  -webkit-transition-delay: 0.4s, 0s, 0.4s;
+  transition-delay: 0.4s, 0s, 0.4s;
+  -webkit-transform: translate(-100%, -50%);
+  -ms-transform: translate(-100%, -50%);
+  transform: translate(-100%, -50%);
+}
