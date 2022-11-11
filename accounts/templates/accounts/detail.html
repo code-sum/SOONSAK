@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+{% load django_bootstrap5 %}
+<div class="container">
+    <ul>
+        <li>{{ user.username }}</li>
+        <li>{{ user.address }}</li>
+        {% if user.profile_image %}
+        <img src="{{ user.profile_image.url }}" alt="">
+        {% endif %}
+    </ul>
+    <!--  -->
+    {% if request.user == user %}
+    <a href="{% url 'accounts:update' user.pk%}">회원정보 수정</a>
+    <a href="{% url 'accounts:passwordchange' user.pk%}">비밀번호 변경</a>
+    <a href="{% url 'accounts:delete' user.pk%}">회원 탈퇴</a>
+    {% endif %}
+    <!--  -->
+
+    {% if request.user != user %}
+    <a href="{% url 'accounts:follow' user.pk %}" class="btn btn-light">
+        {% if request.user in user.followings.all %}
+        언팔로우
+        {% else %}
+        팔로우
+        {% endif %}
+    </a>
+    {% endif %}
+    팔로워 : {{ user_followers }}
+
+
+</div>
+
+{% endblock %}
