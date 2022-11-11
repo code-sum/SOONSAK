@@ -12,7 +12,7 @@ class User(AbstractUser):
     followings = models.ManyToManyField('self', symmetrical=False, related_name='followers')
     # 프로필_이미지
     profile_image = ProcessedImageField(
-        upload_to="accounts/",
+        upload_to="images/accounts/",
         blank=True,
         processors=[ResizeToFill(300, 480)],
         format="JPEG",
