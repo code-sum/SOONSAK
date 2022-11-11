@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+
+{% block content %}
+  <p>{{ review.user.username }}</p>
+  <p>{{ review.content }}</p>
+  {% if review.review_image %}
+    <img src="{{ review.review_image.url }}" alt="">
+  {% endif %}
+  <a href="{% url 'reviews:update' review.pk %}">{% bootstrap_button content="리뷰 수정" %}</a>
+  <a href="{% url 'reviews:delete' review.pk %}">{% bootstrap_button content="리뷰 삭제" %}</a>
+
+  <form action="{% url 'reviews:add_comment' review.pk %}" method="POST">
+    {% csrf_token %}
+    {% bootstrap_form comment_form %}
+    <button type="submit" class="btn btn-primary">댓글 등록</button>
+  </form>
+  {% for comment in review.comments.all %}
+    <p>{{ comment.user}}
+      {{ comment.content }}</p>
+    <a href="{% url 'reviews:delete_comment' review.pk comment.pk %}">댓글 삭제</a>
+  {% endfor %}
+{% endblock content %}
