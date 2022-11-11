@@ -10,9 +10,9 @@ from django.urls import reverse
 
 
 class snack_Category(models.Model):
-    category = models.CharField(max_length=20, unique=True),
+    category = models.CharField(max_length=20, unique=True)
     def __str__(self):
-        return self.name
+        return self.category
     def get_absolute_url(self):
         #카테고리를 선택하면 해당 url로 넘어감, 수정필요 넘어갈 페이지 재검토
         return reverse('snacks:index', args=[self.category]) 
