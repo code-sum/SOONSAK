@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load django_bootstrap5 %}
+
+<h4>{{ order.snack.name }}</h4>
+<h4>SKU: {{ order.snack.pk }}</h4>
+<h4>가격: {{ order.snack.price }}원</h4>
+<h4>total {{ order.quantity }}개 X {{ order.snack.price}}원</h4>
+
+<form action="{% url 'orders:update' order.pk %}" method="POST">
+    {% csrf_token %}
+
+    <div>
+        <div class="mb-3">
+            <label for="exampleFormControlInput1" class="form-label">배송지</label>
+            <input type="text" class="form-control" id="exampleFormControlInput1" value="{{ shipping_address }}"
+                style="width:800px" name="shipping_address">
+        </div>
+
+        <div class="mb-3">
+            <label for="exampleFormControlInput1" class="form-label">연락처</label>
+            <input type="text" class="form-control" id="exampleFormControlInput1" value="{{ contact_number }}"
+                style="width:800px" name="contact_number">
+        </div>
+    </div>
+    <button type="submit" class="btn btn-outline-primary btn-lg me-2">주문 변경</button>
+</form>
+
+{% endblock %}

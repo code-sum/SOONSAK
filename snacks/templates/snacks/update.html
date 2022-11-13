@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+{% load django_bootstrap5 %}
+<!-- 권한제한 메시지 -->
+{% if messages %}
+<div class="alert alert-danger my-3" role="alert">
+    {% for message in messages %}
+    <strong>{{ message.tags }}</strong>
+    <ul>
+        <li>{{ message.message }}</li>
+    </ul>
+    {% endfor %}
+</div>
+{% endif %}
+
+<div class="container">
+    <div class="container mt-5">
+        <form action="" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {% bootstrap_form form %}
+            {% bootstrap_button button_type="submit" content="제품수정" %}
+        </form>
+    </div>
+
+
+</div>
+
+{% endblock %}
