@@ -1,18 +1,36 @@
 {% extends 'base.html' %}
-
 {% load static %}
-
 {% block content %}
+{% load django_bootstrap5 %}
+
+<!-- 권한제한 메시지 -->
+{% if messages %}
+<div class="alert alert-danger my-3" role="alert">
+  {% for message in messages %}
+  <strong>{{ message.tags }}</strong>
+  <ul>
+    <li>{{ message.message }}</li>
+  </ul>
+  {% endfor %}
+</div>
+{% endif %}
+{% if request.user.is_staff %}
+<!-- 제품수정 -->
+<a href="{% url 'snacks:update' snack.pk %}">{% bootstrap_button button_type="submit" content="제품수정" %}</a>
+<!-- 제품삭제 -->
+<a href="{% url 'snacks:delete' snack.pk %}">{% bootstrap_button button_type="submit" content="제품삭제" %}</a>
+{% endif %}
+
 <div class="container">
   <div class="row gx-3">
     <!--카테고리/제품명/제품이미지-->
-    <p>{{ category.category }}</p>
+    <p>카테고리 > {{ snack.category }}</p>
     <div class="col-lg-7">
       <h2>{{ snack.name }}</h2>
-      <img src="{{ snack.image.url }}" alt="">
+      <img src="{{ snack.snack_image.url }}" alt="">
     </div>
     <!--별점평균/제품 콘텐츠-->
-    <div class="col-lg-5 mb-5">    
+    <div class="col-lg-5 mb-5">
       <div class="table">
         <tbody>
           <tr>
@@ -31,23 +49,50 @@
             <th class="col-3">배송비</th>
             <td class="col-9">3000원</td>
           </tr>
+          <tr>
+            <th class="col-3">재고</th>
+            <td class="col-9">{{ snack.stock }}개</td>
+          </tr>
         </tbody>
       </div>
+    </div>
+    <div class="Cart_form">
+      <form method="POST" action="{% url 'carts:add_cart' snack.pk %}">
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        <button type="submit" class="btn btn-primary">바로 주문</button>
+        <button type="submit" class="btn btn-primary">장바구니에 담기</button>
+      </form>
+    </div>
+    <!-- 리뷰  -->
+
+    <!-- 리뷰 작성 버튼 -->
+    <div class="d-flex justify-content-end">
+      <a href="{% url 'reviews:create' snack.pk %}"><button type="button" class="btn btn-primary">리뷰작성</button></a>
     </div>
     <!--리뷰 카드-->
     <div class="row">
       <!--for문 스낵의 모든 리뷰-->
       <div class="col-12">
-        <a href="">
+        {% for review in reviews %}
+        <a href="{% url 'reviews:detail' review.pk %}">
           <div class="card">
-            <img src="" alt="">
-            <div></div>
+            {% if review.review_image %}
+            <img src="{{ review.review_image.url }}" alt="상품후기 사진">
+            {% endif %}
+            <div>
+              <p>{{ review.content}}</p>
+            </div>
           </div>
         </a>
+        {% empty %}
+        <h3>아직 작성된 리뷰가 없습니다.</h3>
+        {% endfor %}
       </div>
       <!--for문 종료-->
     </div>
   </div>
+
 </div>
 
 {% endblock content %}
