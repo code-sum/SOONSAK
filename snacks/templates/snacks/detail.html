@@ -21,17 +21,13 @@
 <a href="{% url 'snacks:delete' snack.pk %}">{% bootstrap_button button_type="submit" content="제품삭제" %}</a>
 {% endif %}
 
-<div class="row gx-3">
+<section class="row gx-3">
   <!--카테고리/제품명/제품이미지-->
   <h6 class="mx-2">카테고리> {{ snack.category }}</h6>
   <div class="col-lg-7">
     <h2 class="mx-4 mb-5">{{ snack.name }}</h2>
-    <div class="product-title mx-5">
-      <div class="product-img-div">
-        <a href="#">
-          <img class="product-img" src="{{ snack.snack_image.url }}" alt="{{ snack.name }}_이미지">
-        </a>
-      </div>
+    <div class="wrap mx-5">
+      <img class="target" src="{{ snack.snack_image.url }}" alt="{{ snack.name }}_이미지">
     </div>
   </div>
   <!--별점평균/제품 콘텐츠-->
@@ -61,7 +57,7 @@
       <form method="POST" action="{% url 'carts:add_cart' snack.pk %}">
         {% csrf_token %}
         {% bootstrap_form form %}
-        <div >
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
           <button type="submit" class="btn">바로 주문</button>
           <button type="submit" class="btn">장바구니에 담기</button>
         </div>
@@ -70,31 +66,91 @@
   </div>
   <!-- 리뷰  -->
 
-  <!-- 리뷰 작성 버튼 -->
-  <div class="d-flex justify-content-end">
-    <a href="{% url 'reviews:create' snack.pk %}"><button type="button" class="btn review_btn">리뷰작성</button></a>
-  </div>
   <!--리뷰 카드-->
-  <div class="row">
+  <!-- 리뷰 작성 버튼 -->
+  <div>
+    <div class="d-flex justify-content-end">
+      <a href="{% url 'reviews:create' snack.pk %}"><button type="button" class="btn review_btn">리뷰작성</button></a>
+    </div>
     <!--for문 스낵의 모든 리뷰-->
-    <div class="col-12">
-      {% for review in reviews %}
-      <a href="{% url 'reviews:detail' review.pk %}">
-        <div class="card">
-          {% if review.review_image %}
-          <img src="{{ review.review_image.url }}" class="product-img" alt="상품후기 사진">
-          {% endif %}
-          <div>
+    {% for review in reviews %}
+    <div class="row justify-content-center">
+      <div class="review_card m-4 pt-5">
+        <a href="{% url 'reviews:detail' review.pk %}" class="row">
+          <div class="col-7">
+            <h4>별점</h4>
             <p>{{ review.content}}</p>
           </div>
-        </div>
-      </a>
-      {% empty %}
-      <h3>아직 작성된 리뷰가 없습니다.</h3>
-      {% endfor %}
+          <div class="col-5 text-center" style="display: table; width:400px; height: 350px;">
+            <div style="display: table-cell; vertical-align:middle;">
+              {% if review.review_image %}
+              <img src="{{ review.review_image.url }}" style="width:100%;" alt="상품후기 사진">
+              {% endif %}
+            </div>
+          </div>
+        </a>
+        <p class="position-absolute bottom-0 end-0 mx-3">작성:{{ review.created_at|date:'Y-m-d H:i' }} | 수정:{{ review.updated_at|date:'Y-m-d H:i' }}</p>
+      </div>
+    </div>
+    {% empty %}
+    <h3>아직 작성된 리뷰가 없습니다.</h3>
+    {% endfor %}
+    <div class="col-12">
     </div>
     <!--for문 종료-->
   </div>
-</div>
+</section>
 
+<!-- 디테일 이미지 돋보기 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+  //주의 : hTML에서 보여지는 이미지 크기가 본래 이미지 크기보다 작아야 함. ( width , height )
+  window.onload = function () {
+    $(".wrap")
+      .on('mousemove', magnify)
+      .prepend("<div class='magnifier'></div>")
+      .children('.magnifier').css({
+        "background": "url('" + $(".target").attr("src") + "') no-repeat"
+      });
+
+    var target = $('.target');
+    var magnifier = $('.magnifier');
+
+    function magnify(e) {
+
+      // 마우스 위치에서 .magnify의 위치를 차감해 컨테이너에 대한 마우스 좌표를 얻는다.
+      var mouseX = e.pageX - $(this).offset().left;
+      var mouseY = e.pageY - $(this).offset().top;
+
+      // 컨테이너 밖으로 마우스가 벗어나면 돋보기를 없앤다.
+      if (mouseX < $(this).width() && mouseY < $(this).height() && mouseX > 0 && mouseY > 0) {
+        magnifier.fadeIn(100);
+      }
+      else {
+        magnifier.fadeOut(100);
+      }
+
+      //돋보기가 존재할 때
+      if (magnifier.is(":visible")) {
+
+        /* 이미지에 대한 마우스 포인터 아래의 픽셀 비율(본래 이미지 크기에 대한)을 얻고 
+        이를 사용하여 돋보기 내부에 큰 이미지를 배치한다. */
+        var rx = -(mouseX / target.width() * target[0].naturalWidth - magnifier.width() / 2);
+        var ry = -(mouseY / target.height() * target[0].naturalHeight - magnifier.height() / 2);
+
+        //돋보기를 마우스 위치에 따라 움직인다.
+        //돋보기의 width, height 절반을 마우스 좌표에서 차감해 마우스와 돋보기 위치를 일치시킨다.
+        var px = mouseX - magnifier.width() / 2;
+        var py = mouseY - magnifier.height() / 2;
+
+        //적용
+        magnifier.css({
+          left: px,
+          top: py,
+          backgroundPosition: rx + "px " + ry + "px"
+        });
+      }
+    }
+  };
+</script>
 {% endblock content %}
