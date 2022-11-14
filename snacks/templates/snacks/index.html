@@ -8,23 +8,64 @@
   {% if request.user.is_staff %}
     <a href="{% url 'snacks:category_create' %}">{% bootstrap_button button_type="submit" content="카테고리 등록" %}</a>
 
-    <!-- 제품등록 -->
-    <a href="{% url 'snacks:create' %}">{% bootstrap_button button_type="submit" content="제품등록" %}</a>
-  {% endif %}
+{% comment %} 랭크시작 {% endcomment %}
+<br>
+<h4 class="border-bottom pb-2 my-3">{{ snack_category.category }}</h4>
 
-  <div class="container mt-5">
+<div class="row justify-content-between my-3">
+    <div class="col-2">
+        <select class="form-control so">
+            <option value="recent" {% if so == 'recent' %}selected{% endif %}>최신순</option>
+            <option value="like" {% if so == 'popular' %}selected{% endif %}>좋아요 순</option>
+            <option value="rank" {% if so == 'rank' %}selected{% endif %}>별점 순</option>
+        </select>
+    </div>
+{% comment %} 랭크종료 {% endcomment %}
+
+{% comment %} 사이드바 시작{% endcomment %}
+
+{% comment %} <nav id="sidebar" class="border-top border-secondary">
+    <div class="list-group">
+            <a class="rounded-0 list-group-item list-group-item-action list-group-item-light
+               {% if category.category == '초콜릿' %}active{% endif %}" href="{% url 'snacks:index' '초콜릿' %}">초콜릿</a>
+            <a class="rounded-0 list-group-item list-group-item-action list-group-item-light
+               {% if category.category == '쿠키' %}active{% endif %}" href="{% url 'snacks:index' '쿠키' %}">쿠키</a>
+    </div>
+</nav>  {% endcomment %}
+{% comment %} 사이드바 종료 {% endcomment %}
+
+<!-- 카테고리 등록 -->
+<br><br>
+<div>
+{% if request.user.is_staff %}
+<a href="{% url 'snacks:category_create' %}"><button type="button submit" class="btn">카테고리등록</button></a>
+
+<!-- 제품등록 -->
+<a href="{% url 'snacks:create' %}"><button type="button submit" class="btn">제품등록</button></a>
+{% endif %}
+</div>
+
+<div class="container mt-5">
+    <div class="row">
     {% for snack in snacks %}
-      <!-- 임시 상품 카드 -->
-      <a href="{% url 'snacks:detail' snack.pk %}">
-        <div class="card" style="width: 18rem;">
-          <img src="{{ snack.snack_image.url }}" class="card-img-top" alt="스낵이미지">
-          <div class="card-body">
-            <p class="card-text">{{snack.name}}</p>
-            <p class="card-text">{{snack.price|intcomma}}원</p>
-          </div>
-        </div>
-      </a>
-    {% endfor %}
-  </div>
+    <div class="col-4 p-5 d-flex">
+    <!-- 임시 상품 카드 -->
+        <a href="{% url 'snacks:detail' snack.pk %}">
+            {% if snack.snack_image %}
+                    <img 
+                    src="{{ snack.snack_image.url }}" class="card-img-top" alt="스낵이미지">
 
-{% endblock %}
+            {% else %}
+                    <img class="profile" style="width:100%; height:300px;"
+                    src="https://i.esdrop.com/d/t/bvRLlOwptP/2jK4vs4YjI.jpg" alt="스낵디폴트">
+                
+            {% endif %}
+            <h4 class="card-text" style="text-align:center; margin:5px; text-decoration:none; color:black;">{{snack.name}}</h4>
+            <div class="card-text a_title" style="text-align:center; text-decoration:none; color:black;">{{snack.price}}원</div>
+        </a>
+    </div>
+    {% endfor %}
+    </div>
+</div>
+{% endblock %} 
+
