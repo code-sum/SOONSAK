@@ -1,15 +1,25 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load django_bootstrap5 %}
+
 {% block content %}
-  {% load django_bootstrap5 %}
-  <div class="container">
-    <form action="" method="POST" enctype="multipart/form-data">
-      {% csrf_token %}
-      {% bootstrap_form form %}
-      {% bootstrap_button button_type="submit" content="수정완료" button_class="btn btn-primary" %}
-    </form>
-    <a href="{% url 'accounts:passwordchange' user.pk%}">비밀번호 변경</a>
-    <a href="{% url 'accounts:delete' user.pk%}">회원 탈퇴</a>
+
+  <div class="row d-flex justify-content-center align-items-center pt-5">
+    <div class="d-flex flex-column justify-content-center align-items-center shadow p-5 rounded-3" style="background-color: #FAF1D6">
+      <div>
+        <form action="" method="POST" enctype="multipart/form-data">
+          {% csrf_token %}
+          {% bootstrap_form form %}
+          {% bootstrap_button button_type="submit" content="수정완료" button_class="btn btn-sm btn-outline-secondary rounded-pill" %}
+        </form>
+      </div>
+
+      <!-- 비밀번호 변경/회원탈퇴 -->
+      <div class="d-flex flex-row">
+        <a href="{% url 'accounts:passwordchange' user.pk %}" class="btn btn-sm btn-outline-secondary rounded-pill me-2">비밀번호 변경</a>
+        <a href="{% url 'accounts:delete' user.pk %}" class="btn btn-sm btn-outline-danger rounded-pill">회원 탈퇴</a>
+      </div>
+    </div>
   </div>
 
 {% endblock %}
