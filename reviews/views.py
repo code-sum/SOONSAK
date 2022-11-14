@@ -22,25 +22,22 @@ def create(request, snack_pk):
     # 구매자만 리뷰 작성 가능
     
     try:
-        orders = Order.objects.filter(user__id=request.user.pk, snack__id=snack_pk, order_status="결제완료")
-        print(orders)
-        if orders:
-            if request.method == 'POST':
-                form = ReviewForm(request.POST, request.FILES)
-                if form.is_valid():
-                    review = form.save(commit=False)
-                    review.user = request.user
-                    review.snack = snack
-                    review.save()
-                    return redirect('snacks:detail', snack_pk)
-            else:
-                form = ReviewForm()
-            context = {
-                'form' : form
-            }
-            return render(request, 'reviews/create.html', context)
+        orders = Order.objects.get(user__id=request.user.pk, snack__id=snack_pk, order_status="결제완료")
+        if request.method == 'POST':
+            form = ReviewForm(request.POST, request.FILES)
+            if form.is_valid():
+                review = form.save(commit=False)
+                review.user = request.user
+                review.snack = snack
+                review.save()
+                return redirect('snacks:detail', snack_pk)
+        else:
+            form = ReviewForm()
+        context = {
+            'form' : form
+        }
+        return render(request, 'reviews/create.html', context)
     except Order.DoesNotExist:
-            
         messages.error(request, "제품을 구매한 사용자만 리뷰를 작성할 수 있습니다.")    
         return redirect('snacks:detail', snack_pk)
 
