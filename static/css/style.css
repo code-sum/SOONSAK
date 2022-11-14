@@ -1,3 +1,14 @@
+/* 폰트 전체적용 */
+
+@font-face {
+  font-family: LeeSeoyun;
+  src: url("/static/fonts/LeeSeoyun.ttf");
+}
+
+body {
+  font-family: LeeSeoyun;
+}
+
 /* base.html 네비게이션바 아이콘 효과 CSS */
 
 ul{
