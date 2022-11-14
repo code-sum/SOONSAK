@@ -53,12 +53,12 @@
     {% endfor %}
   </div> {% endcomment %}
 
-  <div class="container">
+  <div class="col-4 d-flex justify-content-center align-items-center">
     <ul>
       <li>{{ user.username }}</li>
       <li>{{ user.address }}</li>
       {% if user.profile_image %}
-        <img src="{{ user.profile_image.url }}" alt="">
+        <img src="{{ user.profile_image.url }}" alt="profile_image">
       {% endif %}
     </ul>
     <!-- -->
