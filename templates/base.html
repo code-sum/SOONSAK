@@ -16,8 +16,17 @@
     <title>SOONSAK</title>
     {% bootstrap_css %}
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
-  </head>
+    <style>
+      @font-face {
+        font-family: LeeSeoyun;
+        src: url("./static/fonts/LeeSeoyun.ttf");
+      }
 
+      body {
+        font-family: LeeSeoyun;
+      }
+    </style>
+  </head>
   <body>
     <nav class="navbar navbar-expand-lg" style="background-color: #FADEE1;">
       <div class="container-fluid">
@@ -90,7 +99,7 @@
                   </li>
                 {% endif %}
                 <li>
-                  <a href="#">고객센터</a>
+                  <a href="{% url 'accounts:cs' %}">고객센터</a>
                 </li>
               </div>
             </div>

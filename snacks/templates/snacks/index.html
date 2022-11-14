@@ -1,31 +1,30 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load humanize %}
 {% block content %}
-{% load django_bootstrap5 %}
+  {% load django_bootstrap5 %}
 
+  <!-- 카테고리 등록 -->
+  {% if request.user.is_staff %}
+    <a href="{% url 'snacks:category_create' %}">{% bootstrap_button button_type="submit" content="카테고리 등록" %}</a>
 
-<!-- 카테고리 등록 -->
-{% if request.user.is_staff %}
-<a href="{% url 'snacks:category_create' %}">{% bootstrap_button button_type="submit" content="카테고리 등록" %}</a>
+    <!-- 제품등록 -->
+    <a href="{% url 'snacks:create' %}">{% bootstrap_button button_type="submit" content="제품등록" %}</a>
+  {% endif %}
 
-<!-- 제품등록 -->
-<a href="{% url 'snacks:create' %}">{% bootstrap_button button_type="submit" content="제품등록" %}</a>
-{% endif %}
-
-<div class="container mt-5">
+  <div class="container mt-5">
     {% for snack in snacks %}
-    <!-- 임시 상품 카드 -->
-    <a href="{% url 'snacks:detail' snack.pk %}">
+      <!-- 임시 상품 카드 -->
+      <a href="{% url 'snacks:detail' snack.pk %}">
         <div class="card" style="width: 18rem;">
-            <img src="{{ snack.snack_image.url }}" class="card-img-top" alt="스낵이미지">
-            <div class="card-body">
-                <p class="card-text">{{snack.name}}</p>
-                <p class="card-text">{{snack.price}}원</p>
-            </div>
+          <img src="{{ snack.snack_image.url }}" class="card-img-top" alt="스낵이미지">
+          <div class="card-body">
+            <p class="card-text">{{snack.name}}</p>
+            <p class="card-text">{{snack.price|intcomma}}원</p>
+          </div>
         </div>
-    </a>
+      </a>
     {% endfor %}
-</div>
-
+  </div>
 
 {% endblock %}

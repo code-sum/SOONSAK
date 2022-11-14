@@ -4,6 +4,7 @@
 {% block content %}
 <p>{{ review.user.username }}</p>
 <p>{{ review.content }}</p>
+<p>후기별점: {{ star}}</p>
 {% if review.review_image %}
 <img src="{{ review.review_image.url }}" alt="">
 {% endif %}
