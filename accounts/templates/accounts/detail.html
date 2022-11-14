@@ -1,35 +1,58 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block content %}
 {% load django_bootstrap5 %}
-<div class="container">
-    <ul>
-        <li>{{ user.username }}</li>
-        <li>{{ user.address }}</li>
-        {% if user.profile_image %}
-        <img src="{{ user.profile_image.url }}" alt="">
-        {% endif %}
-    </ul>
-    <!--  -->
-    {% if request.user == user %}
-    <a href="{% url 'accounts:update' user.pk%}">회원정보 수정</a>
-    <a href="{% url 'accounts:passwordchange' user.pk%}">비밀번호 변경</a>
-    <a href="{% url 'accounts:delete' user.pk%}">회원 탈퇴</a>
-    {% endif %}
-    <!--  -->
 
-    {% if request.user != user %}
-    <a href="{% url 'accounts:follow' user.pk %}" class="btn btn-light">
-        {% if request.user in user.followings.all %}
-        언팔로우
-        {% else %}
-        팔로우
-        {% endif %}
-    </a>
-    {% endif %}
-    팔로워 : {{ user_followers }}
+{% block content %}
 
+  <div class="row d-flex justify-content-center align-items-center pt-5">
 
-</div>
+    <!-- 프로필 전체 영역 -->
+    <div class="d-flex justify-content-center align-items-center shadow py-5">
+
+      <!-- 프로필 헤더 영역 -->
+      <div class="d-flex flex-row">
+        <!-- 프로필 이미지 영역 -->
+        <div class="me-5">
+          {% if user.profile_image %}
+            <img src="{{ user.profile_image.url }}" class="rounded-circle" alt="profile_image">
+          {% else %}
+            <img src="{% static 'images/cookieman.png' %}" class="rounded-circle" style="width: 200px;" alt="default_profile_image">
+          {% endif %}
+        </div>
+        <!-- 프로필 헤더/이미지 영역 제외 나머지 -->
+        <div class="d-flex flex-column">
+          <!-- username / 프로필편집 버튼 / 팔로우&팔로우취소 버튼 -->
+          <div class="d-flex flex-row">
+            <div style="font-size: 30px;">{{ user.username }}</div>
+            <div class="d-flex align-items-center ms-3">
+              {% if request.user == user %}
+                <a href="{% url 'accounts:update' user.pk %}" class="btn btn-sm btn-outline-secondary rounded-pill">프로필수정</a>
+              {% else %}
+                <a href="{% url 'accounts:follow' user.pk %}" class="btn btn-sm btn-outline-secondary rounded-pill">
+                  {% if request.user in user.followings.all %}
+                    팔로우 취소
+                  {% else %}
+                    팔로우
+                  {% endif %}
+                </a>
+              {% endif %}
+            </div>
+          </div>
+          <!-- 리뷰 / 팔로워 / 팔로우 집계 -->
+          <div class="d-flex flex-row">
+            <div class="me-2">리뷰</div>
+            <div class="me-2">팔로워
+              <b>{{ user_followers }}</b>
+            </div>
+            <div>팔로잉</div>
+          </div>
+          <!-- 주소 -->
+          <div>
+            <p>{{ user.address }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
 {% endblock %}

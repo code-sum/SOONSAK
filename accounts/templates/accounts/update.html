@@ -1,14 +1,15 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-{% load django_bootstrap5 %}
-<div class="container">
+  {% load django_bootstrap5 %}
+  <div class="container">
     <form action="" method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
-        {% bootstrap_form form %}
-        {% bootstrap_button button_type="submit" content="프로필 수정" %}
+      {% csrf_token %}
+      {% bootstrap_form form %}
+      {% bootstrap_button button_type="submit" content="수정완료" button_class="btn btn-primary" %}
     </form>
-
-</div>
+    <a href="{% url 'accounts:passwordchange' user.pk%}">비밀번호 변경</a>
+    <a href="{% url 'accounts:delete' user.pk%}">회원 탈퇴</a>
+  </div>
 
 {% endblock %}
