@@ -4,7 +4,6 @@ from . import views
 app_name = 'reviews'
 
 urlpatterns = [
-    path('', views.index, name='index'),
     # 리뷰 작성
     path('<int:snack_pk>/create/', views.create, name='create'),
     # 리뷰 상세

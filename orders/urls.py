@@ -4,9 +4,9 @@ from . import views
 app_name = 'orders'
 
 urlpatterns = [
-    # 주문 생성
+    # 주문서 생성
     path('create/', views.create, name="create"),
-    # 주문 완료
+    # 주문 생성
     path('order/', views.order, name="order"),
     # 주문 내역
     path('detail/<int:user_pk>', views.detail, name="detail"),

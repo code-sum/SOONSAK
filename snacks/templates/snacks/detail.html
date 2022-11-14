@@ -4,6 +4,7 @@
 {% block content %}
   {% load django_bootstrap5 %}
 
+<<<<<<< Updated upstream
   <!-- 권한제한 메시지 -->
   {% if messages %}
     <div class="alert alert-danger my-3" role="alert">
@@ -13,6 +14,34 @@
           <li>{{ message.message }}</li>
         </ul>
       {% endfor %}
+=======
+<!-- 권한제한 메시지 -->
+{% if messages %}
+<div class="alert alert-danger my-3" role="alert">
+  {% for message in messages %}
+  <strong>{{ message.tags }}</strong>
+  <ul>
+    <li>{{ message.message }}</li>
+  </ul>
+  {% endfor %}
+</div>
+{% endif %}
+
+{% if request.user.is_staff %}
+<!-- 제품수정 -->
+<a href="{% url 'snacks:update' snack.pk %}">{% bootstrap_button button_type="submit" content="제품수정" %}</a>
+<!-- 제품삭제 -->
+<a href="{% url 'snacks:delete' snack.pk %}">{% bootstrap_button button_type="submit" content="제품삭제" %}</a>
+{% endif %}
+
+<div class="container">
+  <div class="row gx-3">
+    <!--카테고리/제품명/제품이미지-->
+    <p>카테고리 > {{ snack.category }}</p>
+    <div class="col-lg-7">
+      <h2>{{ snack.name }}</h2>
+      <img src="{{ snack.snack_image.url }}" alt="">
+>>>>>>> Stashed changes
     </div>
   {% endif %}
   {% if request.user.is_staff %}
