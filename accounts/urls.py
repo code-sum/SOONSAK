@@ -21,7 +21,7 @@ urlpatterns = [
     # 비밀번호 변경
     path('<int:user_pk>/passwordchange', views.passwordchange, name="passwordchange"),
     # 팔로우
-    path('<int:user_pk>/follow/', views.follow, name="follow")
-
-
+    path('<int:user_pk>/follow/', views.follow, name="follow"),
+    # 고객센터
+    path('cs/', views.cs, name='cs'),
 ]

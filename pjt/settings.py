@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'orders',
     'django_cleanup.apps.CleanupConfig',
     'imagekit',
+    'django.contrib.humanize',
     'django_bootstrap5',
     'django.contrib.admin',
     'django.contrib.auth',
