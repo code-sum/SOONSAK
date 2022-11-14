@@ -237,3 +237,23 @@ ul li a:hover:before
   -ms-transform: translate(-100%, -50%);
   transform: translate(-100%, -50%);
 }
+a {
+  text-decoration: none;
+}
+.a_title > a {
+  color: black;
+}
+.btn{
+  background-color: #D9F1F1;
+  color: black;
+  border-radius: 5rem;
+  outline:none;
+}
+.btn:hover {
+  background-color: #B6E3E9;
+  border-radius: 5rem;
+  outline:none;
+}
+.btn:focus{
+  outline:none;
+}
