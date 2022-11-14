@@ -5,7 +5,7 @@ app_name = 'snacks'
 
 urlpatterns = [
   # 카테고리 등록
-  path("", views.category_create, name="category_create"),
+  path("category_create/", views.category_create, name="category_create"),
   # 상품 전체 조회
   path("", views.index, name="index"),
   # 상품 등록
