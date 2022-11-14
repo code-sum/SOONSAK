@@ -1,9 +1,0 @@
-{% extends 'base.html' %}
-{% load django_bootstrap5 %}
-
-{% block content %}
-  <a href="{% url 'reviews:create' %}">{% bootstrap_button button_type="submit" content="리뷰 작성" %}</a>
-  {% for review in reviews %}
-  <a href="{% url 'reviews:detail' review.pk %}">{{ review.content }}</a>
-  {% endfor %}
-{% endblock content %}

@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load humanize %}
 {% block content %}
 {% load django_bootstrap5 %}
 
@@ -13,6 +14,7 @@
   </ul>
   {% endfor %}
 </div>
+
 {% endif %}
 {% if request.user.is_staff %}
 <!-- 제품수정 -->
@@ -24,7 +26,15 @@
 <div class="container">
   <div class="row gx-3">
     <!--카테고리/제품명/제품이미지-->
-    <p>카테고리 > {{ snack.category }}</p>
+    <p>카테고리 >
+      {{ snack.category }}</p>
+    <!--상품 좋아요 , 좋아요 취소-->
+      {% if request.user in snack.likes.all %}
+        <a href="{% url 'snacks:likes' snack.pk %}">좋아요 취소</a>
+      {% else %}
+        <a href="{% url 'snacks:likes' snack.pk %}">좋아요</a>
+      {% endif %}
+
     <div class="col-lg-7">
       <h2>{{ snack.name }}</h2>
       <img src="{{ snack.snack_image.url }}" alt="">
@@ -43,11 +53,11 @@
           </tr>
           <tr>
             <th class="col-3">가격</th>
-            <td class="col-9">{{ snack.price }}</td>
+            <td class="col-9">{{ snack.price|intcomma }}</td>
           </tr>
           <tr>
             <th class="col-3">배송비</th>
-            <td class="col-9">3000원</td>
+            <td class="col-9">3,000원</td>
           </tr>
           <tr>
             <th class="col-3">재고</th>
@@ -64,11 +74,13 @@
         <button type="submit" class="btn btn-primary">장바구니에 담기</button>
       </form>
     </div>
-    <!-- 리뷰  -->
+    <!-- 리뷰 -->
 
     <!-- 리뷰 작성 버튼 -->
     <div class="d-flex justify-content-end">
-      <a href="{% url 'reviews:create' snack.pk %}"><button type="button" class="btn btn-primary">리뷰작성</button></a>
+      <a href="{% url 'reviews:create' snack.pk %}">
+        <button type="button" class="btn btn-primary">리뷰작성</button>
+      </a>
     </div>
     <!--리뷰 카드-->
     <div class="row">

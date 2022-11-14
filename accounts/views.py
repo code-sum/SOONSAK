@@ -1,8 +1,8 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import User
 from django.contrib.auth.forms import PasswordChangeForm
 from .forms import CustomUserCreationForm, CustomUserChangeForm
-from django.contrib.auth import authenticate, update_session_auth_hash
+from django.contrib.auth import authenticate, update_session_auth_hash, get_user_model
 from django.contrib.auth import login as user_login
 from django.contrib.auth import logout as user_logout
 from django.contrib.auth.forms import AuthenticationForm
@@ -58,7 +58,7 @@ def logout(request):
 # 회원 상세 정보
 def detail(request, user_pk):
 
-    user = User.objects.get(pk=user_pk)
+    user = get_object_or_404(get_user_model(), pk=user_pk)
     user_followers = user.followings.count()
     context = {
         'user': user,
@@ -133,3 +133,7 @@ def follow(request, user_pk):
     # else:
     #     user.followers.add(request.user)
     # return redirect('accounts:detail', pk)
+
+# 고객센터
+def cs(request):
+    return render(request, 'accounts/cs.html')

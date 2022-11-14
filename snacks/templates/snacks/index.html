@@ -1,8 +1,12 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load humanize %}
 {% block content %}
-{% load django_bootstrap5 %}
+  {% load django_bootstrap5 %}
 
+  <!-- 카테고리 등록 -->
+  {% if request.user.is_staff %}
+    <a href="{% url 'snacks:category_create' %}">{% bootstrap_button button_type="submit" content="카테고리 등록" %}</a>
 
 {% comment %} 랭크시작 {% endcomment %}
 <br>
@@ -64,3 +68,4 @@
     </div>
 </div>
 {% endblock %} 
+

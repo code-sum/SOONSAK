@@ -5,10 +5,11 @@ from orders.models import Order
 from snacks.models import Snack
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.db.models import Avg, Count
 
 # 리뷰 목록
 def index(request):
-    reviews = Review.objects.order_by('-pk')
+    reviews = Review.objects.order_by('-created_at')
     context = {
         'reviews' : reviews
     }
@@ -21,37 +22,48 @@ def create(request, snack_pk):
     # 구매자만 리뷰 작성 가능
     
     try:
-        order = Order.objects.get(user__id=request.user.pk, snack__pk=snack.pk, order_status="결제완료")
-        if order:
-            if request.method == 'POST':
-                form = ReviewForm(request.POST, request.FILES)
-                if form.is_valid():
-                    review = form.save(commit=False)
-                    review.user = request.user
-                    review.snack = snack
-                    review.save()
-                    return redirect('snacks:detail', snack_pk)
-            else:
-                form = ReviewForm()
-            context = {
-                'form' : form
-            }
-            return render(request, 'reviews/create.html', context)
-    except:
-        pass
-    messages.error(request, "제품을 구매한 사용자만 리뷰를 작성할 수 있습니다.")    
-    return redirect('snacks:detail', snack_pk)
-
+        orders = Order.objects.get(user__id=request.user.pk, snack__id=snack_pk, order_status="결제완료")
+        if request.method == 'POST':
+            form = ReviewForm(request.POST, request.FILES)
+            if form.is_valid():
+                review = form.save(commit=False)
+                review.user = request.user
+                review.snack = snack
+                review.save()
+                return redirect('snacks:detail', snack_pk)
+        else:
+            form = ReviewForm()
+        context = {
+            'form' : form
+        }
+        return render(request, 'reviews/create.html', context)
+    except Order.DoesNotExist:
+        messages.error(request, "제품을 구매한 사용자만 리뷰를 작성할 수 있습니다.")    
+        return redirect('snacks:detail', snack_pk)
 
 
 # 리뷰 조회
 @login_required(login_url="accounts:login")
 def detail(request, review_pk):
     review = Review.objects.get(pk=review_pk)
+    # 별점 가져오기
+    grade = review.grade
+    if grade == 5:
+        star = "⭐⭐⭐⭐⭐"
+    elif grade == 4:
+        star = "⭐⭐⭐⭐"
+    elif grade == 3 :
+        star = "⭐⭐⭐"
+    elif grade == 2:
+        star = "⭐⭐"
+    elif grade == 1:
+        star = "⭐"
+        
     comment_form = CommentForm()
     context = {
         'review' : review,
         'comment_form' : comment_form,
+        'star':star,
     }
     return render(request, 'reviews/detail.html', context)
 

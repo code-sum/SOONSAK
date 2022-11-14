@@ -4,7 +4,6 @@ from reviews.models import Review
 from carts.forms import CartForm
 from .forms import SnackForm, CategoryForm
 from django.contrib.auth.decorators import login_required
-from django.contrib import messages
 
 # 상품 메뉴 전체 조회
 def index(request):
@@ -31,13 +30,10 @@ def category_create(request):
             'form':form,
         }
         return render(request, 'snacks/category_create.html', context)
-    # 관리자가 아니라면 권한 오류 메시지
     else:
-        messages.error(request, "권한이 없습니다.")
-        return redirect("/")
-
-
-
+        
+        return redirect('/')
+    
 # 상품 메뉴 등록
 @login_required(login_url='accounts:login')
 def create(request):
@@ -54,10 +50,10 @@ def create(request):
             'form':form,
         }
         return render(request, 'snacks/create.html', context)
-    # 관리자가 아니라면 권한 오류 메시지
+    
     else:
-        messages.error(request, "권한이 없습니다.")
-        return redirect("/")
+        return redirect('/')
+    
     
 # 상품 메뉴 상세조회
 def detail(request,snack_pk):
@@ -93,11 +89,24 @@ def update(request, snack_pk):
         return render(request, 'snacks/update.html', context)
     # 관리자가 아니라면 권한 오류 메시지
     else:
-        messages.error(request, "권한이 없습니다.")
-        return redirect("snacks:index")
+        return redirect('/')
 
 # 상품 삭제
 def delete(request, snack_pk):
-    snack = get_object_or_404(Snack, pk=snack_pk)
-    snack.delete()
-    return redirect("snacks:index")
+    if request.user.is_staff:
+        snack = get_object_or_404(Snack, pk=snack_pk)
+        snack.delete()
+        return redirect("snacks:index")
+    else:
+        return redirect('/')
+    
+# 상품 좋아요
+def likes(request, snack_pk):
+    snack = Snack.objects.get(pk=snack_pk)
+    
+    if request.user in snack.likes.all():
+        snack.likes.remove(request.user)
+    else:
+        snack.likes.add(request.user)
+        
+    return redirect('snacks:detail',snack_pk)
