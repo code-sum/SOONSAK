@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Snack
 from reviews.models import Review
+from accounts.models import User
 from carts.forms import CartForm
 from .forms import SnackForm, CategoryForm
 from django.contrib.auth.decorators import login_required
@@ -60,12 +61,15 @@ def detail(request,snack_pk):
     snack = get_object_or_404(Snack, pk=snack_pk)
     # 상품 리뷰들 
     reviews = Review.objects.filter(snack__pk=snack_pk)
+    # 리뷰 작성자 프로필 불러오기
+    users = User.objects.all()
     # 장바구니 폼
     form = CartForm()
     context = {
         "snack": snack,
         "reviews":reviews,
         'form': form,
+        "users": users
     }
     return render(request, "snacks/detail.html", context)
 
