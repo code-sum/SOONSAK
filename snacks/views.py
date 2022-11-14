@@ -99,3 +99,14 @@ def delete(request, snack_pk):
         return redirect("snacks:index")
     else:
         return redirect('/')
+    
+# 상품 좋아요
+def likes(request, snack_pk):
+    snack = Snack.objects.get(pk=snack_pk)
+    
+    if request.user in snack.likes.all():
+        snack.likes.remove(request.user)
+    else:
+        snack.likes.add(request.user)
+        
+    return redirect('snacks:detail',snack_pk)
