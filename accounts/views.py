@@ -133,3 +133,7 @@ def follow(request, user_pk):
     # else:
     #     user.followers.add(request.user)
     # return redirect('accounts:detail', pk)
+
+# 고객센터
+def cs(request):
+    return render(request, 'accounts/cs.html')
