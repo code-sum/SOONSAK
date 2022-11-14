@@ -80,6 +80,13 @@
           <div class="col-7">
             <h4>별점</h4>
             <p>{{ review.content}}</p>
+            <!-- 유저 프로필 불러오기 -->
+            {% for user in users %}
+              {% if user.id == review.user_id %}
+                <h3>{{ user.username }}</h3>
+                <img src="{{ user.profile_image.url }}" alt="작성자 프로필 이미지">
+              {% endif %}
+            {% endfor %}
           </div>
           <div class="col-5 text-center" style="display: table; width:400px; height: 350px;">
             <div style="display: table-cell; vertical-align:middle;">
