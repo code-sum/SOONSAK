@@ -64,8 +64,6 @@
     <!-- -->
     {% if request.user == user %}
       <a href="{% url 'accounts:update' user.pk%}">회원정보 수정</a>
-      <a href="{% url 'accounts:passwordchange' user.pk%}">비밀번호 변경</a>
-      <a href="{% url 'accounts:delete' user.pk%}">회원 탈퇴</a>
     {% endif %}
     <!-- -->
 
