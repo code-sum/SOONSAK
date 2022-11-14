@@ -27,6 +27,7 @@
       }
     </style>
   </head>
+
   <body>
     <nav class="navbar navbar-expand-lg" style="background-color: #FADEE1;">
       <div class="container-fluid">
@@ -49,13 +50,13 @@
               <!-- 아이콘 박스 -->
               <ul>
                 <li>
-                  <!-- 로인해야 보이고 관리자로 로그인하면 장바구니 기능 비활성화 -->
+                  <!-- 로그인해야 장바구니 상품 갯수 보이고, 관리자로 로그인하면 장바구니 기능 비활성화 -->
                   {% if request.user.is_authenticated %}
-                    <span class="badge badge-danger">{{ item_count }}개</span>
                     <a href="{% url 'carts:my_cart' %}">
                       <i class="fas bi bi-cart4"></i>
                       <i class="fas bi bi-cart4"></i>
                     </a>
+                    <span class="position-absolute top-0 start-30 translate-middle badge rounded-pill" style="background-color: #B6E3E9;">{{ item_count }}</span>
                   {% else %}
                     <!-- 로그인 안했으면 로그인페이지로 이동 -->
                     <a href="{% url 'accounts:login' %}">
