@@ -1,10 +1,12 @@
 from django.db import models
+from snacks.models import Snack
 from imagekit.models import ProcessedImageField
 from imagekit.processors import ResizeToFill
 from accounts.models import User
 
 # Create your models here.
 class Review(models.Model):
+    snack = models.ForeignKey(Snack, on_delete=models.CASCADE, related_name="snack_review")
     content = models.TextField()
     review_image = ProcessedImageField(
         upload_to="images/reviews/",

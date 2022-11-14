@@ -1,10 +1,12 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .forms import ReviewForm, CommentForm
 from .models import Review, Comment
+from orders.models import Order
+from snacks.models import Snack
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
-# Create your views here.
-
-# 글 목록
+# 리뷰 목록
 def index(request):
     reviews = Review.objects.order_by('-pk')
     context = {
@@ -12,35 +14,57 @@ def index(request):
     }
     return render(request, 'reviews/index.html', context)
 
-# 글 작성
-def create(request):
-    if request.method == 'POST':
-        form = ReviewForm(request.POST, request.FILES)
-        if form.is_valid():
-            review = form.save(commit=False)
-            review.user = request.user
-            review.save()
-            return redirect('reviews:index')
-    else:
-        form = ReviewForm()
-    context = {
-        'form' : form
-    }
-    return render(request, 'reviews/create.html', context)
+# 리뷰 작성
+@login_required(login_url="accounts:login")
+def create(request, snack_pk):
+    snack = get_object_or_404(Snack, pk=snack_pk)
+    # 구매자만 리뷰 작성 가능
+    
+    try:
+        order = Order.objects.get(user__id=request.user.pk, snack__pk=snack.pk, order_status="결제완료")
+        if order:
+            if request.method == 'POST':
+                form = ReviewForm(request.POST, request.FILES)
+                if form.is_valid():
+                    review = form.save(commit=False)
+                    review.user = request.user
+                    review.snack = snack
+                    review.save()
+                    return redirect('snacks:detail', snack_pk)
+            else:
+                form = ReviewForm()
+            context = {
+                'form' : form
+            }
+            return render(request, 'reviews/create.html', context)
+    except:
+        pass
+    messages.error(request, "제품을 구매한 사용자만 리뷰를 작성할 수 있습니다.")    
+    return redirect('snacks:detail', snack_pk)
 
-# 글 조회
+
+
+# 리뷰 조회
+@login_required(login_url="accounts:login")
 def detail(request, review_pk):
     review = Review.objects.get(pk=review_pk)
     comment_form = CommentForm()
     context = {
         'review' : review,
-        'comment_form' : comment_form
+        'comment_form' : comment_form,
     }
     return render(request, 'reviews/detail.html', context)
 
-# 글 수정
+# 리뷰 수정
+@login_required(login_url="accounts:login")
 def update(request, review_pk):
     review = Review.objects.get(pk=review_pk)
+    snack = Snack.objects.get(pk=review.snack.pk)
+
+    if review.user != request.user:
+        messages.error(request, "작성자만 수정할 수 있습니다.")    
+        return redirect('snacks:detail', snack.pk)
+
     if request.method == 'POST':
         form = ReviewForm(request.POST, request.FILES, instance=review)
         if form.is_valid():
@@ -53,14 +77,22 @@ def update(request, review_pk):
     }
     return render(request, 'reviews/update.html', context)
 
-# 글 삭제
+# 리뷰 삭제
+@login_required(login_url="accounts:login")
 def delete(request, review_pk):
+    
     review = Review.objects.get(pk=review_pk)
+    snack = Snack.objects.get(pk=review.snack.pk)
+    if review.user != request.user:
+        messages.error(request, "작성자만 삭제할 수 있습니다.")    
+        return redirect('snacks:detail', snack.pk)
+    
     review.delete()
-    return redirect('reviews:index')
+    return redirect('snacks:detail', snack.pk)
 
 
 # 댓글 작성
+@login_required(login_url="accounts:login")
 def add_comment(request, review_pk):
     review = Review.objects.get(pk=review_pk)
     comment_form = CommentForm(request.POST)
@@ -78,6 +110,7 @@ def add_comment(request, review_pk):
     return render(request, 'reviews/add_comment.html', context)
 
 # 댓글 삭제
+@login_required(login_url="accounts:login")
 def delete_comment(request, review_pk, comment_pk):
     comment = Comment.objects.get(pk=comment_pk)
     if request.user == comment.user:

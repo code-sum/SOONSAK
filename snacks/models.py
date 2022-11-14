@@ -1,13 +1,12 @@
 from django.db import models
-# Create your models here.
 # moon models
-from django import forms
 from imagekit.processors import ResizeToFill
 from imagekit.models import ProcessedImageField
-from django.conf import settings
+from django.contrib.auth import get_user_model
 from django.urls import reverse
 
-
+# AUTH_USER_MODEL User로 가져오기
+User = get_user_model()
 
 class snack_Category(models.Model):
     category = models.CharField(max_length=20, unique=True)
@@ -17,8 +16,8 @@ class snack_Category(models.Model):
         #카테고리를 선택하면 해당 url로 넘어감, 수정필요 넘어갈 페이지 재검토
         return reverse('snacks:index', args=[self.category]) 
 
-
-class Snacks(models.Model):
+# Snacks => Snack 변경
+class Snack(models.Model):
     name=models.CharField(max_length=20)
     content=models.TextField(max_length=200)
     category=models.ForeignKey(snack_Category,max_length=50, blank=True, on_delete=models.CASCADE)
@@ -31,10 +30,12 @@ class Snacks(models.Model):
         options={'quality': 80},
         format="JPEG",
     )
-    # like=models.ManayToManyField(settings.AUTH_USER_MODEL,related_name="likes")
-    price=models.IntegerField(blank=True)
-    #장바구니 재고 재검토 필요
-    stock=models.IntegerField(blank=True)
+    # settings.AUTH_USER_MODEL => User로 변경
+    likes=models.ManyToManyField(User ,related_name="likes")
+    # 가격
+    price=models.PositiveIntegerField()
+    # 재고
+    stock=models.PositiveIntegerField()
 
-
-    
+    def __str__(self):
+        return self.name   

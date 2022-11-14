@@ -7,6 +7,9 @@ from django.contrib.auth import login as user_login
 from django.contrib.auth import logout as user_logout
 from django.contrib.auth.forms import AuthenticationForm
 
+def index(request):
+    return render(request, 'accounts/index.html')
+
 # 회원가입
 def signup(request):
 

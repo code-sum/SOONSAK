@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+{% load django_bootstrap5 %}
+
+<div class="container">
+    <div class="container mt-5">
+        <form action="" method="POST">
+            {% csrf_token %}
+            {% bootstrap_form form %}
+            {% bootstrap_button button_type="submit" content="카테고리 등록" %}
+        </form>
+    </div>
+
+</div>
+
+{% endblock %}
