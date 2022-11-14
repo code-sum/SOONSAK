@@ -28,6 +28,13 @@
     <!--카테고리/제품명/제품이미지-->
     <p>카테고리 >
       {{ snack.category }}</p>
+    <!--상품 좋아요 , 좋아요 취소-->
+      {% if request.user in snack.likes.all %}
+        <a href="{% url 'snacks:likes' snack.pk %}">좋아요 취소</a>
+      {% else %}
+        <a href="{% url 'snacks:likes' snack.pk %}">좋아요</a>
+      {% endif %}
+
     <div class="col-lg-7">
       <h2>{{ snack.name }}</h2>
       <img src="{{ snack.snack_image.url }}" alt="">
