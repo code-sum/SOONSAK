@@ -1,5 +1,6 @@
 from django import forms
 from .models import Review, Comment
+from .widgets import starWidget
 
 class ReviewForm(forms.ModelForm):
     class Meta:
@@ -7,8 +8,15 @@ class ReviewForm(forms.ModelForm):
         fields = [
             'content',
             'review_image',
-            # 'stars',
+            'grade',
         ]
+    
+        labels = {
+            "grade": "별점을 남겨주세요",
+        }
+        widgets = {
+            "grade": starWidget,
+        }
 
 class CommentForm(forms.ModelForm):
     class Meta:
