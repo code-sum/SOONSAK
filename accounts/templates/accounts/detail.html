@@ -23,19 +23,20 @@
         <div class="d-flex flex-column">
           <!-- username / 프로필편집 버튼 / 팔로우&팔로우취소 버튼 -->
           <div class="d-flex flex-row mb-3">
-            <div style="font-size: 35px;">{{ user.username }}</div>
+            <div style="font-weight: bold; font-size: 35px;">{{ user.username }}</div>
             <div class="d-flex align-items-center ms-3">
               <!-- 본인 프로필 페이지 접속했을 때만 보이는 프로필수정 버튼 -->
               {% if request.user == user %}
                 <a href="{% url 'accounts:update' user.pk %}" class="btn rounded-pill">프로필수정</a>
               {% else %}
-                <a href="{% url 'accounts:follow' user.pk %}" class="btn rounded-pill">
-                  {% if request.user in user.followings.all %}
-                    팔로우 취소
+                <form id="follow-form" data-user-id="{{ user.pk }}">
+                  {% csrf_token %}
+                  {% if request.user in user.followers.all %}
+                    <input type="submit" class="btn rounded-pill" value="팔로우 취소">
                   {% else %}
-                    팔로우
+                    <input type="submit" class="btn rounded-pill" value="팔로우">
                   {% endif %}
-                </a>
+                </form>
               {% endif %}
             </div>
           </div>
@@ -45,10 +46,10 @@
               <b>0</b>
             </div>
             <div class="me-5">팔로워
-              <b>{{ user.followings.count }}</b>
+              <b id="followers-count">{{ user.followers.all|length }}</b>
             </div>
             <div>팔로잉
-              <b>{{ user.followers.count }}</b>
+              <b id="followings-count">{{ user.followings.all|length }}</b>
             </div>
           </div>
           <!-- 본인 프로필 페이지 접속했을 때만 보이는 주소 -->
@@ -81,9 +82,9 @@
         </div>
       </div>
 
-      <!-- 프로필 하단 -->
+      <!-- 프로필 하단 영역 -->
       <div class="container d-flex flex-column bg-white rounded-5 mt-5">
-        <div class="menu navbar-nav d-flex flex-row justify-content-center py-5">
+        <div class="menu navbar-nav d-flex flex-row justify-content-center py-4">
           <li>
             <a type="button" id="myReview" class="pe-2 text-black">
               <h5>
@@ -108,13 +109,41 @@
         </div>
 
         <!-- 리뷰 버튼 누르면 나오는 목록 -->
-        <div id="myReviewResult" class="my-3" style="display: none;">리뷰목록</div>
+        <div id="myReviewResult" style="display: none;">
+          <div class="d-flex flex-column text-center">
+            <h4 class="fw-bold">작성한 리뷰</h4>
+            <p class="text-muted">{{ user.review_set.count }}개를 작성하였습니다.</p>
+            {% for review in user.review_set.all %}
+              <p>
+                <a class="text-decoration-none" href="{% url 'reviews:detail' review.pk %}">{{ review.content }}</a>
+              </p>
+            {% endfor %}
+          </div>
+        </div>
 
         <!-- 댓글 버튼 누르면 나오는 목록 -->
-        <div id="myCommentResult" class="my-3" style="display: none;">댓글목록</div>
+        <div id="myCommentResult" style="display: none;">
+          <div class="d-flex flex-column text-center">
+            <h4 class="fw-bold">작성한 댓글</h4>
+            <p class="text-muted">{{ user.comment_set.count }}개를 작성하였습니다.</p>
+            {% for comment in user.comment_set.all %}
+              <p>
+                <a class="text-decoration-none" href="{% url 'reviews:detail' comment.review_id %}">{{ comment.content }}</a>
+              </p>
+            {% endfor %}
+          </div>
+        </div>
 
         <!-- 구매내역 누르면 나오는 목록 -->
-        <div id="myOrderResult" class="my-3" style="display: none;">구매내역</div>
+        <div id="myOrderResult" style="display: none;">
+          <div class="d-flex flex-column text-center">
+            <h4 class="fw-bold">구매한 상품</h4>
+            <p class="text-muted">{{ user.order_set.count }}개를 구매하였습니다.</p>
+            {% for order in user.order_set.all %}
+              <p>{{ order.snack }}</p>
+            {% endfor %}
+          </div>
+        </div>
       </div>
 
     </div>
@@ -123,6 +152,57 @@
 {% endblock content %}
 
 {% block script %}
+  <!-- 팔로우/팔로우취소 비동기 처리 -->
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script>
+    const form = document.querySelector('#follow-form')
+    const csrftoken = document
+      .querySelector('[name=csrfmiddlewaretoken]')
+      .value
+
+      form
+      .addEventListener('submit', function (event) {
+        event.preventDefault()
+        const userId = event
+          .target
+          .dataset
+          .userId
+
+          axios({
+            method: 'post',
+            url: `/accounts/${userId}/follow/`,
+            headers: {
+              'X-CSRFToken': csrftoken
+            }
+          })
+          .then((response) => {
+            const isFollowed = response.data.is_followed
+            const followBtn = document.querySelector('#follow-form > input[type=submit]')
+            if (isFollowed === true) {
+              followBtn.value = '팔로우 취소'
+              followBtn
+                .classList
+                .add('btn')
+            } else {
+              followBtn.value = '팔로우'
+              followBtn
+                .classList
+                .add('btn')
+            }
+            const followersCountTag = document.querySelector('#followers-count')
+            const followingsCountTag = document.querySelector('#followings-count')
+            const followersCount = response.data.followers_count
+            const followingsCount = response.data.followings_count
+            followersCountTag.innerText = followersCount
+            followingsCountTag.innerText = followingsCount
+          })
+          .catch((error) => {
+            console.log(error.response)
+          })
+        });
+  </script>
+
+  <!-- 프로필 하단 영역 클릭할 때마다 jQuery 처리 -->
   <script>
     $('#myReview').click(function () {
       if (($('#myReviewResult').css("display") === "none") && ($('#myCommentResult').css("display") === "none") && ($('#myOrderResult').css("display") === "none")) {
