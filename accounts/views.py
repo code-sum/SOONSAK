@@ -9,6 +9,8 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
 from reviews.models import Review
 from orders.models import Order
+from reviews.models import Comment
+from snacks.models import Snack
 from django.views.decorators.http import require_POST, require_safe
 from django.http import JsonResponse
 
@@ -67,13 +69,18 @@ def detail(request, user_pk):
     user = get_object_or_404(get_user_model(), pk=user_pk)
     # 사용자가 작성한 리뷰
     user_reviews = Review.objects.filter(user__id=user_pk)
-    # 사용자가 구매목록
+    # 사용자가 작성한 댓글
+    user_comment = Comment.objects.filter(user__id=user_pk)
+    # 사용자 구매내역
     user_orders = Order.objects.filter(user__id=user_pk)
-    # 사용자가 좋아요한 상품
+    # 사용자가 찜한 상품
+    likes_snacks = Snack.objects.all().filter(likes__id=user_pk)
+    print(likes_snacks)
     context = {
         'user': user,
         'reviews': user_reviews,
         'orders': user_orders,
+        'likes_snacks':likes_snacks,
     }
     return render(request, 'accounts/detail.html', context)
 
