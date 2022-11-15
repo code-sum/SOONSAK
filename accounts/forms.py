@@ -16,7 +16,7 @@ class CustomUserCreationForm(UserCreationForm):
             'address',
             'phone_num',
         ]
-        labels = {"username": "아이디", "profile_image":"프로필 이미지", "address": "주소"}
+        labels = {"username": "아이디", "profile_image":"프로필 이미지", "address": "주소", "phone_num": "연락처"}
     def __init__(self, *args, **kwargs):
         super(CustomUserCreationForm, self).__init__(*args, **kwargs)
         for fieldname in ['password1']:
