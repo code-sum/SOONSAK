@@ -261,6 +261,7 @@ a {
 
 .btn:hover {
   background-color: #B6E3E9;
+  color: black;
   border-radius: 5rem;
   outline: none;
 }
@@ -334,6 +335,21 @@ a {
   border-radius: 1rem;
 }
 
-.like_btn {
-  background-image: "❤🧡💛";
+/* 장바구니 css */
+
+.cart_card {
+  width: 90%;
+  height: 200px;
+  background-color: #FAF1D6;
+  border-radius: 1rem;
+  padding: 1rem;
+}
+
+.cart_card_img {
+  width: 270px;
+}
+
+.cart_card_img img {
+  max-width: 100%;
+  border-radius: 1rem;
 }
