@@ -33,6 +33,7 @@
     <div class="wrap mx-5">
       <img class="target" src="{{ snack.snack_image.url }}" alt="{{ snack.name }}_이미지">
     </div>
+
   </div>
 
   <!--별점평균/제품 콘텐츠-->
@@ -79,7 +80,9 @@
   </div>
   <!-- 리뷰 -->
   <div>
+
     <!-- 리뷰 작성 버튼 -->
+
     <div class="d-flex justify-content-end">
       <a href="{% url 'reviews:create' snack.pk %}">
         <button type="button" class="btn review_btn">리뷰작성</button>

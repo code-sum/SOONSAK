@@ -79,18 +79,18 @@
               <div class="menu">
                 {% if request.user.is_authenticated %}
                   <li>
-                    <a href="{% url 'accounts:logout' %}">로그아웃</a>
+                    <a href="{% url 'accounts:logout' %}" class="p-2">로그아웃</a>
                   </li>
                 {% else %}
                   <li>
-                    <a href="{% url 'accounts:login' %}">로그인</a>
+                    <a href="{% url 'accounts:login' %}" class="p-2">로그인</a>
                   </li>
                   <li>
-                    <a href="{% url 'accounts:signup' %}">회원가입</a>
+                    <a href="{% url 'accounts:signup' %}" class="p-2">회원가입</a>
                   </li>
                 {% endif %}
                 <li>
-                  <a href="{% url 'accounts:cs' %}">고객센터</a>
+                  <a href="{% url 'accounts:cs' %}" class="p-2">고객센터</a>
                 </li>
               </div>
             </div>
