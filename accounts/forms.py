@@ -14,6 +14,7 @@ class CustomUserCreationForm(UserCreationForm):
             'password2',
             'profile_image',
             'address',
+            'phone_num',
         ]
         labels = {"username": "아이디", "profile_image":"프로필 이미지", "address": "주소"}
     def __init__(self, *args, **kwargs):
@@ -34,7 +35,7 @@ class CustomUserChangeForm(UserChangeForm):
             'profile_image',
             'address',
         ]
-        labels = {"profile_image":"프로필 이미지 변경","address": "주소 변경"}
+        labels = {"profile_image":"프로필 이미지 변경","address": "주소 변경", "phone_num":"연락처 변경"}
 
 # 회원 비밀번호수정 폼
 class CustomPasswordChangeForm(PasswordChangeForm):

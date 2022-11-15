@@ -7,6 +7,8 @@ from django.contrib.auth import login as user_login
 from django.contrib.auth import logout as user_logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
+from reviews.models import Review
+from orders.models import Order
 
 def index(request):
     return render(request, 'accounts/index.html')
@@ -60,10 +62,22 @@ def logout(request):
 def detail(request, user_pk):
 
     user = get_object_or_404(get_user_model(), pk=user_pk)
-    user_followers = user.followings.count()
+    # 사용자의 팔로워 사람
+    user_followings = user.followings.count()
+    # 사용자가 팔로잉하고 있는 사람
+    user_followers = user.followers.count()
+    # 사용자가 작성한 리뷰
+    user_reviews = Review.objects.filter(user__id=user_pk)
+    # 사용자가 구매목록
+    user_orders = Order.objects.filter(user__id=user_pk)
+    # 사용자가 좋아요한 상품
+    
     context = {
         'user': user,
+        'user_followings':user_followings,
         'user_followers':user_followers,
+        'reviews':user_reviews,
+        'orders':user_orders,
     }
     return render(request, 'accounts/detail.html', context)
 

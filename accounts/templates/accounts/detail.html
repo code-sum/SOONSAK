@@ -4,62 +4,70 @@
 
 {% block content %}
 
-  <div class="row d-flex justify-content-center align-items-center pt-5">
+<div class="row d-flex justify-content-center align-items-center pt-5">
 
-    <!-- 프로필 전체 영역 -->
-    <div class="d-flex justify-content-center align-items-center shadow p-5 rounded-3" style="background-color: #FAF1D6">
+  <!-- 프로필 전체 영역 -->
+  <div class="d-flex justify-content-center align-items-center shadow p-5 rounded-3" style="background-color: #FAF1D6">
 
-      <!-- 프로필 헤더 영역 -->
-      <div class="d-flex flex-row">
-        <!-- 프로필 이미지 영역 -->
-        <div class="me-5">
-          {% if user.profile_image %}
-            <img src="{{ user.profile_image.url }}" class="rounded-circle" alt="profile_image">
-          {% else %}
-            <img src="{% static 'images/cookieman.png' %}" class="rounded-circle" style="width: 200px;" alt="default_profile_image">
-          {% endif %}
+    <!-- 프로필 헤더 영역 -->
+    <div class="d-flex flex-row">
+      <!-- 프로필 이미지 영역 -->
+      <div class="me-5">
+        {% if user.profile_image %}
+        <img src="{{ user.profile_image.url }}" class="rounded-circle" alt="profile_image">
+        {% else %}
+        <img src="{% static 'images/cookieman.png' %}" class="rounded-circle" style="width: 200px;"
+          alt="default_profile_image">
+        {% endif %}
+      </div>
+      <!-- 프로필 헤더/이미지 영역 제외 나머지 -->
+      <div class="d-flex flex-column">
+        <!-- username / 프로필편집 버튼 / 팔로우&팔로우취소 버튼 -->
+        <div class="d-flex flex-row">
+          <div style="font-size: 30px;">{{ user.username }}</div>
+          <div class="d-flex align-items-center ms-3">
+            {% if request.user == user and request.user.is_staff == 0 %}
+            <a href="{% url 'accounts:update' user.pk %}"
+              class="btn btn-sm btn-outline-secondary rounded-pill">프로필수정</a>
+            {% elif request.user != user and request.user.is_staff == 0 %}
+            <a href="{% url 'accounts:follow' user.pk %}" class="btn btn-sm btn-outline-secondary rounded-pill">
+              {% if request.user in user.followings.all %}
+              팔로우 취소
+              {% else %}
+              팔로우
+              {% endif %}
+            </a>
+            {% endif %}
+            <!-- 관리자에게만 버튼 보이게 -->
+            {% if request.user.is_staff %}
+            <!-- 카테고리 등록 -->
+            <a href="{% url 'snacks:category_create' %}" class="btn btn-light" type="submit">카테고리 등록</a>
+
+            <!-- 제품등록 -->
+            <a href="{% url 'snacks:create' %}" class="btn btn-light" type="submit">제품 등록</a>
+            {% endif %}
+          </div>
         </div>
-        <!-- 프로필 헤더/이미지 영역 제외 나머지 -->
-        <div class="d-flex flex-column">
-          <!-- username / 프로필편집 버튼 / 팔로우&팔로우취소 버튼 -->
-          <div class="d-flex flex-row">
-            <div style="font-size: 30px;">{{ user.username }}</div>
-            <div class="d-flex align-items-center ms-3">
-              {% if request.user == user and request.user.is_staff == 0 %}
-                <a href="{% url 'accounts:update' user.pk %}" class="btn btn-sm btn-outline-secondary rounded-pill">프로필수정</a>
-              {% elif request.user != user and request.user.is_staff == 0 %}
-                <a href="{% url 'accounts:follow' user.pk %}" class="btn btn-sm btn-outline-secondary rounded-pill">
-                  {% if request.user in user.followings.all %}
-                    팔로우 취소
-                  {% else %}
-                    팔로우
-                  {% endif %}
-                </a>
-              {% endif %}
-              <!-- 관리자에게만 버튼 보이게 -->
-              {% if request.user.is_staff %}
-                <!-- 카테고리 등록 -->
-                <a href="{% url 'snacks:category_create' %}" class="btn btn-light" type="submit">카테고리 등록</a>
-
-                <!-- 제품등록 -->
-                <a href="{% url 'snacks:create' %}" class="btn btn-light" type="submit">제품 등록</a>
-              {% endif %}
-            </div>
+        <!-- 리뷰 / 팔로워 / 팔로우 집계 -->
+        <div class="d-flex flex-row">
+          <div class="me-2">리뷰</div>
+          <b>{{ reviews | length }}</b>
+          <div class="me-2">팔로워
+            <b>{{ user_followers | length }}</b>
           </div>
-          <!-- 리뷰 / 팔로워 / 팔로우 집계 -->
-          <div class="d-flex flex-row">
-            <div class="me-2">리뷰</div>
-            <div class="me-2">팔로워
-              <b>{{ user_followers }}</b>
-            </div>
-            <div>팔로잉</div>
-          </div>
-          <!-- 주소 -->
-          <div>
-            <p>{{ user.address }}</p>
-          </div>
+          <div>팔로잉</div>
+          <b>{{ user_followings | length }}</b>
+        </div>
+        <!-- 주소 -->
+        <div>
+          <p>{{ user.address }}</p>
+        </div>
+        <!-- 사용자가 좋아요 -->
+        <div>좋아요
+          <b>{{ user.likes.all | length }}</b>
         </div>
       </div>
     </div>
   </div>
+</div>
 {% endblock %}

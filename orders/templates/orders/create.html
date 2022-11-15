@@ -1,73 +1,76 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-{% load django_bootstrap5 %}
+  {% load django_bootstrap5 %}
 
-<div class="container mt-5">
+  <div class="container mt-5">
     <h2>{{ request.user }}님의 주문내역</h2>
 
     {% for cart_item in cart_items %}
-    <!-- 카드 -->
-    <div class="card mb-3" style="max-width: 800px;">
+      <!-- 카드 -->
+      <div class="card mb-3" style="max-width: 800px;">
         <div class="row g-0">
-            <div class="col-md-4">
-                <img src="{{ cart_item.snack.snack_image.url }}" class="img-fluid rounded-start" alt="...">
+          <div class="col-md-4">
+            <img src="{{ cart_item.snack.snack_image.url }}" class="img-fluid rounded-start" alt="...">
+          </div>
+          <div class="col-md-8 d-flex align-items-center">
+            <!-- 주문 정보 -->
+            <div class="card-body">
+              <h5 class="card-title">상품명:
+                {{ cart_item.snack.name }}</h5>
+              <p class="card-text">상품가격:
+                {{ cart_item.snack.price }}원</p>
+              <p class="card-text">주문수량:
+                {{ cart_item.quantity }}개</p>
+              <p class="card-text">
+                총가격:
+                {{ cart_item.sub_total }}원 + 배송비
+                {{ delivery_fee }}원 =
+                {{ billing_amount }}원
+              </p>
+              <p>(50000원 이상은 배송비: 0원)</p>
             </div>
-            <div class="col-md-8 d-flex align-items-center">
-                <!-- 주문 정보 -->
-                <div class="card-body">
-                    <h5 class="card-title">상품명: {{ cart_item.snack.name }}</h5>
-                    <p class="card-text">상품가격: {{ cart_item.snack.price }}원</p>
-                    <p class="card-text">주문수량: {{ cart_item.quantity }}개</p>
-                    <p class="card-text">
-                        총가격: {{ cart_item.sub_total }}원 + 배송비 {{ delivery_fee }}원
-                        = {{ billing_amount }}원
-                    </p>
-                    <p>(50000원 이상은 배송비: 0원)</p>
-                </div>
-                <!-- 주문변경 버튼 -->
-                <div class="card-body">
-                    <div class="d-flex justify-content-center">
-                        <a href="{% url 'carts:my_cart' %}">
-                            <button class="">변경하기</button>
-                        </a>
-                    </div>
-                </div>
+            <!-- 주문변경 버튼 -->
+            <div class="card-body">
+              <div class="d-flex justify-content-center">
+                <a href="{% url 'carts:my_cart' %}">
+                  <button class="">변경하기</button>
+                </a>
+              </div>
             </div>
+          </div>
         </div>
-    </div>
-    {% empty %}
-    <h4>주문 내역이 없습니다.</h4>
-    <a href="{% url 'carts:my_cart' %}">
+      </div>
+      {% empty %}
+      <h4>주문 내역이 없습니다.</h4>
+      <a href="{% url 'carts:my_cart' %}">
         <button type="button" class="btn btn-outline-primary btn-lg">나의 장바구니</button>
-    </a>
+      </a>
     {% endfor %}
     <!-- 배송지 & 결제수단 -->
     <!-- 주문내역이 없으면 비활성화 -->
     {% if cart_items %}
-    <form action="{% url 'orders:order' %}">
+      <form action="{% url 'orders:order' %}">
         <div>
-            <div class="mb-3">
-                <label for="exampleFormControlInput1" class="form-label">배송지</label>
-                <input type="text" class="form-control" id="exampleFormControlInput1" value="{{ shipping_address }}"
-                    style="width:800px" name="shipping_address">
-            </div>
+          <div class="mb-3">
+            <label for="exampleFormControlInput1" class="form-label">배송지</label>
+            <input type="text" class="form-control" id="exampleFormControlInput1" value="{{ shipping_address }}" style="width:800px" name="shipping_address">
+          </div>
 
-            <div class="mb-3">
-                <label for="exampleFormControlInput1" class="form-label">연락처</label>
-                <input type="text" class="form-control" id="exampleFormControlInput1"
-                    placeholder="'-'없이 입력해주세요 ex)01012341234" style="width:800px" name="contact_number">
-            </div>
+          <div class="mb-3">
+            <label for="exampleFormControlInput1" class="form-label">연락처</label>
+            <input type="text" class="form-control" id="exampleFormControlInput1" value="{{ shipping_phoneNum }}" style="width:800px" name="contact_number">
+          </div>
         </div>
         <!-- 결제수단 -->
         <label for="exampleFormControlInput1" class="form-label">결제수단</label>
         <div class="mt-2">
-            <button type="submit" class="btn btn-outline-primary btn-lg me-2">신용카드</button>
-            <button type="submit" class="btn btn-outline-primary btn-lg me-2">가상계좌</button>
-            <button type="submit" class="btn btn-outline-primary btn-lg me-2">모바일 페이</button>
+          <button type="submit" class="btn btn-outline-primary btn-lg me-2">신용카드</button>
+          <button type="submit" class="btn btn-outline-primary btn-lg me-2">가상계좌</button>
+          <button type="submit" class="btn btn-outline-primary btn-lg me-2">모바일 페이</button>
         </div>
-    </form>
+      </form>
     {% endif %}
-</div>
+  </div>
 
 {% endblock %}
