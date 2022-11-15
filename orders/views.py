@@ -9,6 +9,7 @@ from django.utils import timezone
 def create(request):
     # 배송지 생성
     shipping_address = request.user.address
+    shipping_phoneNum = request.user.phone_num
     # 로그인한 사용자의 장바구니
     cart_items = CartItem.objects.filter(user__id=request.user.pk)
     # 장바구니에 담긴 상품의 총 합계 => 결제금액 계산
@@ -29,6 +30,7 @@ def create(request):
             'cart_items': cart_items,
             'total_price':total_price,
             'shipping_address': shipping_address,
+            'shipping_phoneNum' : shipping_phoneNum,
             'delivery_fee' : delivery_fee,
             'billing_amount':billing_amount,
         }
