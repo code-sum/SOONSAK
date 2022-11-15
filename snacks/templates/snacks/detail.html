@@ -41,7 +41,6 @@
         <img class="target" src="{{ snack.snack_image.url }}" alt="{{ snack.name }}_이미지">
       </div>
     </div>
-
   <!--별점평균/제품 콘텐츠-->
   <div class="col-lg-5 mb-5 mt-5">
       <h4>평균별점: </h4>
@@ -79,6 +78,7 @@
   <!-- 리뷰 -->
   <div>
   <!-- 리뷰 작성 버튼 -->
+    <div>
     <div class="d-flex justify-content-end">
       <a href="{% url 'reviews:create' snack.pk %}">
         <button type="button" class="btn review_btn">리뷰작성</button>
