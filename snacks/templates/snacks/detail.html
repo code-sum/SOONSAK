@@ -40,7 +40,6 @@
         <img class="target" src="{{ snack.snack_image.url }}" alt="{{ snack.name }}_이미지">
       </div>
     </div>
-  </div>
   <!--별점평균/제품 콘텐츠-->
   <div class="col-lg-5 mb-5 mt-5">
     {% for key,value in star_dict.items %}
@@ -82,44 +81,13 @@
   <!-- 리뷰 -->
   <div>
   <!-- 리뷰 작성 버튼 -->
+    <div>
     <div class="d-flex justify-content-end">
       <a href="{% url 'reviews:create' snack.pk %}">
         <button type="button" class="btn review_btn">리뷰작성</button>
       </a>
     </div>
     <!--리뷰 카드-->
-    {% for review in reviews %}
-    <div class="row justify-content-center">
-      <div class="review_card m-4 pt-5">
-        <a href="{% url 'reviews:detail' review.pk %}" class="row text-black">
-          <div class="col-7">
-            <!-- 별점 불러오기 -->
-            {% for key,value in star_dict.items %}
-              {% if key == review.grade %}
-                <h4 class="mx-2">후기별점: {{ value }}</h4>
-              {% endif %}
-            {% endfor %}
-            <!-- 유저 프로필 불러오기 -->
-            {% for user in users %}
-              {% if user.id == review.user_id %}
-              <div class="d-flex px-5">
-                <img src="{{ user.profile_image.url }}" alt="작성자 프로필 이미지">
-                <h3 class="mx-3">작성자: {{ user.username }}</h3>
-              </div>  
-              {% endif %}
-            {% endfor %}
-            <h2 class="text-center m-3">{{ review.content}}</h2>
-          </div>
-          <div class="col-5 text-center" style="display: table; width:400px; height: 350px;">
-            <div style="display: table-cell; vertical-align:middle;">
-              {% if review.review_image %}
-              <img src="{{ review.review_image.url }}" style="width:100%;" alt="상품후기 사진">
-              {% endif %}
-            </div>
-          </div>
-        </a>
-      </div>
-      <!--리뷰 카드-->
       <!--for문 스낵의 모든 리뷰-->
       {% for review in reviews %}
         <div class="row justify-content-center">
@@ -139,7 +107,9 @@
                 {% for user in users %}
                   {% if user.id == review.user_id %}
                     <h3>{{ user.username }}</h3>
+                    {% if request.use.profie_image %}
                     <img src="{{ user.profile_image.url }}" alt="작성자 프로필 이미지">
+                    {% endif %}
                   {% endif %}
                 {% endfor %}
               </div>
