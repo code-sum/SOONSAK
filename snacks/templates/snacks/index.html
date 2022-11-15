@@ -4,10 +4,12 @@
 {% block content %}
 {% load django_bootstrap5 %}
 
-  <div class="container mt-5">
-<!-- 카테고리 등록 -->
+  <div class="container mt-5" style="margin-left: 55px;">
+<!-- 카테고리, 제품 등록 -->
 {% if request.user.is_staff %}
-    <a href="{% url 'snacks:category_create' %}">{% bootstrap_button button_type="submit" content="카테고리 등록" %}</a>
+    <a href="{% url 'snacks:category_create' %}"><button type="button submit" class="btn" style="font-size:23px; margin-right: 10px;">카테고리등록</button></a>
+    <a href="{% url 'snacks:create' %}"><button type="button submit" class="btn" style="font-size:23px;">제품등록</button></a>
+
 {% endif %}
 {% comment %} 랭크시작 {% endcomment %}
 <br>
@@ -15,7 +17,7 @@
 
 <div class="row justify-content-between my-3">
     <div class="col-2">
-        <select class="form-control so">
+        <select class="form-control so" style="padding:12px; font-size:23px;">
             <option value="recent" {% if so == 'recent' %}selected{% endif %}>최신순</option>
             <option value="like" {% if so == 'popular' %}selected{% endif %}>좋아요 순</option>
             <option value="rank" {% if so == 'rank' %}selected{% endif %}>별점 순</option>
@@ -24,34 +26,49 @@
 </div>
 {% comment %} 랭크종료 {% endcomment %}
 
-{% comment %} 사이드바 시작{% endcomment %}
-
+{% comment %} 가져온사이드바1 {% endcomment %}
 {% comment %} <nav id="sidebar" class="border-top border-secondary">
     <div class="list-group">
+        <a class="rounded-0 list-group-item list-group-item-action list-group-item-light {% if category.name == 'qna'  %}active{% endif %}" href="{% url 'pybo:question_list' 'qna' %}">질문과답변</a>
+        <a class="rounded-0 list-group-item list-group-item-action list-group-item-light {% if snack_category.category == 'free' %}active{% endif %}" href="{% url 'snack:index' 'free' %}">자유게시판</a>
+        <a class="rounded-0 list-group-item list-group-item-action list-group-item-light {% if category.name == 'tip'  %}active{% endif %}" href="{% url 'pybo:question_list' 'tip' %}">팁과강좌</a>
+        <a class="rounded-0 list-group-item list-group-item-action list-group-item-light {% if category.name == 'quiz' %}active{% endif %}" href="{% url 'pybo:question_list' 'quiz' %}">파이썬퀴즈</a>
+        <a class="rounded-0 list-group-item list-group-item-action list-group-item-light {% if category.name == 'bug' %}active{% endif %}" href="{% url 'pybo:question_list' 'bug' %}">버그및건의</a>
+    </div>
+</nav> {% endcomment %}
+{% comment %} 가져온사이드바1종료 {% endcomment %}
+
+{% comment %} 가져온사이드바2 {% endcomment %}
+<div class="wrapper">
+    <!--Top menu -->
+    <div class="sidebar">
+        <!--menu item-->
+        <br>
+        <h2 style="text-align:center; background-color:#FAD4AE">카테고리 선택</h2>
+        {% comment %} <div class="list-group">
             <a class="rounded-0 list-group-item list-group-item-action list-group-item-light
                {% if category.category == '초콜릿' %}active{% endif %}" href="{% url 'snacks:index' '초콜릿' %}">초콜릿</a>
             <a class="rounded-0 list-group-item list-group-item-action list-group-item-light
                {% if category.category == '쿠키' %}active{% endif %}" href="{% url 'snacks:index' '쿠키' %}">쿠키</a>
+         </div> {% endcomment %}
+         <div id="catebar"><br><br>
+            <a href="" target=""><h3 style="text-align:center; ">초콜릿</h3></a><br>
+            <a href="" target=""><h3 style="text-align:center; ">사탕</h3></a><br>
+            <a href="" target=""><h3 style="text-align:center; ">쿠키</h3></a><br>
+            <a href="" target=""><h3 style="text-align:center; ">과자</h3></a><br>
+            <a href="" target=""><h3 style="text-align:center; ">젤리</h3></a><br>
+            <a href="" target=""><h3 style="text-align:center; ">해외과자</h3></a><br>
+        </div>
     </div>
-</nav>  {% endcomment %}
-{% comment %} 사이드바 종료 {% endcomment %}
 
-<!-- 카테고리 등록 -->
-<br><br>
-<div>
-{% if request.user.is_staff %}
-<a href="{% url 'snacks:category_create' %}"><button type="button submit" class="btn">카테고리등록</button></a>
-
-<!-- 제품등록 -->
-<a href="{% url 'snacks:create' %}"><button type="button submit" class="btn">제품등록</button></a>
-{% endif %}
 </div>
-
+{% comment %} 가져온사이드바2종료 {% endcomment %}
+{% comment %} 상품 배치 및 디폴트 처리 {% endcomment %}
 <div class="container mt-5">
     <div class="row">
     {% for snack in snacks %}
         <div class="col-4 p-5 d-flex">
-        <!-- 임시 상품 카드 -->
+        <!-- 상품 카드 -->
             <a href="{% url 'snacks:detail' snack.pk %}">
                 {% if snack.snack_image %}
                         <img 
@@ -62,8 +79,8 @@
                         src="https://i.esdrop.com/d/t/bvRLlOwptP/2jK4vs4YjI.jpg" alt="스낵디폴트">
                     
                 {% endif %}
-                <h4 class="card-text" style="text-align:center; margin:5px; text-decoration:none; color:black;">{{snack.name}}</h4>
-                <div class="card-text a_title" style="text-align:center; text-decoration:none; color:black;">{{snack.price}}원</div>
+                <h3 class="card-text" style="text-align:center; margin:5px; text-decoration:none; color:black; margin-top: 12px;">{{snack.name}}</h3>
+                <div class="card-text a_title" style="text-align:center; text-decoration:none; color:black; font-size:20px;">{{snack.price}}원</div>
             </a>
         </div>
     {% endfor %}
