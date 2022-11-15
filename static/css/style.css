@@ -266,6 +266,8 @@ a {
 }
 
 .btn:focus {
+  background-color: #D9F1F1;
+  border-radius: 5rem;
   outline: none;
 }
 
