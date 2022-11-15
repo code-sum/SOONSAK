@@ -1,11 +1,12 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import User
 from django.contrib.auth.forms import PasswordChangeForm
-from .forms import CustomUserCreationForm, CustomUserChangeForm
+from .forms import CustomUserCreationForm, CustomUserChangeForm, CustomPasswordChangeForm
 from django.contrib.auth import authenticate, update_session_auth_hash, get_user_model
 from django.contrib.auth import login as user_login
 from django.contrib.auth import logout as user_logout
 from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.decorators import login_required
 
 def index(request):
     return render(request, 'accounts/index.html')
@@ -93,21 +94,17 @@ def delete(request, user_pk):
 
 
 # 회원 비밀번호 변경
-def passwordchange(request, user_pk):
-    user = User.objects.get(pk=user_pk)
-    
+@login_required
+def passwordchange(request, user_pk):    
     if request.method == 'POST':
-        form = PasswordChangeForm(request.user, request.POST)
+        form = CustomPasswordChangeForm(request.user, request.POST)
         if form.is_valid():
             form.save()
             # 비밀번호 바뀌면 로그인 상태 유지
             update_session_auth_hash(request, request.user)
-
             return redirect("accounts:detail", user_pk)
-    
     else:
-        form = PasswordChangeForm(request.user)
-
+        form = CustomPasswordChangeForm(request.user)
     context = {
         'form':form,
     }
