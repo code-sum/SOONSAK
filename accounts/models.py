@@ -11,7 +11,7 @@ class User(AbstractUser):
     address = models.CharField(max_length=250)
     # 회원가입 연락처
     phone_numRegex = RegexValidator(regex= r'^01([0|1|6|7|8|9]?)-?([0-9]{3,4})-?([0-9]{4})$')
-    phone_num = models.CharField(validators= [phone_numRegex], max_length=11, unique=True)
+    phone_num = models.CharField(validators= [phone_numRegex], max_length=11, blank=True, null=True, default="")
     # 팔로윙
     followings = models.ManyToManyField('self', symmetrical=False, related_name='followers')
     # 프로필_이미지
