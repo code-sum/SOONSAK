@@ -9,7 +9,7 @@
 {% if request.user.is_staff %}
     <a href="{% url 'snacks:category_create' %}"><button type="button submit" class="btn" style="font-size:23px; margin-right: 10px;">카테고리등록</button></a>
     <a href="{% url 'snacks:create' %}"><button type="button submit" class="btn" style="font-size:23px;">제품등록</button></a>
-
+    <a href="{% url 'orders:order_list' %}"><button type="button submit" class="btn" style="font-size:23px;">주문 내역 관리</button></a>
 {% endif %}
 {% comment %} 랭크시작 {% endcomment %}
 <br>
