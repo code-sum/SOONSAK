@@ -5,19 +5,20 @@
 {% block content %}
 
   <div class="row d-flex justify-content-center align-items-center pt-5">
-    <div class="d-flex flex-column justify-content-center align-items-center shadow p-5 rounded-3" style="background-color: #FAF1D6">
-      <div>
+    <div class="d-flex flex-column justify-content-center align-items-center shadow p-5 rounded-3">
+      <h1>회원정보 수정</h1>
+      <div class="my-3">
         <form action="" method="POST" enctype="multipart/form-data">
           {% csrf_token %}
           {% bootstrap_form form %}
-          {% bootstrap_button button_type="submit" content="수정완료" button_class="btn btn-sm btn-outline-secondary rounded-pill" %}
+          {% bootstrap_button button_type="submit" content="수정완료" button_class="btn rounded-pill" %}
         </form>
       </div>
 
       <!-- 비밀번호 변경/회원탈퇴 -->
       <div class="d-flex flex-row">
-        <a href="{% url 'accounts:passwordchange' user.pk %}" class="btn btn-sm btn-outline-secondary rounded-pill me-2">비밀번호 변경</a>
-        <a href="{% url 'accounts:delete' user.pk %}" class="btn btn-sm btn-outline-danger rounded-pill">회원 탈퇴</a>
+        <a href="{% url 'accounts:passwordchange' user.pk %}" class="btn btn-sm rounded-pill me-2">비밀번호 변경</a>
+        <a href="{% url 'accounts:delete' user.pk %}" class="btn btn-sm rounded-pill">회원 탈퇴</a>
       </div>
     </div>
   </div>
