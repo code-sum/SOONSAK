@@ -60,7 +60,7 @@ def create(request):
 def detail(request,snack_pk):
     snack = get_object_or_404(Snack, pk=snack_pk)
     # 상품 리뷰들 
-    reviews = Review.objects.filter(snack__pk=snack_pk)
+    reviews = Review.objects.filter(snack__pk=snack_pk).order_by('-pk')
     # 리뷰 작성자 프로필 불러오기
     users = User.objects.all()
     # 장바구니 폼

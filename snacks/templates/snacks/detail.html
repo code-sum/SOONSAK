@@ -115,7 +115,12 @@
                 </div>
               </div>
             </a>
-            <p class="position-absolute bottom-0 end-0 mx-3">작성:{{ review.created_at|date:'Y-m-d H:i' }}
+            <p class="position-absolute bottom-0 end-0 mx-3">작성:
+              {% if review.created_string == False %}
+                <small>{{ review.created_at|date:'Y-m-d H:i' }}</small>
+              {% else %}
+                <small>{{ review.created_string }}</small>
+              {% endif %}
               | 수정:{{ review.updated_at|date:'Y-m-d H:i' }}</p>
           </div>
         </div>
