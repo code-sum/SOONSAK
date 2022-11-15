@@ -5,6 +5,8 @@ from accounts.models import User
 from carts.forms import CartForm
 from .forms import SnackForm, CategoryForm
 from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
+
 
 # 상품 메뉴 전체 조회
 def index(request):
@@ -121,7 +123,15 @@ def likes(request, snack_pk):
     
     if request.user in snack.likes.all():
         snack.likes.remove(request.user)
+        existed_user = False
     else:
         snack.likes.add(request.user)
-        
-    return redirect('snacks:detail',snack_pk)
+        existed_user = True
+    likeCount = snack.likes.count()
+    
+    context = {
+        "existed_user" : existed_user,
+        "likeCount" : likeCount,
+    }
+    
+    return JsonResponse(context)
