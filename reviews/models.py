@@ -27,6 +27,7 @@ class Review(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='review_user')
     # 상품에 대한 별점
     grade = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)], null=True)
+    review_comments = models.PositiveIntegerField(verbose_name='댓글 수', null=True)
 
 class Comment(models.Model):
     # 댓글 내용

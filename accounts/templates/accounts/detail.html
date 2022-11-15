@@ -25,9 +25,9 @@
           <div class="d-flex flex-row">
             <div style="font-size: 30px;">{{ user.username }}</div>
             <div class="d-flex align-items-center ms-3">
-              {% if request.user == user %}
+              {% if request.user == user and request.user.is_staff == 0 %}
                 <a href="{% url 'accounts:update' user.pk %}" class="btn btn-sm btn-outline-secondary rounded-pill">프로필수정</a>
-              {% else %}
+              {% elif request.user != user and request.user.is_staff == 0 %}
                 <a href="{% url 'accounts:follow' user.pk %}" class="btn btn-sm btn-outline-secondary rounded-pill">
                   {% if request.user in user.followings.all %}
                     팔로우 취소
@@ -35,6 +35,14 @@
                     팔로우
                   {% endif %}
                 </a>
+              {% endif %}
+              <!-- 관리자에게만 버튼 보이게 -->
+              {% if request.user.is_staff %}
+                <!-- 카테고리 등록 -->
+                <a href="{% url 'snacks:category_create' %}" class="btn btn-light" type="submit">카테고리 등록</a>
+
+                <!-- 제품등록 -->
+                <a href="{% url 'snacks:create' %}" class="btn btn-light" type="submit">제품 등록</a>
               {% endif %}
             </div>
           </div>
@@ -54,5 +62,4 @@
       </div>
     </div>
   </div>
-
 {% endblock %}

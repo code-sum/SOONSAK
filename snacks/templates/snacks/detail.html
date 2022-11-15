@@ -2,26 +2,26 @@
 {% load static %}
 {% load humanize %}
 {% block content %}
-{% load django_bootstrap5 %}
+  {% load django_bootstrap5 %}
 
-<!-- 권한제한 메시지 -->
-{% if messages %}
-<div class="alert alert-danger my-3" role="alert">
-  {% for message in messages %}
-  <strong>{{ message.tags }}</strong>
-  <ul>
-    <li>{{ message.message }}</li>
-  </ul>
-  {% endfor %}
-</div>
+  <!-- 권한제한 메시지 -->
+  {% if messages %}
+    <div class="alert alert-danger my-3" role="alert">
+      {% for message in messages %}
+        <strong>{{ message.tags }}</strong>
+        <ul>
+          <li>{{ message.message }}</li>
+        </ul>
+      {% endfor %}
+    </div>
 
-{% endif %}
-{% if request.user.is_staff %}
-<!-- 제품수정 -->
-<a href="{% url 'snacks:update' snack.pk %}">{% bootstrap_button button_type="submit" content="제품수정" %}</a>
-<!-- 제품삭제 -->
-<a href="{% url 'snacks:delete' snack.pk %}">{% bootstrap_button button_type="submit" content="제품삭제" %}</a>
-{% endif %}
+  {% endif %}
+  {% if request.user.is_staff %}
+    <!-- 제품수정 -->
+    <a href="{% url 'snacks:update' snack.pk %}" class="btn btn-light">제품 수정</a>
+    <!-- 제품삭제 -->
+    <a href="{% url 'snacks:delete' snack.pk %}" class="btn btn-danger">제품 삭제</a>
+  {% endif %}
 
 <section class="row gx-3">
   <!--카테고리/제품명/제품이미지-->
