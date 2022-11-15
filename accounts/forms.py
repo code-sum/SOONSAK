@@ -13,9 +13,10 @@ class CustomUserCreationForm(UserCreationForm):
             'password2',
             'profile_image',
             'address',
+            'phone_num',
         ]
 
-        labels = {"profile_image":"프로필 이미지", "address": "주소"}
+        labels = {"profile_image":"프로필 이미지", "address": "주소", "phone_num":"연락처"}
 
 # 회원 프로필 수정 폼
 class CustomUserChangeForm(UserChangeForm):
