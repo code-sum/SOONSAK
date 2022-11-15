@@ -15,9 +15,9 @@ class Review(models.Model):
     review_image = ProcessedImageField(
         upload_to="images/reviews/",
         blank=True,
-        processors=[ResizeToFill(300, 480)],
+        # processors=[ResizeToFill(300, 480)],
         format="JPEG",
-        options={"quality": 100},
+        options={"quality": 80},
     )
     # 작성시간
     created_at = models.DateTimeField(auto_now_add=True)

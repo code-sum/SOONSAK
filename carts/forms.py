@@ -8,3 +8,7 @@ class CartForm(forms.ModelForm):
         fields = [
             'quantity',
         ]
+
+        labels = {
+            'quantity': '주문수량',
+        }
