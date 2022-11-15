@@ -63,13 +63,6 @@ def detail(request,snack_pk):
     reviews = Review.objects.filter(snack__pk=snack_pk).order_by('-pk')
     # 리뷰 작성자 프로필 불러오기
     users = User.objects.all()
-    # 평균별점
-    total = []
-    cnt = 0
-    for review in reviews:
-        total.append(review.grade)
-        cnt += 1
-    star_avg = sum(total)/cnt
 
     # 리뷰 별점 가져오기
     star_dict = {
@@ -87,7 +80,6 @@ def detail(request,snack_pk):
         "reviews":reviews,
         'form': form,
         "users": users,
-        "star_avg": int(star_avg),
         "star_dict":star_dict,
     }
     return render(request, "snacks/detail.html", context)
