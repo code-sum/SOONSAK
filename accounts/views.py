@@ -9,6 +9,8 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
 from reviews.models import Review
 from orders.models import Order
+from django.views.decorators.http import require_POST, require_safe
+from django.http import JsonResponse
 
 def index(request):
     return render(request, 'accounts/index.html')
@@ -117,25 +119,27 @@ def passwordchange(request, user_pk):
     return render(request, 'accounts/passwordchange.html', context)
 
 # 팔로우
+@require_POST
 def follow(request, user_pk):
-    user = User.objects.get(pk=user_pk)
-    # 자기자신은 팔로우 못함
-    if request.user in user.followings.all():
-        user.followings.remove(request.user)
-    else:
-        user.followings.add(request.user)
-
-        
-    return redirect('accounts:detail', user_pk)
-
-
-    # def follow(request, pk):
-    # user = User.objects.get(pk=user_pk)
-    # if request.user in user.followers.all():
-    #     user.followers.remove(request.user)
-    # else:
-    #     user.followers.add(request.user)
-    # return redirect('accounts:detail', pk)
+    if request.user.is_authenticated:
+        User = get_user_model()
+        me = request.user
+        you = User.objects.get(pk=user_pk)
+        if me != you:
+            if you.followers.filter(pk=me.pk).exists():
+                you.followers.remove(me)
+                is_followed = False
+            else:
+                you.followers.add(me)
+                is_followed = True
+            context = {
+                "is_followed": is_followed,
+                "followers_count": you.followers.count(),
+                "followings_count": you.followings.count(),
+            }
+            return JsonResponse(context)
+        return redirect("accounts:detail", you.username)
+    return redirect("accounts:login")
 
 # 고객센터
 def cs(request):

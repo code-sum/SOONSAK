@@ -29,13 +29,14 @@
               {% if request.user == user %}
                 <a href="{% url 'accounts:update' user.pk %}" class="btn rounded-pill">프로필수정</a>
               {% else %}
-                <a href="{% url 'accounts:follow' user.pk %}" class="btn rounded-pill">
-                  {% if request.user in user.followings.all %}
-                    팔로우 취소
+                <form id="follow-form" data-user-id="{{ user.pk }}">
+                  {% csrf_token %}
+                  {% if request.user in user.followers.all %}
+                    <input type="submit" class="btn rounded-pill" value="팔로우 취소">
                   {% else %}
-                    팔로우
+                    <input type="submit" class="btn rounded-pill" value="팔로우">
                   {% endif %}
-                </a>
+                </form>
               {% endif %}
             </div>
           </div>
@@ -45,10 +46,10 @@
               <b>0</b>
             </div>
             <div class="me-5">팔로워
-              <b>{{ user.followings.count }}</b>
+              <b id="followers-count">{{ user.followers.all|length }}</b>
             </div>
             <div>팔로잉
-              <b>{{ user.followers.count }}</b>
+              <b id="followings-count">{{ user.followings.all|length }}</b>
             </div>
           </div>
           <!-- 본인 프로필 페이지 접속했을 때만 보이는 주소 -->
@@ -151,6 +152,57 @@
 {% endblock content %}
 
 {% block script %}
+  <!-- 팔로우/팔로우취소 비동기 처리 -->
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script>
+    const form = document.querySelector('#follow-form')
+    const csrftoken = document
+      .querySelector('[name=csrfmiddlewaretoken]')
+      .value
+
+      form
+      .addEventListener('submit', function (event) {
+        event.preventDefault()
+        const userId = event
+          .target
+          .dataset
+          .userId
+
+          axios({
+            method: 'post',
+            url: `/accounts/${userId}/follow/`,
+            headers: {
+              'X-CSRFToken': csrftoken
+            }
+          })
+          .then((response) => {
+            const isFollowed = response.data.is_followed
+            const followBtn = document.querySelector('#follow-form > input[type=submit]')
+            if (isFollowed === true) {
+              followBtn.value = '팔로우 취소'
+              followBtn
+                .classList
+                .add('btn')
+            } else {
+              followBtn.value = '팔로우'
+              followBtn
+                .classList
+                .add('btn')
+            }
+            const followersCountTag = document.querySelector('#followers-count')
+            const followingsCountTag = document.querySelector('#followings-count')
+            const followersCount = response.data.followers_count
+            const followingsCount = response.data.followings_count
+            followersCountTag.innerText = followersCount
+            followingsCountTag.innerText = followingsCount
+          })
+          .catch((error) => {
+            console.log(error.response)
+          })
+        });
+  </script>
+
+  <!-- 프로필 하단 영역 클릭할 때마다 jQuery 처리 -->
   <script>
     $('#myReview').click(function () {
       if (($('#myReviewResult').css("display") === "none") && ($('#myCommentResult').css("display") === "none") && ($('#myOrderResult').css("display") === "none")) {
