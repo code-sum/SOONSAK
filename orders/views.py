@@ -85,6 +85,24 @@ def detail(request, user_pk):
     }
     return render(request, 'orders/detail.html', context)
 
+# 배송 상태 변경
+def delivery(request, order_pk):
+    order = Order.objects.get(pk=order_pk)
+    order.register_data = timezone.now()
+    with transaction.atomic():
+        order.order_status = "배송 준비중"
+        order.save()
+    return redirect('orders:order_list')
+
+# 배송 완료
+def delivery_complete(request, order_pk):
+    order = Order.objects.get(pk=order_pk)
+    order.register_data = timezone.now()
+    with transaction.atomic():
+        order.order_status = "배송완료"
+        order.save()
+    return redirect('orders:order_list', request.user.pk)
+
 # 주문 취소
 def delete(request, order_pk):
     # 취소할 주문 가져오기
@@ -122,3 +140,21 @@ def update(request, order_pk):
         'contact_number': contact_number,
     }
     return render(request, 'orders/update.html', context)
+
+# 관리자 주문 내역
+def order_list(request):
+    # 결제 완료된 주문들
+    complete_orders = Order.objects.filter(order_status="결제완료").order_by('-register_data')
+    # 취소된 주문들
+    cancel_orders = Order.objects.filter(order_status="취소주문").order_by('-register_data')
+    # 배송 준비중인 주문들
+    delivery_orders = Order.objects.filter(order_status="배송준비중").order_by('-register_data')
+    # 배송 완료된 주문들
+    delivery_complete_orders = Order.objects.filter(order_status="배송완료").order_by('-register_data')
+    context = {
+        'complete_orders':complete_orders, 
+        'cancel_orders':cancel_orders,
+        'delivery_orders' :delivery_orders,
+        'delivery_complete_orders' :delivery_complete_orders,
+    }
+    return render(request, 'orders/order_list.html', context)
