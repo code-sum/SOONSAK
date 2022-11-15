@@ -60,24 +60,16 @@ def logout(request):
 
 # 회원 상세 정보
 def detail(request, user_pk):
-
     user = get_object_or_404(get_user_model(), pk=user_pk)
-    # 사용자의 팔로워 사람
-    user_followings = user.followings.count()
-    # 사용자가 팔로잉하고 있는 사람
-    user_followers = user.followers.count()
     # 사용자가 작성한 리뷰
     user_reviews = Review.objects.filter(user__id=user_pk)
     # 사용자가 구매목록
     user_orders = Order.objects.filter(user__id=user_pk)
     # 사용자가 좋아요한 상품
-    
     context = {
         'user': user,
-        'user_followings':user_followings,
-        'user_followers':user_followers,
-        'reviews':user_reviews,
-        'orders':user_orders,
+        'reviews': user_reviews,
+        'orders': user_orders,
     }
     return render(request, 'accounts/detail.html', context)
 
