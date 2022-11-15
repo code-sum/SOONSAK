@@ -334,6 +334,32 @@ a {
   border-radius: 1rem;
 }
 
-.like_btn {
-  background-image: "❤🧡💛";
+
+/* 사이드바2 시작 */
+
+
+.wrapper .sidebar{
+  list-style: none;
+  text-decoration: none;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+
+  position: sticky;
+  position:-webkit-sticky;
+  background: #FAF1D6;
+  position: fixed;
+  top: 150px;
+  left: 20px;
+  width: 225px;
+  height: 670px;
+  padding: 20px 0;
+  transition: all 0.5s ease;
+}
+#catebar a{
+  color:black;
+}
+#catebar a:hover{
+  color:#FDAFAB;
+  background-color:#B6E3E9;
 }

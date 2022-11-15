@@ -5,6 +5,8 @@ from accounts.models import User
 from carts.forms import CartForm
 from .forms import SnackForm, CategoryForm
 from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
+
 
 # 상품 메뉴 전체 조회
 def index(request):
@@ -63,13 +65,6 @@ def detail(request,snack_pk):
     reviews = Review.objects.filter(snack__pk=snack_pk).order_by('-pk')
     # 리뷰 작성자 프로필 불러오기
     users = User.objects.all()
-    # 평균별점
-    total = []
-    cnt = 0
-    for review in reviews:
-        total.append(review.grade)
-        cnt += 1
-    star_avg = sum(total)/cnt
 
     # 리뷰 별점 가져오기
     star_dict = {
@@ -87,7 +82,6 @@ def detail(request,snack_pk):
         "reviews":reviews,
         'form': form,
         "users": users,
-        "star_avg": int(star_avg),
         "star_dict":star_dict,
     }
     return render(request, "snacks/detail.html", context)
@@ -129,7 +123,15 @@ def likes(request, snack_pk):
     
     if request.user in snack.likes.all():
         snack.likes.remove(request.user)
+        existed_user = False
     else:
         snack.likes.add(request.user)
-        
-    return redirect('snacks:detail',snack_pk)
+        existed_user = True
+    likeCount = snack.likes.count()
+    
+    context = {
+        "existed_user" : existed_user,
+        "likeCount" : likeCount,
+    }
+    
+    return JsonResponse(context)

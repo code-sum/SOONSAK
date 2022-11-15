@@ -8,38 +8,41 @@
 
     {% for cart_item in cart_items %}
     <!-- 카드 -->
-    <div class="card mb-3" style="max-width: 800px;">
-        <div class="row g-0">
-            <div class="col-md-4">
-                <img src="{{ cart_item.snack.snack_image.url }}" class="img-fluid rounded-start" alt="...">
+    <div class="cart_card mb-3">
+        <div class="row justify-content-around">
+            <div class="cart_card_img col-md-4">
+                <a href="{% url 'snacks:detail' cart_item.snack.id %}">
+                    <img src="{{ cart_item.snack.snack_image.url }}" alt="...">
+                </a>
             </div>
             <div class="col-md-8 d-flex align-items-center">
                 <!-- 주문 정보 -->
-                <div class="card-body">
+                <div class="col-8">
                     <h5 class="card-title">상품명: {{ cart_item.snack.name }}</h5>
+                    <hr>
                     <p class="card-text">상품가격: {{ cart_item.snack.price }}원</p>
                     <p class="card-text">주문내역: {{ cart_item.quantity }} X {{ cart_item.snack.price }}원</p>
                     <p class="card-text">총가격: {{ cart_item.sub_total }}원</p>
                 </div>
                 <!-- 장바구니 버튼 -->
-                <div class="card-body">
+                <div class="col-4">
                     <!-- +버튼 -->
                     {% if cart_item.snack.stock >= cart_item.quantity %}
                     <div class="card_opitons d-flex justify-content-center">
                         <form action="{% url 'carts:add_cart' cart_item.snack.pk %}">
                             <input type="hidden" name="quantity">
-                            <button>+</button>
+                            <button class="btn">+</button>
                         </form>
-                        <span>{{ cart_item.quantity }}</span>
+                        <h5 class="mx-2">{{ cart_item.quantity }}</h5>
                         <!-- -버튼  -->
                         <a href="{% url 'carts:minus_cart_item' cart_item.snack.pk %}">
-                            <button>-</button>
+                            <button class="btn">-</button>
                         </a>
                     </div>
                     <!-- 삭제버튼 -->
                     <div class="d-flex justify-content-center">
                         <a href="{% url 'carts:full_remove' cart_item.snack.pk %}">
-                            <button class="">삭제</button>
+                            <button class="btn mt-3" style="width: 100px;">삭제</button>
                         </a>
                     </div>
                     <!-- 장바구니에 담은 수량보다 재고가 부족하다면 더담기 못함 -->
@@ -54,13 +57,13 @@
     {% empty %}
     <h1 class="mt-5">장바구니가 비어있습니다.</h1>
     <a href="{% url 'snacks:index' %}">
-        <button type="button" class="btn btn-outline-primary btn-lg">둘러보기</button>
+        <button type="button" class="btn btn-lg">둘러보기</button>
     </a>
     {% endfor %}
 
     <!-- 장바구니 비어있으면 결제하기 비활성화 -->
     {% if cart_items %}
-    <a href="{% url 'orders:create' %}"><button class="mt-5">결제하기</button></a>
+    <a href="{% url 'orders:create' %}"><button class="btn mt-5">결제하기</button></a>
     {% endif %}
 </div>
 
