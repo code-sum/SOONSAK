@@ -4,70 +4,190 @@
 
 {% block content %}
 
-<div class="row d-flex justify-content-center align-items-center pt-5">
+  <div class="row d-flex py-5">
 
-  <!-- 프로필 전체 영역 -->
-  <div class="d-flex justify-content-center align-items-center shadow p-5 rounded-3" style="background-color: #FAF1D6">
+    <!-- 프로필 전체 영역 -->
+    <div class="d-flex flex-column justify-content-center align-items-center shadow p-5 rounded-5" style="background-color: #FAF1D6">
 
-    <!-- 프로필 헤더 영역 -->
-    <div class="d-flex flex-row">
-      <!-- 프로필 이미지 영역 -->
-      <div class="me-5">
-        {% if user.profile_image %}
-        <img src="{{ user.profile_image.url }}" class="rounded-circle" alt="profile_image">
-        {% else %}
-        <img src="{% static 'images/cookieman.png' %}" class="rounded-circle" style="width: 200px;"
-          alt="default_profile_image">
-        {% endif %}
-      </div>
-      <!-- 프로필 헤더/이미지 영역 제외 나머지 -->
-      <div class="d-flex flex-column">
-        <!-- username / 프로필편집 버튼 / 팔로우&팔로우취소 버튼 -->
-        <div class="d-flex flex-row">
-          <div style="font-size: 30px;">{{ user.username }}</div>
-          <div class="d-flex align-items-center ms-3">
-            {% if request.user == user and request.user.is_staff == 0 %}
-            <a href="{% url 'accounts:update' user.pk %}"
-              class="btn btn-sm btn-outline-secondary rounded-pill">프로필수정</a>
-            {% elif request.user != user and request.user.is_staff == 0 %}
-            <a href="{% url 'accounts:follow' user.pk %}" class="btn btn-sm btn-outline-secondary rounded-pill">
-              {% if request.user in user.followings.all %}
-              팔로우 취소
+      <!-- 프로필 상단 영역 -->
+      <div class="d-flex flex-row">
+        <!-- 프로필 이미지 영역 -->
+        <div class="me-5">
+          {% if user.profile_image %}
+            <img src="{{ user.profile_image.url }}" class="rounded-circle" alt="profile_image">
+          {% else %}
+            <img src="{% static 'images/cookieman.png' %}" class="rounded-circle" style="width: 200px;" alt="default_profile_image">
+          {% endif %}
+        </div>
+        <!-- 프로필 상단/이미지 영역 제외 나머지 -->
+        <div class="d-flex flex-column">
+          <!-- username / 프로필편집 버튼 / 팔로우&팔로우취소 버튼 -->
+          <div class="d-flex flex-row mb-3">
+            <div style="font-size: 35px;">{{ user.username }}</div>
+            <div class="d-flex align-items-center ms-3">
+              <!-- 본인 프로필 페이지 접속했을 때만 보이는 프로필수정 버튼 -->
+              {% if request.user == user %}
+                <a href="{% url 'accounts:update' user.pk %}" class="btn rounded-pill">프로필수정</a>
               {% else %}
-              팔로우
+                <a href="{% url 'accounts:follow' user.pk %}" class="btn rounded-pill">
+                  {% if request.user in user.followings.all %}
+                    팔로우 취소
+                  {% else %}
+                    팔로우
+                  {% endif %}
+                </a>
               {% endif %}
-            </a>
-            {% endif %}
-            <!-- 관리자에게만 버튼 보이게 -->
-            {% if request.user.is_staff %}
-            <!-- 카테고리 등록 -->
-            <a href="{% url 'snacks:category_create' %}" class="btn btn-light" type="submit">카테고리 등록</a>
-
-            <!-- 제품등록 -->
-            <a href="{% url 'snacks:create' %}" class="btn btn-light" type="submit">제품 등록</a>
+            </div>
+          </div>
+          <!-- 리뷰 / 팔로워 / 팔로우 집계 -->
+          <div class="d-flex flex-row mb-4">
+            <div class="me-5">활동지수
+              <b>0</b>
+            </div>
+            <div class="me-5">팔로워
+              <b>{{ user.followings.count }}</b>
+            </div>
+            <div>팔로잉
+              <b>{{ user.followers.count }}</b>
+            </div>
+          </div>
+          <!-- 본인 프로필 페이지 접속했을 때만 보이는 주소 -->
+          <div class="d-flex flex-row">
+            {% if request.user == user %}
+              <h4 class="me-3">
+                <i class="bi bi-house"></i>
+              </h4>
+              <p>{{ user.address }}</p>
             {% endif %}
           </div>
-        </div>
-        <!-- 리뷰 / 팔로워 / 팔로우 집계 -->
-        <div class="d-flex flex-row">
-          <div class="me-2">리뷰</div>
-          <b>{{ reviews | length }}</b>
-          <div class="me-2">팔로워
-            <b>{{ user_followers | length }}</b>
+          <!-- 본인 프로필 페이지 접속했을 때만 보이는 연락처 -->
+          <div class="d-flex flex-row">
+            {% if request.user == user %}
+              <h4 class="me-3">
+                <i class="bi bi-telephone"></i>
+              </h4>
+              <p>{{ user.phone_num }}</p>
+            {% endif %}
           </div>
-          <div>팔로잉</div>
-          <b>{{ user_followings | length }}</b>
-        </div>
-        <!-- 주소 -->
-        <div>
-          <p>{{ user.address }}</p>
-        </div>
-        <!-- 사용자가 좋아요 -->
-        <div>좋아요
-          <b>{{ user.likes.all | length }}</b>
+          <!-- 관리자가 관리자 프로필 접속했을때만 보이는 카테고리/제품등록 버튼 -->
+          <div class="mt-3">
+            {% if request.user == user and request.user.is_staff %}
+              <!-- 카테고리 등록 -->
+              <a href="{% url 'snacks:category_create' %}" class="btn rounded-pill" type="submit">카테고리 등록</a>
+              <!-- 제품등록 -->
+              <a href="{% url 'snacks:create' %}" class="btn rounded-pill" type="submit">제품 등록</a>
+            {% endif %}
+          </div>
         </div>
       </div>
+
+      <!-- 프로필 하단 -->
+      <div class="container d-flex flex-column bg-white rounded-5 mt-5">
+        <div class="menu navbar-nav d-flex flex-row justify-content-center py-5">
+          <li>
+            <a type="button" id="myReview" class="pe-2 text-black">
+              <h5>
+                <i class="bi bi-instagram"></i>
+                리뷰</h5>
+            </a>
+          </li>/
+          <li>
+            <a type="button" id="myComment" class="pe-2 text-black">
+              <h5>
+                <i class="bi bi-chat-square-quote"></i>
+                댓글</h5>
+            </a>
+          </li>/
+          <li>
+            <a type="button" id="myOrder" class="text-black">
+              <h5>
+                <i class="bi bi-file-earmark-text"></i>
+                구매내역</h5>
+            </a>
+          </li>
+        </div>
+
+        <!-- 리뷰 버튼 누르면 나오는 목록 -->
+        <div id="myReviewResult" class="my-3" style="display: none;">리뷰목록</div>
+
+        <!-- 댓글 버튼 누르면 나오는 목록 -->
+        <div id="myCommentResult" class="my-3" style="display: none;">댓글목록</div>
+
+        <!-- 구매내역 누르면 나오는 목록 -->
+        <div id="myOrderResult" class="my-3" style="display: none;">구매내역</div>
+      </div>
+
     </div>
   </div>
-</div>
-{% endblock %}
+
+{% endblock content %}
+
+{% block script %}
+  <script>
+    $('#myReview').click(function () {
+      if (($('#myReviewResult').css("display") === "none") && ($('#myCommentResult').css("display") === "none") && ($('#myOrderResult').css("display") === "none")) {
+        $('#myCommentResult').hide();
+        $('#myOrderResult').hide();
+        $('#myReviewResult').show();
+      } else if (($('#myReviewResult').css("display") === "none") && ($('#myCommentResult').css("display") !== "none") && ($('#myOrderResult').css("display") === "none")) {
+        $('#myCommentResult').hide();
+        $('#myOrderResult').hide();
+        $('#myReviewResult').show();
+      } else if (($('#myReviewResult').css("display") === "none") && ($('#myCommentResult').css("display") === "none") && ($('#myOrderResult').css("display") !== "none")) {
+        $('#myCommentResult').hide();
+        $('#myOrderResult').hide();
+        $('#myReviewResult').show();
+      } else {
+        if ($('#myReviewResult').css("display") !== "none") {
+          $('#myReviewResult').hide();
+        } else {
+          $('#myReviewResult').show();
+        }
+      }
+    });
+
+    $('#myComment').click(function () {
+      if (($('#myCommentResult').css("display") === "none") && ($('#myReviewResult').css("display") === "none") && ($('#myOrderResult').css("display") === "none")) {
+        $('#myReviewResult').hide();
+        $('#myOrderResult').hide();
+        $('#myCommentResult').show();
+      } else if (($('#myCommentResult').css("display") === "none") && ($('#myReviewResult').css("display") !== "none") && ($('#myOrderResult').css("display") === "none")) {
+        $('#myReviewResult').hide();
+        $('#myOrderResult').hide();
+        $('#myCommentResult').show();
+      } else if (($('#myCommentResult').css("display") === "none") && ($('#myReviewResult').css("display") === "none") && ($('#myOrderResult').css("display") !== "none")) {
+        $('#myReviewResult').hide();
+        $('#myOrderResult').hide();
+        $('#myCommentResult').show();
+      } else {
+        if ($('#myCommentResult').css("display") !== "none") {
+          $('#myCommentResult').hide();
+        } else {
+          $('#myCommentResult').show();
+        }
+      }
+    });
+
+    $('#myOrder').click(function () {
+      if (($('#myOrderResult').css("display") === "none") && ($('#myReviewResult').css("display") === "none") && ($('#myCommentResult').css("display") === "none")) {
+        $('#myReviewResult').hide();
+        $('#myCommentResult').hide();
+        $('#myOrderResult').show();
+      } else if (($('#myOrderResult').css("display") === "none") && ($('#myReviewResult').css("display") !== "none") && ($('#myCommentResult').css("display") === "none")) {
+        $('#myReviewResult').hide();
+        $('#myCommentResult').hide();
+        $('#myOrderResult').show();
+      } else if (($('#myOrderResult').css("display") === "none") && ($('#myReviewResult').css("display") === "none") && ($('#myCommentResult').css("display") !== "none")) {
+        $('#myReviewResult').hide();
+        $('#myCommentResult').hide();
+        $('#myOrderResult').show();
+      } else {
+        if ($('#myOrderResult').css("display") !== "none") {
+          $('#myOrderResult').hide();
+        } else {
+          $('#myOrderResult').show();
+        }
+      }
+    });
+  </script>
+{% endblock script %}
