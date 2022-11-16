@@ -118,7 +118,10 @@ def delete(request, order_pk):
         # 취소한 주문 상태 취소 주문으로 바꾸기
         order.order_status = "취소주문"
         order.save()
-    return redirect('orders:detail', request.user.pk)
+    if request.user.is_staff == 1:
+        return redirect('orders:order_list')
+    else:
+        return redirect('orders:detail', request.user.pk)
 
 # 주문 변경
 def update(request, order_pk):
@@ -148,7 +151,7 @@ def order_list(request):
     # 취소된 주문들
     cancel_orders = Order.objects.filter(order_status="취소주문").order_by('-register_data')
     # 배송 준비중인 주문들
-    delivery_orders = Order.objects.filter(order_status="배송준비중").order_by('-register_data')
+    delivery_orders = Order.objects.filter(order_status="배송 준비중").order_by('-register_data')
     # 배송 완료된 주문들
     delivery_complete_orders = Order.objects.filter(order_status="배송완료").order_by('-register_data')
     context = {
