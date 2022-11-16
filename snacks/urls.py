@@ -17,5 +17,5 @@ urlpatterns = [
   # 상품 삭제
   path("delete/<int:snack_pk>", views.delete, name="delete"),
   # 상품 좋아요
-  path("likes/<int:snack_pk>", views.likes, name="likes"),
+  path("likes/<int:snack_pk>/", views.likes, name="likes"),
 ]

@@ -1,17 +1,25 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Snack
 from reviews.models import Review
-from accounts.models import User
 from carts.forms import CartForm
 from .forms import SnackForm, CategoryForm
 from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
+from django.db.models import Avg, Count
 
 # 상품 메뉴 전체 조회
 def index(request):
     snacks = Snack.objects.all()
-
+    # 좋아요 많은순
+    snack_like = Snack.objects.all().annotate(like_cnt=Count('likes')).order_by('-like_cnt')
+    # 최신순
+    snack_id = Snack.objects.all().order_by('-id')
+    # 리뷰 많은 순
+    snack_reviews = Snack.objects.all().prefetch_related('snack_review').annotate(review_cnt=Count('snack_review')).order_by('-review_cnt')
+    
     context = {
         'snacks':snacks,
+        
     }
     return render(request, 'snacks/index.html', context)
 
@@ -61,29 +69,47 @@ def detail(request,snack_pk):
     snack = get_object_or_404(Snack, pk=snack_pk)
     # 상품 리뷰들 
     reviews = Review.objects.filter(snack__pk=snack_pk).order_by('-pk')
-    # 리뷰 작성자 프로필 불러오기
-    users = User.objects.all()
-
-    # 리뷰 별점 가져오기
-    star_dict = {
-        5 : "⭐⭐⭐⭐⭐",
-        4 : "⭐⭐⭐⭐",
-        3 : "⭐⭐⭐",
-        2 : "⭐⭐",
-        1 : "⭐",
-    }
-
+    # 장바구니 폼
+    form = CartForm()
+     # 평균 별점
+    try:    
+        snack_avg = Review.objects.filter(snack__pk=snack_pk).aggregate(Avg('grade'))
+        snack_avg = round(snack_avg['grade__avg'],2)
+        if snack_avg['grade__avg'] > 4.9:
+            avg_star = "⭐⭐⭐⭐⭐"
+        elif snack_avg['grade__avg'] > 4.4:
+            avg_star = "⭐⭐⭐⭐☆"
+        elif snack_avg['grade__avg'] > 3.9:
+            avg_star = "⭐⭐⭐⭐"
+        elif snack_avg['grade__avg'] > 3.4:
+            avg_star = "⭐⭐⭐☆"
+        elif snack_avg['grade__avg'] > 2.9:
+            avg_star = "⭐⭐⭐"
+        elif snack_avg['grade__avg'] > 2.4:
+            avg_star = "⭐⭐☆"
+        elif snack_avg['grade__avg'] > 1.9:
+            avg_star = "⭐⭐"
+        elif snack_avg['grade__avg'] > 1.4:
+            avg_star = "⭐☆"
+        elif snack_avg['grade__avg'] > 0.9:
+            avg_star = "⭐"
+        elif snack_avg['grade__avg'] > 0.4:
+            avg_star = "☆"
+        else:
+            avg_star = "별점 없음"
+    except:
+        avg_star = ""
+        snack_avg = "리뷰 없음"
     # 장바구니 폼
     form = CartForm()
     context = {
         "snack": snack,
         "reviews":reviews,
-        'form': form,
-        "users": users,
-        "star_dict":star_dict,
+        'form': form,        
+        "snack_avg": snack_avg,
+        "avg_star":avg_star,
     }
     return render(request, "snacks/detail.html", context)
-
 
 # 상품 수정
 @login_required(login_url='accounts:login')
@@ -121,7 +147,15 @@ def likes(request, snack_pk):
     
     if request.user in snack.likes.all():
         snack.likes.remove(request.user)
+        existed_user = False
     else:
         snack.likes.add(request.user)
-        
-    return redirect('snacks:detail',snack_pk)
+        existed_user = True
+    likeCount = snack.likes.count()
+    
+    context = {
+        "existed_user" : existed_user,
+        "likeCount" : likeCount,
+    }
+    
+    return JsonResponse(context)

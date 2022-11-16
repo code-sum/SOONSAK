@@ -262,7 +262,6 @@ a {
 
 .btn:hover {
   background-color: #B6E3E9;
-  color: black;
   border-radius: 5rem;
   outline: none;
 }
@@ -317,21 +316,32 @@ a {
   border-radius: 1rem;
 }
 
-/* 장바구니 css */
 
-.cart_card {
-  width: 90%;
-  height: 200px;
-  background-color: #FAF1D6;
-  border-radius: 1rem;
-  padding: 1rem;
+/* 사이드바2 시작 */
+
+
+.wrapper .sidebar{
+  list-style: none;
+  text-decoration: none;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+
+  position: sticky;
+  position:-webkit-sticky;
+  background: #FAF1D6;
+  position: fixed;
+  top: 150px;
+  left: 20px;
+  width: 225px;
+  height: 670px;
+  padding: 20px 0;
+  transition: all 0.5s ease;
 }
-
-.cart_card_img {
-  width: 270px;
+#catebar a{
+  color:black;
 }
-
-.cart_card_img img {
-  max-width: 100%;
-  border-radius: 1rem;
+#catebar a:hover{
+  color:#FDAFAB;
+  background-color:#B6E3E9;
 }
