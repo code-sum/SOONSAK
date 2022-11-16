@@ -4,22 +4,10 @@
 {% block content %}
 {% load django_bootstrap5 %}
 
-<div class="container mt-5" style="margin-left: 55px;">
-    <!-- 카테고리, 제품 등록 -->
-    {% if request.user.is_staff %}
-    <a href="{% url 'snacks:category_create' %}"><button type="button submit" class="btn"
-            style="font-size:23px; margin-right: 10px;">카테고리등록</button></a>
-    <a href="{% url 'snacks:create' %}"><button type="button submit" class="btn"
-            style="font-size:23px;">제품등록</button></a>
-    <a href="{% url 'orders:order_list' %}"><button type="button submit" class="btn" style="font-size:23px;">주문 내역
-            관리</button></a>
-    {% endif %}
-
-
-    <div class="wrapper">
-        <!--Top menu -->
-        <div class="sidebar">
-            <!--menu item-->
+<section class="row justify-content-end">
+    <!-- 사이드바 -->
+    <div class="sidebar">
+        <!--menu item-->
             <br>
             <h2 style="text-align:center; background-color:#FAD4AE">카테고리 선택</h2>
             <div id="catebar"><br><br>
@@ -33,118 +21,132 @@
                 <a href="{% url 'snacks:search' '해외과자' %}" target="">
                     <h3 style="text-align:center; " name="kw">해외과자</h3>
                 </a><br>
-
             </div>
-        </div>
-
     </div>
-
-
-    <!-- 슬라이드 시작 -->
-    <div id="carouselExampleDark" class="carousel carousel-dark slide" data-bs-ride="carousel">
-        <div class="carousel-indicators">
-            <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active"
-                aria-current="true" aria-label="Slide 1"></button>
-            <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="1"
-                aria-label="Slide 2"></button>
-            <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="2"
-                aria-label="Slide 3"></button>
-        </div>
-        <div class="carousel-inner">
-            <div class="carousel-item active" data-bs-interval="15000">
-                <img src="..." class="d-block w-100" alt="...">
-                <div class="carousel-caption d-none d-md-block">
-                    <!-- 탑6 시작  -->
-                    <div class="container mt-5">
-                        <div class="row">
-                            <h3 style="background-color:#B6E3E9;">초코 TOP 6</h3>
-                            <!-- 수정해야할 부분 -->
-                            {% for snack in snacks %}
-                            <!-- col 2 부분 제품 6개 들어가는 설정 -->
-                            <div class="col-2 p-5 d-flex">
-                                <!-- 상품 카드 및 수정할 부분 -->
-                                <a href="{% url 'snacks:detail' snack.pk %}">
-                                    {% if snack.snack_image %}
-                                    <img src="{{ snack.snack_image.url }}" class="card-img-top" alt="스낵이미지">
-
-                                    {% else %}
-                                    <img class="profile" style="width:100%; height:300px;"
-                                        src="https://i.esdrop.com/d/t/bvRLlOwptP/2jK4vs4YjI.jpg" alt="스낵디폴트">
-
-                                    {% endif %}
-                                    <h3 class="card-text"
-                                        style="text-align:center; margin:5px; text-decoration:none; color:black; margin-top: 12px;">
-                                        {{snack.name}}</h3>
-                                    <div class="card-text a_title"
-                                        style="text-align:center; text-decoration:none; color:black; font-size:20px;">
-                                        {{snack.price}}원</div>
+    <div class="col-11">
+        <!-- 카테고리, 제품 등록 -->
+        
+        {% if request.user.is_staff %}
+            <a href="{% url 'snacks:category_create' %}"><button type="button submit" class="btn" style="font-size:23px; margin-right: 10px;">카테고리등록</button></a>
+            <a href="{% url 'snacks:create' %}"><button type="button submit" class="btn" style="font-size:23px;">제품등록</button></a>
+            <a href="{% url 'orders:order_list' %}"><button type="button submit" class="btn" style="font-size:23px;">주문 내역 관리</button></a>
+        {% endif %}
+        
+        <!-- 캐러셀 영역 -->
+        <div class="d-flex justify-content-around">
+            <!-- 최신순 캐러셀 -->
+            <div id="carouselExampleIndicators_new" class="carousel slide mt-3" style="width: 20%; height: 270px;" data-bs-ride="false">
+                <h1 class="text-center">최신순</h1>
+                <div class="carousel-indicators">
+                    <button type="button" data-bs-target="#carouselExampleIndicators_new" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                    <button type="button" data-bs-target="#carouselExampleIndicators_new" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                    <button type="button" data-bs-target="#carouselExampleIndicators_new" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                    <button type="button" data-bs-target="#carouselExampleIndicators_new" data-bs-slide-to="3" aria-label="Slide 4"></button>
+                    <button type="button" data-bs-target="#carouselExampleIndicators_new" data-bs-slide-to="4" aria-label="Slide 5"></button>
+                    <button type="button" data-bs-target="#carouselExampleIndicators_new" data-bs-slide-to="5" aria-label="Slide 6"></button>
+                </div>
+                <div class="carousel-inner">
+                    <!-- 캐러셀 아이템 for문 -->
+                    <div class="carousel_div">
+                        {% for new in snack_id %}
+                        <div class="carousel-item">
+                            <div class="d-flex justify-content-center">
+                                <a href="{% url 'snacks:detail' new.pk %}">
+                                    <img src="{{ new.snack_image.url }}" class="d-block" alt="...">
+                                    <h5 class="text-center">{{ new.name }}</h5>
                                 </a>
                             </div>
-                            {% endfor %}
                         </div>
-                        <hr>
+                        {% endfor %}
                     </div>
-                    <!-- 탑6 종료 -->
-
                 </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators_new" data-bs-slide="prev">
+                    <img src="https://img.icons8.com/plasticine/100/000000/left-squared.png"/>
+                  <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators_new" data-bs-slide="next">
+                    <img src="https://img.icons8.com/plasticine/100/000000/forward.png"/>
+                  <span class="visually-hidden">Next</span>
+                </button>
             </div>
-            <div class="carousel-item" data-bs-interval="15000">
-                <img src="..." class="d-block w-100" alt="...">
-                <div class="carousel-caption d-none d-md-block">
+            <!-- 최신순 캐러셀 종료-->
 
+            <!-- 등록순 캐러셀 -->
+            <div id="carouselExampleIndicators_old" class="carousel slide mt-3" style="width: 20%; height: 270px;" data-bs-ride="false">
+                <h1 class="text-center">등록순</h1>
+                <div class="carousel-indicators">
+                    <button type="button" data-bs-target="#carouselExampleIndicators_old" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                    <button type="button" data-bs-target="#carouselExampleIndicators_old" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                    <button type="button" data-bs-target="#carouselExampleIndicators_old" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                    <button type="button" data-bs-target="#carouselExampleIndicators_old" data-bs-slide-to="3" aria-label="Slide 4"></button>
+                    <button type="button" data-bs-target="#carouselExampleIndicators_old" data-bs-slide-to="4" aria-label="Slide 5"></button>
+                    <button type="button" data-bs-target="#carouselExampleIndicators_old" data-bs-slide-to="5" aria-label="Slide 6"></button>
                 </div>
-            </div>
-            <div class="carousel-item">
-                <img src="..." class="d-block w-15000" alt="...">
-                <div class="carousel-caption d-none d-md-block">
-
-                </div>
-            </div>
-        </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-        </button>
-    </div>
-    <!-- 슬라이드 종료 -->
-
-
-    <!-- 탑6 시작 -->
-    <div class="container mt-5">
-        <div class="row">
-            <h3 style="background-color:#B6E3E9;">초코 TOP 6</h3>
-            <!-- 수정해야할 부분 -->
-            {% for snack in snacks %}
-            <!-- col 2 부분 제품 6개 들어가는 설정 -->
-            <div class="col-2 p-5 d-flex">
-                <!-- 상품 카드 및 수정할 부분 -->
-                <a href="{% url 'snacks:detail' snack.pk %}">
-                    {% if snack.snack_image %}
-                    <img src="{{ snack.snack_image.url }}" class="card-img-top" alt="스낵이미지">
-
-                    {% else %}
-                    <img class="profile" style="width:100%; height:300px;"
-                        src="https://i.esdrop.com/d/t/bvRLlOwptP/2jK4vs4YjI.jpg" alt="스낵디폴트">
-
-                    {% endif %}
-                    <h3 class="card-text"
-                        style="text-align:center; margin:5px; text-decoration:none; color:black; margin-top: 12px;">
-                        {{snack.name}}</h3>
-                    <div class="card-text a_title"
-                        style="text-align:center; text-decoration:none; color:black; font-size:20px;">{{snack.price}}원
+                <div class="carousel-inner">
+                    <!-- 캐러셀 아이템 for문 -->
+                    <div class="carousel_div">
+                        {% for old in snacks %}
+                        <div class="carousel-item">
+                            <div class="d-flex justify-content-center">
+                                <a href="{% url 'snacks:detail' old.pk %}">
+                                    <img src="{{ old.snack_image.url }}" class="d-block" alt="...">
+                                    <h5 class="text-center">{{ old.name }}</h5>
+                                </a>
+                            </div>
+                        </div>
+                        {% endfor %}
                     </div>
-                </a>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators_old" data-bs-slide="prev">
+                    <img src="https://img.icons8.com/plasticine/100/000000/left-squared.png"/>
+                  <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators_old" data-bs-slide="next">
+                    <img src="https://img.icons8.com/plasticine/100/000000/forward.png"/>
+                  <span class="visually-hidden">Next</span>
+                </button>
             </div>
-            {% endfor %}
-        </div>
-        <hr>
-    </div>
-    <!-- 탑6 종료 -->
+            <!-- 등록순 캐러셀 종료-->
 
+            <!-- 좋아요순 캐러셀 -->
+            <div id="carouselExampleIndicators_like" class="carousel slide mt-3" style="width: 20%; height: 270px;" data-bs-ride="false">
+                <h1 class="text-center">좋아요순</h1>
+                <div class="carousel-indicators">
+                    <button type="button" data-bs-target="#carouselExampleIndicators_like" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                    <button type="button" data-bs-target="#carouselExampleIndicators_like" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                    <button type="button" data-bs-target="#carouselExampleIndicators_like" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                    <button type="button" data-bs-target="#carouselExampleIndicators_like" data-bs-slide-to="3" aria-label="Slide 4"></button>
+                    <button type="button" data-bs-target="#carouselExampleIndicators_like" data-bs-slide-to="4" aria-label="Slide 5"></button>
+                    <button type="button" data-bs-target="#carouselExampleIndicators_like" data-bs-slide-to="5" aria-label="Slide 6"></button>
+                </div>
+                <div class="carousel-inner">
+                    <!-- 캐러셀 아이템 for문 -->
+                    <div class="carousel_div">
+                        {% for old in snacks %}
+                        <div class="carousel-item">
+                            <div class="d-flex justify-content-center">
+                                <a href="{% url 'snacks:detail' old.pk %}">
+                                    <img src="{{ old.snack_image.url }}" class="d-block" alt="...">
+                                    <h5 class="text-center">{{ old.name }}</h5>
+                                </a>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators_like" data-bs-slide="prev">
+                    <img src="https://img.icons8.com/plasticine/100/000000/left-squared.png"/>
+                  <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators_like" data-bs-slide="next">
+                    <img src="https://img.icons8.com/plasticine/100/000000/forward.png"/>
+                  <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+            <!-- 좋아요순 캐러셀 종료-->
+        </div>
+        <!-- 캐러셀 영역 종료 -->
+        
     <!-- 상품 배치 및 디폴트 처리 -->
     <div class="container mt-5">
         <div class="row">
@@ -177,4 +179,14 @@
             {% endfor %}
         </div>
     </div>
-    {% endblock %}
+</section>
+<!-- 캐러셀 script -->
+<script>
+    const carouselItems = document.querySelectorAll(".carousel_div > .carousel-item");
+    const startCarousel = carouselItems[0]
+    window.onload = function () {
+      startCarousel.classList.add("active");
+    };
+  </script>
+{% endblock %} 
+

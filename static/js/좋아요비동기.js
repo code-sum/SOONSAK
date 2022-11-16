@@ -7,10 +7,13 @@ likeBtn.addEventListener('click', function (event) {
     })
         .then(response => {
             if (response.data.existed_user === true) {
-                event.target.innerText = '찜하기 취소'
+                event.target.classList.add('bi-bookmark-heart-fill')
+                event.target.classList.remove('bi-bookmark-heart')
             }
             else {
-                event.target.innerText = '찜하기'
+                event.target.classList.add('bi-bookmark-heart')
+                event.target.classList.remove('bi-bookmark-heart-fill')
+
             }
             const likeCount = document.querySelector('#like-count')
             likeCount.innerText = response.data.likeCount
