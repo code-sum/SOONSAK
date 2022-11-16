@@ -369,3 +369,13 @@ a {
   color:#FDAFAB;
   background-color:#B6E3E9;
 }
+
+
+/* accounts h1 태그 배경 이미지 */
+
+.bg-tape {
+  padding-left: 3rem;
+  padding-right: 3rem;
+  background-image: url(https://cdn.pixabay.com/photo/2013/07/12/19/33/note-154962_960_720.png);
+  background-size: 100%;
+}
