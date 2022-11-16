@@ -21,7 +21,6 @@ class CustomUserCreationForm(UserCreationForm):
         super(CustomUserCreationForm, self).__init__(*args, **kwargs)
         for fieldname in ['password1']:
             self.fields[fieldname].help_text = None
-print(CustomUserCreationForm())
 
 # 회원 프로필수정 폼
 class CustomUserChangeForm(UserChangeForm):

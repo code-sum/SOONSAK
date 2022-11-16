@@ -63,7 +63,9 @@
 
     <!-- 장바구니 비어있으면 결제하기 비활성화 -->
     {% if cart_items %}
-    <a href="{% url 'orders:create' %}"><button class="btn mt-5">결제하기</button></a>
+    <a href="{% url 'orders:create' %}">
+        <button class="btn m-5">결제하기</button>
+    </a>
     {% endif %}
 </div>
 
