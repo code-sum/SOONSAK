@@ -257,6 +257,7 @@ a {
   color: black;
   border-radius: 5rem;
   outline: none;
+  box-shadow: 3px 3px 3px black;
 }
 
 .btn:hover {
@@ -266,31 +267,12 @@ a {
 }
 
 .btn:focus {
+  background-color: #D9F1F1;
+  border-radius: 5rem;
   outline: none;
 }
 
 /* 상품디테일 css */
-.Cart_form button {
-  background-color: #D9F1F1;
-  color: black;
-  border-radius: 5rem;
-}
-
-.Cart_form button.btn:hover {
-  background-color: #B6E3E9;
-  border-radius: 5rem;
-}
-
-.d-flex a .review_btn {
-  background-color: #D9F1F1;
-  color: black;
-  border-radius: 5rem;
-}
-
-.d-flex a .review_btn:hover {
-  background-color: #B6E3E9;
-  border-radius: 5rem;
-}
 
 * {
   margin: 0;

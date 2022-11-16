@@ -9,6 +9,8 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
 from reviews.models import Review
 from orders.models import Order
+from django.views.decorators.http import require_POST, require_safe
+from django.http import JsonResponse
 
 def index(request):
     return render(request, 'accounts/index.html')
@@ -19,7 +21,9 @@ def signup(request):
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
+            user = form.save(commit=False)
+            user.address = request.POST.get('postcode') + request.POST.get('address') + request.POST.get('detailAddress') + request.POST.get('extraAddress')
+            user.save()
             # 자동 로그인 
             username = form.cleaned_data.get("username")
             password = form.cleaned_data.get("password1")
@@ -60,24 +64,16 @@ def logout(request):
 
 # 회원 상세 정보
 def detail(request, user_pk):
-
     user = get_object_or_404(get_user_model(), pk=user_pk)
-    # 사용자의 팔로워 사람
-    user_followings = user.followings.count()
-    # 사용자가 팔로잉하고 있는 사람
-    user_followers = user.followers.count()
     # 사용자가 작성한 리뷰
     user_reviews = Review.objects.filter(user__id=user_pk)
     # 사용자가 구매목록
     user_orders = Order.objects.filter(user__id=user_pk)
     # 사용자가 좋아요한 상품
-    
     context = {
         'user': user,
-        'user_followings':user_followings,
-        'user_followers':user_followers,
-        'reviews':user_reviews,
-        'orders':user_orders,
+        'reviews': user_reviews,
+        'orders': user_orders,
     }
     return render(request, 'accounts/detail.html', context)
 
@@ -125,25 +121,27 @@ def passwordchange(request, user_pk):
     return render(request, 'accounts/passwordchange.html', context)
 
 # 팔로우
+@require_POST
 def follow(request, user_pk):
-    user = User.objects.get(pk=user_pk)
-    # 자기자신은 팔로우 못함
-    if request.user in user.followings.all():
-        user.followings.remove(request.user)
-    else:
-        user.followings.add(request.user)
-
-        
-    return redirect('accounts:detail', user_pk)
-
-
-    # def follow(request, pk):
-    # user = User.objects.get(pk=user_pk)
-    # if request.user in user.followers.all():
-    #     user.followers.remove(request.user)
-    # else:
-    #     user.followers.add(request.user)
-    # return redirect('accounts:detail', pk)
+    if request.user.is_authenticated:
+        User = get_user_model()
+        me = request.user
+        you = User.objects.get(pk=user_pk)
+        if me != you:
+            if you.followers.filter(pk=me.pk).exists():
+                you.followers.remove(me)
+                is_followed = False
+            else:
+                you.followers.add(me)
+                is_followed = True
+            context = {
+                "is_followed": is_followed,
+                "followers_count": you.followers.count(),
+                "followings_count": you.followings.count(),
+            }
+            return JsonResponse(context)
+        return redirect("accounts:detail", you.username)
+    return redirect("accounts:login")
 
 # 고객센터
 def cs(request):

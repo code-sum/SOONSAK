@@ -1,8 +1,13 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-{% load django_bootstrap5 %}
+  {% load django_bootstrap5 %}
+  <div>
+    <h1 class="d-flex justify-content-center">주문 완료</h1>
+    <p class="d-flex justify-content-center">주문이 성공적으로 완료 되었습니다.</p>
+    <div class="d-flex justify-content-center">
+      <a href="{% url 'orders:detail' request.user.pk %}" class="d-flex justify-content-center btn rounded-pill" style="width: 100px">주문내역</a>
+    </div>
+  </div>
 
-<h1>이용해주셔서 감사합니다.</h1>
-<a href="{% url 'orders:detail' request.user.pk %}">주문내역 보러가기</a>
 {% endblock %}

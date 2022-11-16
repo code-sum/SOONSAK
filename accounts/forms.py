@@ -13,15 +13,13 @@ class CustomUserCreationForm(UserCreationForm):
             'password1',
             'password2',
             'profile_image',
-            'address',
             'phone_num',
         ]
-        labels = {"username": "아이디", "profile_image":"프로필 이미지", "address": "주소"}
+        labels = {"username": "아이디", "profile_image":"프로필 이미지", "phone_num":"연락처"}
     def __init__(self, *args, **kwargs):
         super(CustomUserCreationForm, self).__init__(*args, **kwargs)
         for fieldname in ['password1']:
             self.fields[fieldname].help_text = None
-print(CustomUserCreationForm())
 
 # 회원 프로필수정 폼
 class CustomUserChangeForm(UserChangeForm):
