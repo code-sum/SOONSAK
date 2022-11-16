@@ -169,7 +169,7 @@ def likes(request, snack_pk):
 def search(request, kw):
     query = kw
     snack_category = snack_Category.objects.get(category=query)
-    snacks = Snack.objects.filter(category__id=snack_category)
+    snacks = Snack.objects.filter(category_id=snack_category)
     context = {
         'snacks':snacks,
     }
