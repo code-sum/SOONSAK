@@ -74,7 +74,7 @@ def detail(request,snack_pk):
      # 평균 별점
     try:    
         snack_avg = Review.objects.filter(snack__pk=snack_pk).aggregate(Avg('grade'))
-        snack_avg = round(snack_avg['grade__avg'],2)
+        
         if snack_avg['grade__avg'] > 4.9:
             avg_star = "⭐⭐⭐⭐⭐"
         elif snack_avg['grade__avg'] > 4.4:
@@ -97,6 +97,7 @@ def detail(request,snack_pk):
             avg_star = "☆"
         else:
             avg_star = "별점 없음"
+        snack_avg = round(snack_avg['grade__avg'],2)
     except:
         avg_star = ""
         snack_avg = "리뷰 없음"
