@@ -8,16 +8,20 @@
     <!-- 사이드바 -->
     <div class="sidebar">
         <!--menu item-->
-        <br>
-        <h2 style="text-align:center; background-color:#FAD4AE">카테고리 선택</h2>
+            <br>
+            <h2 style="text-align:center; background-color:#FAD4AE">카테고리 선택</h2>
             <div id="catebar"><br><br>
-            <a href="" target=""><h3 style="text-align:center; ">초콜릿</h3></a><br>
-            <a href="" target=""><h3 style="text-align:center; ">사탕</h3></a><br>
-            <a href="" target=""><h3 style="text-align:center; ">쿠키</h3></a><br>
-            <a href="" target=""><h3 style="text-align:center; ">과자</h3></a><br>
-            <a href="" target=""><h3 style="text-align:center; ">젤리</h3></a><br>
-            <a href="" target=""><h3 style="text-align:center; ">해외과자</h3></a><br>
-        </div>
+                <!-- 사이드바 카테고리 -->
+                <a href="{% url 'snacks:search' '과자' %}" target="">
+                    <h3 style="text-align:center; " name="kw">과자</h3>
+                </a><br>
+                <a href="{% url 'snacks:search' '사탕' %}" target="">
+                    <h3 style="text-align:center; " name="kw">사탕</h3>
+                </a><br>
+                <a href="{% url 'snacks:search' '해외과자' %}" target="">
+                    <h3 style="text-align:center; " name="kw">해외과자</h3>
+                </a><br>
+            </div>
     </div>
     <div class="col-11">
         <!-- 카테고리, 제품 등록 -->
@@ -143,25 +147,35 @@
         </div>
         <!-- 캐러셀 영역 종료 -->
         
-        {% comment %} 상품 배치 및 디폴트 처리 {% endcomment %}
+    <!-- 상품 배치 및 디폴트 처리 -->
+    <div class="container mt-5">
         <div class="row">
             {% for snack in snacks %}
-                <div class="col-4 p-5 d-flex">
+            <div class="col-4 p-5 d-flex">
                 <!-- 상품 카드 -->
-                    <a href="{% url 'snacks:detail' snack.pk %}">
-                        {% if snack.snack_image %}
-                                <img 
-                                src="{{ snack.snack_image.url }}" class="card-img-top" alt="스낵이미지">
-        
-                        {% else %}
-                                <img class="profile" style="width:100%; height:300px;"
-                                src="https://i.esdrop.com/d/t/bvRLlOwptP/2jK4vs4YjI.jpg" alt="스낵디폴트">
-                            
+                <a href="{% url 'snacks:detail' snack.pk %}">
+                    {% if snack.snack_image %}
+                    <img src="{{ snack.snack_image.url }}" class="card-img-top" alt="스낵이미지">
+
+                    {% else %}
+                    <img class="profile" style="width:100%; height:300px;"
+                        src="https://i.esdrop.com/d/t/bvRLlOwptP/2jK4vs4YjI.jpg" alt="스낵디폴트">
+
+                    {% endif %}
+                    <h3 class="card-text"
+                        style="text-align:center; margin:5px; text-decoration:none; color:black; margin-top: 12px;">
+                        {{snack.name}}
+                        {% if 50 >= snack.stock %}
+                        <span>
+                            |품절임박
+                        </span>
                         {% endif %}
-                        <h3 class="card-text" style="text-align:center; margin:5px; text-decoration:none; color:black; margin-top: 12px;">{{snack.name}}</h3>
-                        <div class="card-text a_title" style="text-align:center; text-decoration:none; color:black; font-size:20px;">{{snack.price}}원</div>
-                    </a>
-                </div>
+                    </h3>
+                    <div class="card-text a_title"
+                        style="text-align:center; text-decoration:none; color:black; font-size:20px;">{{snack.price}}원
+                    </div>
+                </a>
+            </div>
             {% endfor %}
         </div>
     </div>
@@ -175,5 +189,4 @@
     };
   </script>
 {% endblock %} 
-
 

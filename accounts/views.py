@@ -9,8 +9,11 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
 from reviews.models import Review
 from orders.models import Order
+from reviews.models import Comment
+from snacks.models import Snack
 from django.views.decorators.http import require_POST, require_safe
 from django.http import JsonResponse
+from django.db.models import Count
 
 def index(request):
     return render(request, 'accounts/index.html')
@@ -21,9 +24,7 @@ def signup(request):
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST, request.FILES)
         if form.is_valid():
-            user = form.save(commit=False)
-            user.address = request.POST.get('postcode') + request.POST.get('address') + request.POST.get('detailAddress') + request.POST.get('extraAddress')
-            user.save()
+            form.save()
             # 자동 로그인 
             username = form.cleaned_data.get("username")
             password = form.cleaned_data.get("password1")
@@ -67,13 +68,25 @@ def detail(request, user_pk):
     user = get_object_or_404(get_user_model(), pk=user_pk)
     # 사용자가 작성한 리뷰
     user_reviews = Review.objects.filter(user__id=user_pk)
-    # 사용자가 구매목록
+    # 사용자가 작성한 댓글
+    user_comments = Comment.objects.filter(user__id=user_pk)
+    # 사용자 구매내역
     user_orders = Order.objects.filter(user__id=user_pk)
-    # 사용자가 좋아요한 상품
+    # 사용자가 찜한 상품
+    likes_snacks = Snack.objects.all().filter(likes__id=user_pk)
+    # 활동지수(리뷰갯수 + 팔로워수 + 댓글수)
+    user_of_reviews = Review.objects.filter(user__id=user_pk).count()
+    user_of_followers = User.objects.filter(followings=user.pk).count()
+    user_of_comments = Comment.objects.filter(user__id=user_pk).count()
+    active_index = user_of_reviews + user_of_followers + user_of_comments
+    
     context = {
         'user': user,
-        'reviews': user_reviews,
-        'orders': user_orders,
+        'user_reviews': user_reviews,
+        'user_orders': user_orders,
+        'user_comments':user_comments,
+        'likes_snacks':likes_snacks,
+        'active_index':active_index,
     }
     return render(request, 'accounts/detail.html', context)
 

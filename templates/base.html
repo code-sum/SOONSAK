@@ -7,13 +7,15 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'images/marsh.png' %}">
     <!-- Bootstrap Font Icon CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
     <!-- icon CSS -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
-    <title>SOONSAK</title>
+    <title>순삭 :: SOONSAK</title>
     {% bootstrap_css %}
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
   </head>
@@ -100,8 +102,9 @@
     </nav>
     <!-- 검색창 -->
     <div class="d-flex justify-content-center">
-      <form id="content">
-        <input type="text" name="input" class="q_input_css" id="search-input" placeholder="       어떤 과자를 찾고 계신가요?">
+      <form action="{% url 'snacks:search_kwargs' %}" method="POST" id="content">
+        {% csrf_token %}
+        <input type="text" name="kw" required="required" class="q_input_css" id="search-input" placeholder="       어떤 과자를 찾고 계신가요?">
         <button type="reset" class="search" id="search-btn"></button>
       </form>
     </div>

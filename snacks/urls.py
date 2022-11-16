@@ -18,4 +18,8 @@ urlpatterns = [
   path("delete/<int:snack_pk>", views.delete, name="delete"),
   # 상품 좋아요
   path("likes/<int:snack_pk>/", views.likes, name="likes"),
+  # 상품 카테고리 검색
+  path("search/<str:kw>/", views.search, name="search"),
+  # 상품 검색어 검색
+  path("search_kwargs/", views.search_kwargs, name="search_kwargs"),
 ]
