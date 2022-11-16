@@ -257,7 +257,7 @@ a {
   color: black;
   border-radius: 5rem;
   outline: none;
-  box-shadow: 3px 3px 3px black;
+  box-shadow: 3px 3px 3px rgb(121, 121, 121);
 }
 
 .btn:hover {
@@ -270,6 +270,7 @@ a {
   background-color: #D9F1F1;
   border-radius: 5rem;
   outline: none;
+  box-shadow: 3px 3px 3px rgb(121, 121, 121);
 }
 
 /* 상품디테일 css */
