@@ -11,8 +11,8 @@
     <a href="{% url 'snacks:create' %}"><button type="button submit" class="btn" style="font-size:23px;">제품등록</button></a>
 
 {% endif %}
-{% comment %} 랭크시작 {% endcomment %}
-<br>
+{% comment %} 전체랭크시작 {% endcomment %}
+{% comment %} <br>
 <h4 class="border-bottom pb-2 my-3">{{ snack_category.category }}</h4>
 
 <div class="row justify-content-between my-3">
@@ -23,8 +23,8 @@
             <option value="rank" {% if so == 'rank' %}selected{% endif %}>별점 순</option>
         </select>
     </div>
-</div>
-{% comment %} 랭크종료 {% endcomment %}
+</div> {% endcomment %}
+{% comment %} 전체 랭크종료 {% endcomment %}
 
 {% comment %} 가져온사이드바1 {% endcomment %}
 {% comment %} <nav id="sidebar" class="border-top border-secondary">
@@ -63,6 +63,103 @@
 
 </div>
 {% comment %} 가져온사이드바2종료 {% endcomment %}
+
+{% comment %} 슬라이드 시작 {% endcomment %}
+<div id="carouselExampleDark" class="carousel carousel-dark slide" data-bs-ride="carousel">
+    <div class="carousel-indicators">
+      <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+      <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="1" aria-label="Slide 2"></button>
+      <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="2" aria-label="Slide 3"></button>
+    </div>
+    <div class="carousel-inner">
+      <div class="carousel-item active" data-bs-interval="15000">
+        <img src="..." class="d-block w-100" alt="...">
+        <div class="carousel-caption d-none d-md-block">
+            {% comment %} 탑6 시작 {% endcomment %}
+<div class="container mt-5">
+    <div class="row">
+        <h3 style="background-color:#B6E3E9;">초코 TOP 6</h3>
+    {% comment %} 수정해야할 부분 {% endcomment %}
+        {% for snack in snacks %}
+    {% comment %} col 2 부분 제품 6개 들어가는 설정 {% endcomment %}
+        <div class="col-2 p-5 d-flex">
+        <!-- 상품 카드 및 수정할 부분 -->
+            <a href="{% url 'snacks:detail' snack.pk %}">
+                {% if snack.snack_image %}
+                        <img 
+                        src="{{ snack.snack_image.url }}" class="card-img-top" alt="스낵이미지">
+
+                {% else %}
+                        <img class="profile" style="width:100%; height:300px;"
+                        src="https://i.esdrop.com/d/t/bvRLlOwptP/2jK4vs4YjI.jpg" alt="스낵디폴트">
+                    
+                {% endif %}
+                <h3 class="card-text" style="text-align:center; margin:5px; text-decoration:none; color:black; margin-top: 12px;">{{snack.name}}</h3>
+                <div class="card-text a_title" style="text-align:center; text-decoration:none; color:black; font-size:20px;">{{snack.price}}원</div>
+            </a>
+        </div>
+    {% endfor %}
+    </div>
+    <hr>
+</div>
+{% comment %} 탑6 종료 {% endcomment %}
+
+        </div>
+      </div>
+      <div class="carousel-item" data-bs-interval="15000">
+        <img src="..." class="d-block w-100" alt="...">
+        <div class="carousel-caption d-none d-md-block">
+
+        </div>
+      </div>
+      <div class="carousel-item">
+        <img src="..." class="d-block w-15000" alt="...">
+        <div class="carousel-caption d-none d-md-block">
+
+        </div>
+      </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
+{% comment %} 슬라이드 종료 {% endcomment %}
+
+
+{% comment %} 탑6 시작 {% endcomment %}
+<div class="container mt-5">
+    <div class="row">
+        <h3 style="background-color:#B6E3E9;">초코 TOP 6</h3>
+    {% comment %} 수정해야할 부분 {% endcomment %}
+        {% for snack in snacks %}
+    {% comment %} col 2 부분 제품 6개 들어가는 설정 {% endcomment %}
+        <div class="col-2 p-5 d-flex">
+        <!-- 상품 카드 및 수정할 부분 -->
+            <a href="{% url 'snacks:detail' snack.pk %}">
+                {% if snack.snack_image %}
+                        <img 
+                        src="{{ snack.snack_image.url }}" class="card-img-top" alt="스낵이미지">
+
+                {% else %}
+                        <img class="profile" style="width:100%; height:300px;"
+                        src="https://i.esdrop.com/d/t/bvRLlOwptP/2jK4vs4YjI.jpg" alt="스낵디폴트">
+                    
+                {% endif %}
+                <h3 class="card-text" style="text-align:center; margin:5px; text-decoration:none; color:black; margin-top: 12px;">{{snack.name}}</h3>
+                <div class="card-text a_title" style="text-align:center; text-decoration:none; color:black; font-size:20px;">{{snack.price}}원</div>
+            </a>
+        </div>
+    {% endfor %}
+    </div>
+    <hr>
+</div>
+{% comment %} 탑6 종료 {% endcomment %}
+
 {% comment %} 상품 배치 및 디폴트 처리 {% endcomment %}
 <div class="container mt-5">
     <div class="row">
