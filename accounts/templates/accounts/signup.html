@@ -11,13 +11,14 @@
           {% csrf_token %}
           {% bootstrap_form form %}
           <div>
+            <h6>주소</h6>
             <input type="text" id="sample6_postcode" placeholder="우편번호" name="postcode">
             <input class="btn rounded-pill" type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기"><br>
             <input type="text" id="sample6_address" placeholder="주소" name="address"><br>
             <input type="text" id="sample6_detailAddress" placeholder="상세주소" name="detailAddress">
             <input type="text" id="sample6_extraAddress" name="extraAddress">
           </div>
-          {% bootstrap_button button_type="submit" content="가입완료" button_class="btn rounded-pill" %}
+          {% bootstrap_button button_type="submit" content="가입완료" button_class="btn rounded-pill mt-3" %}
         </form>
       </div>
     </div>
