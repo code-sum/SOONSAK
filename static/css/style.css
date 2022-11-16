@@ -320,15 +320,12 @@ a {
 /* 사이드바2 시작 */
 
 
-.wrapper .sidebar{
+.sidebar {
   list-style: none;
   text-decoration: none;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-
-  position: sticky;
-  position:-webkit-sticky;
   background: #FAF1D6;
   position: fixed;
   top: 150px;
@@ -338,10 +335,51 @@ a {
   padding: 20px 0;
   transition: all 0.5s ease;
 }
-#catebar a{
-  color:black;
+
+#catebar a {
+  color: black;
 }
-#catebar a:hover{
-  color:#FDAFAB;
-  background-color:#B6E3E9;
+
+#catebar a:hover {
+  color: #FDAFAB;
+  background-color: #B6E3E9;
+}
+
+/* 장바구니 css */
+
+.cart_card {
+  width: 90%;
+  height: 200px;
+  background-color: #FAF1D6;
+  border-radius: 1rem;
+  padding: 1rem;
+}
+
+.cart_card_img {
+  width: 270px;
+}
+
+.cart_card_img img {
+  max-width: 100%;
+  border-radius: 1rem;
+}
+
+/* 스낵인덱스 css */
+
+.carousel_div .carousel-item img {
+  width: 200px;
+  object-fit: contain;
+}
+
+.carousel-item h5 {
+  color: black;
+}
+
+.carousel .carousel-indicators button {
+  background-color: #D9F1F1;
+}
+
+.carousel button img {
+  width: 30px;
+  height: 30px;
 }

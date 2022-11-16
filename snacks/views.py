@@ -19,6 +19,7 @@ def index(request):
     
     context = {
         'snacks':snacks,
+        "snack_id": snack_id,
         
     }
     return render(request, 'snacks/index.html', context)
