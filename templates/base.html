@@ -104,7 +104,7 @@
     <div class="d-flex justify-content-center">
       <form action="{% url 'snacks:search_kwargs' %}" method="POST" id="content">
         {% csrf_token %}
-        <input type="text" name="kw" required="required" class="q_input_css" id="search-input" placeholder="       어떤 과자를 찾고 계신가요?">
+        <input type="text" name="kw" required="required" class="q_input_css" id="search-input" placeholder="        어떤 과자를 찾고 있나요?">
         <button type="reset" class="search" id="search-btn"></button>
       </form>
     </div>
