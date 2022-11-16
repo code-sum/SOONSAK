@@ -73,7 +73,6 @@
                       <td>
                           <a href="{% url 'orders:delete' order.pk %}">주문취소</a>
                           |
-                          <a href="{% url 'orders:update' order.pk %}">주문 변경</a> | 
                           <a href="{% url 'orders:delivery' order.pk %}">배송 준비중</a>
                       </td>
                   </tr>
@@ -96,8 +95,8 @@
                 <td scope="col">주문금액(배송비 미포함)</td>
                 <td scope="col">배송지</td>
                 <td scope="col">연락처</td>
-                <td scope="col">주문 상태</td>
-                <td scope="col">주문 날짜</td>
+                <td scope="col">배송 상태</td>
+                <td scope="col">배송 날짜</td>
                 <td scope="col">배송 상태 변경</td>
               </thead>
               <tbody class="">
@@ -132,8 +131,8 @@
                 <td scope="col">주문금액(배송비 미포함)</td>
                 <td scope="col">배송지</td>
                 <td scope="col">연락처</td>
-                <td scope="col">주문 상태</td>
-                <td scope="col">주문 날짜</td>
+                <td scope="col">배송 상태</td>
+                <td scope="col">배송 날짜</td>
               </thead>
               <tbody class="">
                 {% for order in delivery_complete_orders %}
