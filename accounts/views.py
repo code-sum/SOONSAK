@@ -69,7 +69,7 @@ def detail(request, user_pk):
     # 사용자가 작성한 리뷰
     user_reviews = Review.objects.filter(user__id=user_pk)
     # 사용자가 작성한 댓글
-    user_comment = Comment.objects.filter(user__id=user_pk)
+    user_comments = Comment.objects.filter(user__id=user_pk)
     # 사용자 구매내역
     user_orders = Order.objects.filter(user__id=user_pk)
     # 사용자가 찜한 상품
@@ -83,7 +83,8 @@ def detail(request, user_pk):
     context = {
         'user': user,
         'user_reviews': user_reviews,
-        'orders': user_orders,
+        'user_orders': user_orders,
+        'user_comments':user_comments,
         'likes_snacks':likes_snacks,
         'active_index':active_index,
     }
