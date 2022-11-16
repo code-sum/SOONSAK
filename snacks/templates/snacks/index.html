@@ -4,10 +4,29 @@
 {% block content %}
 {% load django_bootstrap5 %}
 
-<section class="row justify-content-end">
-    <!-- 사이드바 -->
-    <div class="sidebar">
+
+<div class="container mt-5" style="margin-left: 55px;">
+    <!-- 카테고리, 제품 등록 -->
+    {% if request.user.is_staff %}
+    <a href="{% url 'snacks:category_create' %}"><button type="button submit" class="btn"
+            style="font-size:23px; margin-right: 10px;">카테고리등록</button></a>
+    <a href="{% url 'snacks:create' %}"><button type="button submit" class="btn"
+            style="font-size:23px; margin-right: 10px;">제품등록</button></a>
+    <a href="{% url 'orders:order_list' %}"><button type="button submit" class="btn" style="font-size:23px;">주문 내역
+            관리</button></a>
+    {% endif %}
+
+
+    <div class="wrapper">
+        <!--Top menu -->
+        <div class="sidebar" style="border-radius: 3%;">
+            <!--menu item-->
+
+<!--<section class="row justify-content-end">-->
+    
+    <!--<div class="sidebar">-->
         <!--menu item-->
+
             <br>
             <h2 style="text-align:center; background-color:#FAD4AE">카테고리 선택</h2>
             <div id="catebar"><br><br>
@@ -18,11 +37,15 @@
                 <a href="{% url 'snacks:search' '사탕' %}" target="">
                     <h3 style="text-align:center; " name="kw">사탕</h3>
                 </a><br>
+                <a href="{% url 'snacks:search' '초콜릿' %}" target="">
+                    <h3 style="text-align:center; " name="kw">초콜릿</h3>
+                </a><br>
                 <a href="{% url 'snacks:search' '해외과자' %}" target="">
                     <h3 style="text-align:center; " name="kw">해외과자</h3>
                 </a><br>
             </div>
     </div>
+
     <div class="col-11">
         <!-- 카테고리, 제품 등록 -->
         
@@ -147,6 +170,7 @@
         </div>
         <!-- 캐러셀 영역 종료 -->
         
+
     <!-- 상품 배치 및 디폴트 처리 -->
     <div class="container mt-5">
         <div class="row">
@@ -163,16 +187,15 @@
 
                     {% endif %}
                     <h3 class="card-text"
-                        style="text-align:center; margin:5px; text-decoration:none; color:black; margin-top: 12px;">
+                        style="position:static; text-align:center; margin:5px; text-decoration:none; color:black; margin-top: 12px;">
                         {{snack.name}}
-                        {% if 50 >= snack.stock %}
-                        <span>
-                            |품절임박
-                        </span>
-                        {% endif %}
+                        <span class="badge badge-primary"style="margin-left:12px;padding:5px;font-size:25px">{{ snack.category}}</span>
                     </h3>
                     <div class="card-text a_title"
-                        style="text-align:center; text-decoration:none; color:black; font-size:20px;">{{snack.price}}원
+                        style="text-align:center; text-decoration:none; color:black; font-size:20px;">{{snack.price}}원 
+                        {% if 10 >= snack.stock %}
+                            <h4 class="badge badge-secondary" style="padding:5px;font-size:18px">품절임박</h4>
+                        {% endif %}
                     </div>
                 </a>
             </div>
