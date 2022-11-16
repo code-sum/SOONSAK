@@ -15,13 +15,6 @@
   {% endfor %}
 </div>
 {% endif %}
-<!-- 관리자 버튼 -->
-{% if request.user.is_staff %}
-<!-- 제품수정 -->
-<a href="{% url 'snacks:update' snack.pk %}" class="btn btn-light">제품 수정</a>
-<!-- 제품삭제 -->
-<a href="{% url 'snacks:delete' snack.pk %}" class="btn btn-danger">제품 삭제</a>
-{% endif %}
 
 <section class="row gx-3">
   <!--카테고리/제품명/제품이미지-->
@@ -29,24 +22,42 @@
     {{ snack.category }}</h6>
 
   <div class="col-lg-7">
-    <h2 class="mx-4 mb-5">{{ snack.name }}</h2>
+    <div class="d-flex mx-4 align-items-center">
+      <h2>{{ snack.name }}</h2>
+      <!--상품 찜하기 , 찜하기 취소-->
+      <h4 class="mx-2" style="color: #FDAFAB;">
+        {% if request.user in snack.likes.all %}
+        <i class="bi bi-bookmark-heart-fill" id="likeBtn" data-snack-id="{{ snack.pk }}"></i>
+        {% else %}
+        <i class="bi bi-bookmark-heart" id="likeBtn" data-snack-id="{{ snack.pk }}"></i>
+        {% endif %}
+        <span id="like-count">{{ snack.likes.count}}</span>
+      </h4>
+    </div>
+    
     <div class="wrap mx-5">
       <img class="target" src="{{ snack.snack_image.url }}" alt="{{ snack.name }}_이미지">
     </div>
-
   </div>
 
   <!--별점평균/제품 콘텐츠-->
-  <div class="col-lg-5 mb-5 mt-5">
-    <h4>평균별점: {{ snack_avg }}{{ avg_star }}</h4>
-    <!--상품 찜하기 , 찜하기 취소-->
-    {% if request.user in snack.likes.all %}
-    <span id="likeBtn" data-snack-id="{{ snack.pk }}"> 찜하기 취소</span>
-    {% else %}
-    <span id="likeBtn" data-snack-id="{{ snack.pk }}"> 찜하기</span>
-    {% endif %}
-    <span id="like-count">{{ snack.likes.count}}</span>
-
+  <div class="col-lg-5 mb-5 mt-5 row">
+    <div class="d-flex justify-content-between">
+      <h4>평균별점: {{ snack_avg }}{{ avg_star }}</h4>
+      <!-- 관리자 버튼 -->
+      <h4 class="d-grid gap-2 d-md-flex justify-content-md-end" >
+        {% if request.user.is_staff %}
+        <!-- 제품수정 -->
+        <a href="{% url 'snacks:update' snack.pk %}" style="color: #B6E3E9;">
+          <i class="bi bi-pencil-square"></i>
+        </a>
+        <!-- 제품삭제 -->
+        <a href="{% url 'snacks:delete' snack.pk %}" style="color: red;">
+          <i class="bi bi-trash"></i>
+        </a>
+        {% endif %}
+      </ㅗ>
+    </div>
     <table class="table">
       <tbody>
         <tr>
@@ -71,7 +82,8 @@
       <form method="POST" action="{% url 'carts:add_cart' snack.pk %}">
         {% csrf_token %}
         {% bootstrap_form form %}
-        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+        
+        <div class="d-grid gap-2 d-md-flex justify-content-end">
           <button type="submit" class="btn">바로 주문</button>
           <button type="submit" class="btn">장바구니에 담기</button>
         </div>
@@ -146,9 +158,9 @@
     <!--for문 종료-->
 </section>
 
-<!-- 디테일 이미지 돋보기 -->
 {% endblock content %}
 {% block script %}
+<!-- 디테일 이미지 돋보기 -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script type="text/javascript" src="{% static " js/Magnify.js" %}"></script>
 <!-- 좋아요 비동기 -->

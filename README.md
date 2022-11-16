@@ -1,8 +1,10 @@
-# 🗂️ Django Project (Pair programming) 
+# 🗂️ Semi Project Ⅱ
 
-> 일시 : 2022-11-09
+> 서비스 이름 : 순삭(SOONSAK)
 >
-> 팀 구성 : 6인 1팀 (16팀 이동영, 이순철, 강문주, 박상준, 한가을, 이수경)
+> 제작 기간 : 2022-11-09 ~ 2022-11-21
+>
+> 팀 구성 : 16팀 SOONSAK (이동영, 이순철, 강문주, 박상준, 한가을, 이수경)
 >
 > 🌐 Link : 
 
@@ -14,7 +16,9 @@
 
 ## 🫧 Contributors
 
-
+<a href="https://github.com/code-sum/SOONSAK/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=code-sum/SOONSAK" />
+</a>
 
 
 
@@ -26,7 +30,7 @@
 
 ## 📑 Requirements 
 
-> 페어 프로그래밍을 통한 회원제 커뮤니티 서비스를 개발합니다. 아래 조건을 만족해야합니다.
+> 회원제 커뮤니티 서비스를 개발합니다. 아래 조건을 만족해야합니다.
 
 - **CRUD** 구현
 - **Staticfiles** 활용 정적 파일(images, CSS, JS) 다루기

@@ -31,9 +31,9 @@ class CustomUserChangeForm(UserChangeForm):
         model = get_user_model()
         fields = [
             'profile_image',
-            'address',
+            'phone_num',
         ]
-        labels = {"profile_image":"프로필 이미지 변경","address": "주소 변경", "phone_num":"연락처 변경"}
+        labels = {"profile_image":"프로필 이미지 변경", "phone_num":"연락처 변경"}
 
 # 회원 비밀번호수정 폼
 class CustomPasswordChangeForm(PasswordChangeForm):

@@ -1,5 +1,8 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load socialaccount %}
+{% providers_media_js %}
+
 {% load django_bootstrap5 %}
 
 {% block content %}
@@ -15,6 +18,20 @@
           {% bootstrap_form form %}
           {% bootstrap_button button_type="submit" content="로그인" button_class="btn rounded-pill" %}
         </form>
+        <div class="mt-5">
+          <h4 class="d-flex justify-content-center">회원가입 없이 소셜 로그인 하기</h4>
+          <div class="d-flex justify-content-between mt-3">
+            <a href="{% provider_login_url 'google' %}" class="btn rounded-pill">
+              <i class="bi bi-google"></i>
+              구글</a>
+            <a href="{% provider_login_url 'kakao' %}" class="btn rounded-pill">
+              <i class="bi bi-chat-dots-fill"></i>
+              카카오</a>
+            <a href="{% provider_login_url 'naver' %}" class="btn rounded-pill">
+              <i class="bi bi-link-45deg"></i>
+              네이버</a>
+          </div>
+        </div>
       </div>
     </div>
   </div>

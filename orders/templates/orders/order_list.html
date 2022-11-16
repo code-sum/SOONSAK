@@ -4,155 +4,249 @@
 {% block content %}
   <div>
     <h1 class="d-flex justify-content-center">주문 내역 관리</h1>
-    {% comment %} <div class="row justify-content-between my-3">
-      <div class="col-2">
-        <select class="form-control so" style="padding:12px; font-size:23px;">
-          <option value="recent" {% if so == 'payment_completed' %} selected{% endif %}="selected">결제완료</option>
-          <option value="like" {% if so == 'preparing_for_delivery' %} selected{% endif %}="selected">배송준비중</option>
-          <option value="rank" {% if so == 'delivery_complete' %} selected{% endif %}="selected">배송완료</option>
-        </select>
-      </div>
-    </div> {% endcomment %}
   </div>
 
-  <!-- 결제완료 주문 -->
-  <h3 class="mt-5">결제 내역</h3>
-  <table class="table text-center complete_orders">
-    <thead class="thead thead-dark">
-      <td scope="col">No.</td>
-      <td scope="col">주문자</td>
-      <td scope="col">상품</td>
-      <td scope="col">수량</td>
-      <td scope="col">주문금액(배송비 미포함)</td>
-      <td scope="col">배송지</td>
-      <td scope="col">연락처</td>
-      <td scope="col">주문 상태</td>
-      <td scope="col">주문 날짜</td>
-      <td scope="col">배송 상태 변경</td>
-    </thead>
-    <tbody class="">
-      {% for order in complete_orders %}
-        <tr>
-          <td>{{ order.id }}</td>
-          <td>{{ order.user }}</td>
-          <td>{{ order.snack }}</td>
-          <td>{{ order.quantity }}</td>
-          <td>{{ order.total|intcomma }}원</td>
-          <td>{{ order.shipping_address }}</td>
-          <td>{{ order.contact_number }}</td>
-          <td>{{ order.order_status }}</td>
-          <td>{{ order.register_data }}</td>
-            <td>
-                <a href="{% url 'orders:delete' order.pk %}">주문취소</a>
-                |
-                <a href="{% url 'orders:update' order.pk %}">주문 변경</a> | 
-                <a href="{% url 'orders:delivery' order.pk %}">배송 준비중</a>
-            </td>
-        </tr>
-      {% endfor %}
+  <!-- 프로필 하단 영역 -->
+  <div class="container d-flex flex-column bg-white rounded-5 mt-5">
+    <div class="menu navbar-nav d-flex flex-row justify-content-center py-4">
+      <li>
+        <a type="button" id="complete_orders" class="pe-2 text-black">
+          <h5>
+            <i class="bi bi-credit-card"></i>
+            결제 완료</h5>
+        </a>
+      </li>/
+      <li>
+        <a type="button" id="delivery_orders" class="pe-2 text-black">
+          <h5>
+            <i class="bi bi-truck"></i>
+            배송 내역</h5>
+        </a>
+      </li>/
+      <li>
+        <a type="button" id="cancel_orders" class="text-black">
+          <h5>
+            <i class="bi bi-x-circle"></i>
+            주문 취소</h5>
+        </a>
+      </li>
+    </div>
 
-    </tbody>
-  </table>
+    <!-- 결제 완료 내역 -->
+    <div id="completeOrders" style="display: none;">
+      <div class="d-flex flex-column text-center mb-3">
+        <h4 class="fw-bold">결제 완료 내역</h4>
+        <table class="table text-center">
+          <thead class="thead thead-dark">
+            <td scope="col">No.</td>
+            <td scope="col">주문자</td>
+            <td scope="col">상품</td>
+            <td scope="col">수량</td>
+            <td scope="col">주문금액(배송비 미포함)</td>
+            <td scope="col">배송지</td>
+            <td scope="col">연락처</td>
+            <td scope="col">주문 상태</td>
+            <td scope="col">주문 날짜</td>
+            <td scope="col">배송 상태 변경</td>
+          </thead>
+          <tbody class="">
+            {% for order in complete_orders %}
+              <tr>
+                <td>{{ order.id }}</td>
+                <td>{{ order.user }}</td>
+                <td>{{ order.snack }}</td>
+                <td>{{ order.quantity }}</td>
+                <td>{{ order.total|intcomma }}원</td>
+                <td>{{ order.shipping_address }}</td>
+                <td>{{ order.contact_number }}</td>
+                <td>{{ order.order_status }}</td>
+                <td>{{ order.register_data }}</td>
+                <td>
+                  <a href="{% url 'orders:delete' order.pk %}">주문취소</a>
+                  |
+                  <a href="{% url 'orders:delivery' order.pk %}">배송 준비중</a>
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
 
-  <!-- 배송 준비중 주문 -->
-  <h3 class="mt-5">배송 준비중</h3>
-  <table class="table text-center complete_orders">
-    <thead class="thead thead-dark">
-      <td scope="col">No.</td>
-      <td scope="col">주문자</td>
-      <td scope="col">상품</td>
-      <td scope="col">수량</td>
-      <td scope="col">주문금액(배송비 미포함)</td>
-      <td scope="col">배송지</td>
-      <td scope="col">연락처</td>
-      <td scope="col">주문 상태</td>
-      <td scope="col">주문 날짜</td>
-      <td scope="col">배송 상태 변경</td>
-    </thead>
-    <tbody class="">
-      {% for order in delivery_orders %}
-        <tr>
-          <td>{{ order.id }}</td>
-          <td>{{ order.user }}</td>
-          <td>{{ order.snack }}</td>
-          <td>{{ order.quantity }}</td>
-          <td>{{ order.total|intcomma }}원</td>
-          <td>{{ order.shipping_address }}</td>
-          <td>{{ order.contact_number }}</td>
-          <td>{{ order.order_status }}</td>
-          <td>{{ order.register_data }}</td>
-          <td>
-            <a href="{% url 'orders:delivery' order.pk %}">배송 준비중</a> | 
-            <a href="">배송 완료</a>
-          </td>
+    <!-- 배송 준비중 / 배송 완료 목록 -->
+    <div id="deliveryOrders" style="display: none;">
+      <div class="d-flex flex-column text-center">
+        <h4 class="fw-bold">배송 내역</h4>
+        <table class="table text-center">
+          <thead class="thead thead-dark">
+            <td scope="col">No.</td>
+            <td scope="col">주문자</td>
+            <td scope="col">상품</td>
+            <td scope="col">수량</td>
+            <td scope="col">주문금액(배송비 미포함)</td>
+            <td scope="col">배송지</td>
+            <td scope="col">연락처</td>
+            <td scope="col">배송 상태</td>
+            <td scope="col">배송 날짜</td>
+            <td scope="col">배송 상태 변경</td>
+          </thead>
+          <tbody class="">
+            {% for order in delivery_orders %}
+              <tr>
+                <td>{{ order.id }}</td>
+                <td>{{ order.user }}</td>
+                <td>{{ order.snack }}</td>
+                <td>{{ order.quantity }}</td>
+                <td>{{ order.total|intcomma }}원</td>
+                <td>{{ order.shipping_address }}</td>
+                <td>{{ order.contact_number }}</td>
+                <td>{{ order.order_status }}</td>
+                <td>{{ order.register_data }}</td>
+                <td>
+                  <a href="{% url 'orders:delivery_complete' order.pk %}">배송 완료</a>
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
 
-        </tr>
-      {% endfor %}
+      <div class="d-flex flex-column text-center mt-3 mb-3">
+        <h4 class="fw-bold">배송 완료 내역</h4>
+        <table class="table text-center">
+          <thead class="thead thead-dark">
+            <td scope="col">No.</td>
+            <td scope="col">주문자</td>
+            <td scope="col">상품</td>
+            <td scope="col">수량</td>
+            <td scope="col">주문금액(배송비 미포함)</td>
+            <td scope="col">배송지</td>
+            <td scope="col">연락처</td>
+            <td scope="col">배송 상태</td>
+            <td scope="col">배송 날짜</td>
+          </thead>
+          <tbody class="">
+            {% for order in delivery_complete_orders %}
+              <tr>
+                <td>{{ order.id }}</td>
+                <td>{{ order.user }}</td>
+                <td>{{ order.snack }}</td>
+                <td>{{ order.quantity }}</td>
+                <td>{{ order.total|intcomma }}원</td>
+                <td>{{ order.shipping_address }}</td>
+                <td>{{ order.contact_number }}</td>
+                <td>{{ order.order_status }}</td>
+                <td>{{ order.register_data }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
 
-    </tbody>
-  </table>
-
-    <!-- 배송 완료 주문 -->
-    <h3 class="mt-5">배송 완료</h3>
-    <table class="table text-center complete_orders">
-      <thead class="thead thead-dark">
-        <td scope="col">No.</td>
-        <td scope="col">주문자</td>
-        <td scope="col">상품</td>
-        <td scope="col">수량</td>
-        <td scope="col">주문금액(배송비 미포함)</td>
-        <td scope="col">배송지</td>
-        <td scope="col">연락처</td>
-        <td scope="col">주문 상태</td>
-        <td scope="col">주문 날짜</td>
-      </thead>
-      <tbody class="">
-        {% for order in complete_orders %}
-          <tr>
-            <td>{{ order.id }}</td>
-            <td>{{ order.user }}</td>
-            <td>{{ order.snack }}</td>
-            <td>{{ order.quantity }}</td>
-            <td>{{ order.total|intcomma }}원</td>
-            <td>{{ order.shipping_address }}</td>
-            <td>{{ order.contact_number }}</td>
-            <td>{{ order.order_status }}</td>
-            <td>{{ order.register_data }}</td>
-          </tr>
-        {% endfor %}
-  
-      </tbody>
-    </table>
-
-  <!-- 취소 주문 -->
-  <h3 class="mt-5">취소 내역</h3>
-  <table class="table text-center cancel_orders mt-3">
-    <thead class="thead thead-dark">
-      <td scope="col">No.</td>
-      <td scope="col">주문자</td>
-      <td scope="col">상품</td>
-      <td scope="col">수량</td>
-      <td scope="col">취소금액(배송비 미포함)</td>
-      <td scope="col">연락처</td>
-      <td scope="col">주문 상태</td>
-      <td scope="col">취소날짜</td>
-    </thead>
-    <tbody class="">
-      {% for order in cancel_orders %}
-        <tr>
-          <td>{{ order.id }}</td>
-          <td>{{ order.user }}</td>
-          <td>{{ order.snack }}</td>
-          <td>{{ order.quantity }}</td>
-          <td>-{{ order.total|intcomma }}원</td>
-          <td>{{ order.contact_number }}</td>
-          <td>{{ order.order_status }}</td>
-          <td>{{ order.register_data }}</td>
-        </tr>
-      {% endfor %}
-
-    </tbody>
-  </table>
-
+    <!-- 주문 취소 목록 -->
+    <div id="cancelOrders" style="display: none;">
+      <div class="d-flex flex-column text-center mb-3">
+        <h4 class="fw-bold">취소 주문 내역</h4>
+        <table class="table text-center mt-3">
+          <thead class="thead thead-dark">
+            <td scope="col">No.</td>
+            <td scope="col">주문자</td>
+            <td scope="col">상품</td>
+            <td scope="col">수량</td>
+            <td scope="col">취소금액(배송비 미포함)</td>
+            <td scope="col">연락처</td>
+            <td scope="col">주문 상태</td>
+            <td scope="col">취소날짜</td>
+          </thead>
+          <tbody class="">
+            {% for order in cancel_orders %}
+              <tr>
+                <td>{{ order.id }}</td>
+                <td>{{ order.user }}</td>
+                <td>{{ order.snack }}</td>
+                <td>{{ order.quantity }}</td>
+                <td>-{{ order.total|intcomma }}원</td>
+                <td>{{ order.contact_number }}</td>
+                <td>{{ order.order_status }}</td>
+                <td>{{ order.register_data }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
 </div>
 {% endblock content %}
+
+{% block script %}
+<!-- 프로필 하단 영역 클릭할 때마다 jQuery 처리 -->
+<script>
+  $('#complete_orders').click(function () {
+    if (($('#completeOrders').css("display") === "none") && ($('#deliveryOrders').css("display") === "none") && ($('#cancelOrders').css("display") === "none")) {
+      $('#deliveryOrders').hide();
+      $('#cancelOrders').hide();
+      $('#completeOrders').show();
+    } else if (($('#completeOrders').css("display") === "none") && ($('#deliveryOrders').css("display") !== "none") && ($('#cancelOrders').css("display") === "none")) {
+      $('#deliveryOrders').hide();
+      $('#cancelOrders').hide();
+      $('#completeOrders').show();
+    } else if (($('#completeOrders').css("display") === "none") && ($('#deliveryOrders').css("display") === "none") && ($('#cancelOrders').css("display") !== "none")) {
+      $('#deliveryOrders').hide();
+      $('#cancelOrders').hide();
+      $('#completeOrders').show();
+    } else {
+      if ($('#completeOrders').css("display") !== "none") {
+        $('#completeOrders').hide();
+      } else {
+        $('#completeOrders').show();
+      }
+    }
+  });
+
+  $('#delivery_orders').click(function () {
+    if (($('#deliveryOrders').css("display") === "none") && ($('#completeOrders').css("display") === "none") && ($('#cancelOrders').css("display") === "none")) {
+      $('#completeOrders').hide();
+      $('#cancelOrders').hide();
+      $('#deliveryOrders').show();
+    } else if (($('#deliveryOrders').css("display") === "none") && ($('#completeOrders').css("display") !== "none") && ($('#cancelOrders').css("display") === "none")) {
+      $('#completeOrders').hide();
+      $('#cancelOrders').hide();
+      $('#deliveryOrders').show();
+    } else if (($('#deliveryOrders').css("display") === "none") && ($('#completeOrders').css("display") === "none") && ($('#cancelOrders').css("display") !== "none")) {
+      $('#completeOrders').hide();
+      $('#cancelOrders').hide();
+      $('#deliveryOrders').show();
+    } else {
+      if ($('#deliveryOrders').css("display") !== "none") {
+        $('#deliveryOrders').hide();
+      } else {
+        $('#deliveryOrders').show();
+      }
+    }
+  });
+
+  $('#cancel_orders').click(function () {
+    if (($('#cancelOrders').css("display") === "none") && ($('#completeOrders').css("display") === "none") && ($('#deliveryOrders').css("display") === "none")) {
+      $('#completeOrders').hide();
+      $('#deliveryOrders').hide();
+      $('#cancelOrders').show();
+    } else if (($('#cancelOrders').css("display") === "none") && ($('#completeOrders').css("display") !== "none") && ($('#deliveryOrders').css("display") === "none")) {
+      $('#completeOrders').hide();
+      $('#deliveryOrders').hide();
+      $('#cancelOrders').show();
+    } else if (($('#cancelOrders').css("display") === "none") && ($('#completeOrders').css("display") === "none") && ($('#deliveryOrders').css("display") !== "none")) {
+      $('#completeOrders').hide();
+      $('#deliveryOrders').hide();
+      $('#cancelOrders').show();
+    } else {
+      if ($('#cancelOrders').css("display") !== "none") {
+        $('#cancelOrders').hide();
+      } else {
+        $('#cancelOrders').show();
+      }
+    }
+  });
+</script>
+{% endblock script %}
