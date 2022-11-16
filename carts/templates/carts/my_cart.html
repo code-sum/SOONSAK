@@ -4,19 +4,23 @@
 {% block content %}
   {% load django_bootstrap5 %}
 
-  <div class="container mt-5">
-    <h2>{{ request.user }}님의 장바구니</h2>
+  <h2 class="mx-5">{{ request.user }}님의 장바구니</h2>
 
-    {% for cart_item in cart_items %}
-      <!-- 카드 -->
+  {% for cart_item in cart_items %}
+    <!-- 카드 -->
+    <div class="row justify-content-center">
       <div class="cart_card mb-3">
-        <div class="row justify-content-around">
-          <div class="cart_card_img col-md-4">
-            <a href="{% url 'snacks:detail' cart_item.snack.id %}">
-              <img src="{{ cart_item.snack.snack_image.url }}" alt="...">
-            </a>
+        <div class="row justify-content-around align-items-start">
+          <!-- 이미지 -->
+          <div class="col-4 d-flex justify-content-center">
+            <div class="cart_card_img d-flex justify-content-center align-items-center">
+              <a href="{% url 'snacks:detail' cart_item.snack.id %}">
+                <img src="{{ cart_item.snack.snack_image.url }}" alt="...">
+              </a>
+            </div>
           </div>
-          <div class="col-md-8 d-flex align-items-center">
+          <!-- 주문정보-->
+          <div class="col-8 d-flex align-items-center">
             <!-- 주문 정보 -->
             <div class="col-8">
               <h5 class="card-title">상품명:
@@ -65,20 +69,22 @@
           </div>
         </div>
       </div>
-      {% empty %}
-      <h1 class="mt-5">장바구니가 비어있습니다.</h1>
-      <a href="{% url 'snacks:index' %}">
-        <button type="button" class="btn btn-lg">둘러보기</button>
-      </a>
-    {% endfor %}
-
-    <!-- 장바구니 비어있으면 결제하기 비활성화 -->
-    {% if cart_items %}
-    <a href="{% url 'orders:create' %}">
-        <button class="btn m-5">결제하기</button>
+    </div>
+    {% empty %}
+    <h1 class="mt-5">장바구니가 비어있습니다.</h1>
+    <a href="{% url 'snacks:index' %}">
+      <button type="button" class="btn btn-lg">둘러보기</button>
     </a>
+  {% endfor %}
 
-    {% endif %}
+  <!-- 장바구니 비어있으면 결제하기 비활성화 -->
+  {% if cart_items %}
+  <div class="d-flex justify-content-center mb-5">
+    <a href="{% url 'orders:create' %}">
+        <button class="btn" style="width: 200px;">결제하기</button>
+    </a>
   </div>
+
+  {% endif %}
 
 {% endblock %}

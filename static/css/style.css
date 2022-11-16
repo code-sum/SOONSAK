@@ -372,7 +372,7 @@ a {
 /* 장바구니 css */
 
 .cart_card {
-  width: 90%;
+  width: 80%;
   height: 200px;
   background-color: #FAF1D6;
   border-radius: 1rem;
@@ -380,18 +380,22 @@ a {
 }
 
 .cart_card_img {
-  width: 270px;
+  width: 200px;
+  height: 170px;
+  background-color: white;
+  border-radius: 1rem;
 }
 
 .cart_card_img img {
-  max-width: 100%;
+  max-width: 165px;
   border-radius: 1rem;
 }
 
 /* 스낵인덱스 css */
 
 .carousel_div .carousel-item img {
-  width: 200px;
+  max-width: 100%;
+  height: 150px;
   object-fit: contain;
 }
 
@@ -406,6 +410,7 @@ a {
 .carousel button img {
   width: 30px;
   height: 30px;
+}
 
 /* accounts h1 태그 배경 이미지 */
 
