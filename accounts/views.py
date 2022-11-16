@@ -82,7 +82,7 @@ def detail(request, user_pk):
     
     context = {
         'user': user,
-        'reviews': user_reviews,
+        'user_reviews': user_reviews,
         'orders': user_orders,
         'likes_snacks':likes_snacks,
         'active_index':active_index,
