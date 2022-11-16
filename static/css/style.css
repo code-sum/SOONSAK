@@ -273,6 +273,29 @@ a {
   box-shadow: 3px 3px 3px rgb(121, 121, 121);
 }
 
+/* 취소버튼 css */
+
+.btn2 {
+  background-color: #FAD4AE;
+  color: black;
+  border-radius: 5rem;
+  outline: none;
+  box-shadow: 3px 3px 3px rgb(121, 121, 121);
+}
+
+.btn2:hover {
+  background-color: #FDAFAB;
+  border-radius: 5rem;
+  outline: none;
+}
+
+.btn2:focus {
+  background-color: #FAD4AE;
+  border-radius: 5rem;
+  outline: none;
+  box-shadow: 3px 3px 3px rgb(121, 121, 121);
+}
+
 /* 상품디테일 css */
 
 * {

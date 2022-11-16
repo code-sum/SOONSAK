@@ -32,9 +32,9 @@
                 <form id="follow-form" data-user-id="{{ user.pk }}">
                   {% csrf_token %}
                   {% if request.user in user.followers.all %}
-                    <input type="submit" class="btn rounded-pill" value="팔로우 취소">
+                    <input type="submit" class="btn2" value="팔로우 취소">
                   {% else %}
-                    <input type="submit" class="btn rounded-pill" value="팔로우">
+                    <input type="submit" class="btn" value="팔로우">
                   {% endif %}
                 </form>
               {% endif %}
@@ -182,12 +182,15 @@
               followBtn.value = '팔로우 취소'
               followBtn
                 .classList
-                .add('btn')
+                .add('btn2')
             } else {
               followBtn.value = '팔로우'
               followBtn
                 .classList
                 .add('btn')
+              followBtn
+                .classList
+                .remove('btn2')
             }
             const followersCountTag = document.querySelector('#followers-count')
             const followingsCountTag = document.querySelector('#followings-count')
