@@ -1,79 +1,87 @@
 {% extends 'base.html' %}
 {% load humanize %}
+{% load django_bootstrap5 %}
+
 {% block content %}
-  {% load django_bootstrap5 %}
-  <div class="container py-5 mt-5">
-    <h1>{{ request.user.username }}
-      님의 결제내역 | 누적금액:{{ accumulated_amount|intcomma }}원</h1>
 
-    <!-- 결제완료 주문 -->
-    <h3 class="mt-5">결제 내역</h3>
-    <table class="table text-center complete_orders">
-      <thead>
-        <tr>
-          <th scope="col">No.</th>
-          <th scope="col">상품</th>
-          <th scope="col">수량</th>
-          <th scope="col">주문금액(배송비 미포함)</th>
-          <th scope="col">배송지</th>
-          <th scope="col">연락처</th>
-          <th scope="col">주문 상태</th>
-          <th scope="col">주문 날짜</th>
-          <th scope="col"></th>
-        </tr>
-      </thead>
-      <tbody class="">
-        {% for order in complete_orders %}
+  <div class="row d-flex justify-content-center align-items-center py-5">
+    <div class="d-flex flex-column justify-content-center align-items-center shadow p-5 rounded-5">
+      <h1>{{ request.user.username }}
+        님의 결제내역 :: 누적금액
+        {{ accumulated_amount|intcomma }}원</h1>
+
+      <!-- 결제완료 주문 -->
+      <h3 class="mt-5">결제 내역</h3>
+      <table class="table text-center complete_orders">
+        <thead>
           <tr>
-            <td>{{ order.id}}</td>
-            <td> <a href="{% url 'snacks:detail' order.snack.pk %}">{{ order.snack }}</a></td>
-            <td>{{ order.quantity }}</td>
-            <td>{{ order.total|intcomma }}원</td>
-            <td>{{ order.shipping_address }}</td>
-            <td>{{ order.contact_number }}</td>
-            <td>{{ order.order_status }}</td>
-            <td>{{ order.register_data }}</td>
-            <td class="d-grid gap-3 d-md-flex justify-content-center">
-              <a href="{% url 'reviews:create' order.snack.pk %}" class="btn" style="height: 27px;padding: 1px;width: 80px;">리뷰 작성</a>
-              <a href="{% url 'orders:update' order.pk %}" class="btn" style="height: 27px;padding: 1px;width: 80px;">주문 변경</a>
-              <a href="{% url 'orders:delete' order.pk %}" class="btn btn2" style="height: 27px;padding: 1px;width: 80px;">주문취소</a>
-            </td>
-
+            <th scope="col">No.</th>
+            <th scope="col">상품</th>
+            <th scope="col">수량</th>
+            <th scope="col">주문금액(배송비 미포함)</th>
+            <th scope="col">배송지</th>
+            <th scope="col">연락처</th>
+            <th scope="col">주문 상태</th>
+            <th scope="col">주문 날짜</th>
+            <th scope="col"></th>
           </tr>
-        {% endfor %}
+        </thead>
+        <tbody class="">
+          {% for order in complete_orders %}
+            <tr>
+              <td>{{ order.id}}</td>
+              <td>
+                <a href="{% url 'snacks:detail' order.snack.pk %}">{{ order.snack }}</a>
+              </td>
+              <td>{{ order.quantity }}</td>
+              <td>{{ order.total|intcomma }}원</td>
+              <td>{{ order.shipping_address }}</td>
+              <td>{{ order.contact_number }}</td>
+              <td>{{ order.order_status }}</td>
+              <td>{{ order.register_data }}</td>
+              <td class="d-grid gap-3 d-md-flex justify-content-center">
+                <a href="{% url 'reviews:create' order.snack.pk %}" class="btn" style="height: 27px;padding: 1px;width: 80px;">리뷰 작성</a>
+                <a href="{% url 'orders:update' order.pk %}" class="btn" style="height: 27px;padding: 1px;width: 80px;">주문 변경</a>
+                <a href="{% url 'orders:delete' order.pk %}" class="btn btn2" style="height: 27px;padding: 1px;width: 80px;">주문취소</a>
+              </td>
 
-      </tbody>
-    </table>
+            </tr>
+          {% endfor %}
 
-    <!-- 취소 주문 -->
-    <h3 class="mt-5">취소 내역</h3>
-    <table class="table text-center cancel_orders mt-5">
-      <thead>
-        <tr>
-          <th scope="col">No.</th>
-          <th scope="col">상품</th>
-          <th scope="col">수량</th>
-          <th scope="col">취소금액(배송비 미포함)</th>
-          <th scope="col">연락처</th>
-          <th scope="col">주문 상태</th>
-          <th scope="col">취소날짜</th>
-        </tr>
-      </thead>
-      <tbody class="">
-        {% for order in cancel_orders %}
+        </tbody>
+      </table>
+
+      <!-- 취소 주문 -->
+      <h3 class="mt-5">취소 내역</h3>
+      <table class="table text-center cancel_orders mt-5">
+        <thead>
           <tr>
-            <td>{{ order.id}}</td>
-            <td>{{ order.snack }}</td>
-            <td>{{ order.quantity }}</td>
-            <td>-{{ order.total|intcomma }}원</td>
-            <td>{{ order.contact_number }}</td>
-            <td>{{ order.order_status }}</td>
-            <td>{{ order.register_data }}</td>
+            <th scope="col">No.</th>
+            <th scope="col">상품</th>
+            <th scope="col">수량</th>
+            <th scope="col">취소금액(배송비 미포함)</th>
+            <th scope="col">연락처</th>
+            <th scope="col">주문 상태</th>
+            <th scope="col">취소날짜</th>
           </tr>
-        {% endfor %}
+        </thead>
+        <tbody class="">
+          {% for order in cancel_orders %}
+            <tr>
+              <td>{{ order.id}}</td>
+              <td>{{ order.snack }}</td>
+              <td>{{ order.quantity }}</td>
+              <td>-{{ order.total|intcomma }}원</td>
+              <td>{{ order.contact_number }}</td>
+              <td>{{ order.order_status }}</td>
+              <td>{{ order.register_data }}</td>
+            </tr>
+          {% endfor %}
 
-      </tbody>
-    </table>
+        </tbody>
+      </table>
 
+    </div>
   </div>
+
 {% endblock %}
