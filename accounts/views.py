@@ -95,6 +95,9 @@ def update(request, user_pk):
         form = CustomUserChangeForm(request.POST, request.FILES, instance=request.user)
         if form.is_valid():
             form.save()
+            user = form.save(commit=False)
+            user.address = request.POST.get('postcode') + request.POST.get('address') + request.POST.get('detailAddress') + request.POST.get('extraAddress')
+            user.save()
             return redirect('/')
 
     else:
