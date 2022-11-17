@@ -4,6 +4,9 @@ from carts.models import CartItem
 from .models import Order
 from django.db import transaction
 from django.utils import timezone
+from reviews.models import Review, Comment
+from django.contrib.auth import get_user_model
+User = get_user_model()
 
 # 주문생성
 def create(request):
@@ -16,15 +19,24 @@ def create(request):
     total_price = 0
     for each_total in cart_items:
         total_price += each_total.snack.price * each_total.quantity
-    # 배송비 계산
+    # 할인적용
 
+    # 활동지수(리뷰갯수 + 팔로워수 + 댓글수)
+    user_of_reviews = Review.objects.filter(userid=request.user.pk).count()
+    user_of_followers = User.objects.filter(followings=request.user.pk).count()
+    user_of_comments = Comment.objects.filter(user__id=request.user.pk).count()
+    active_index = user_of_reviews + user_of_followers + user_of_comments
+
+    # 배송비 계산
     if total_price >= 50000:
         delivery_fee = 0
-        billing_amount = total_price + delivery_fee
+    elif active_index >= 1:
+        delivery_fee = 0
     else:
         delivery_fee = 3000
-        billing_amount = total_price + delivery_fee
-        # 주문서 작성
+
+    billing_amount = total_price + delivery_fee
+    # 주문서 작성
     if cart_items is not None:
         context = {
             "cart_items": cart_items,
@@ -34,9 +46,9 @@ def create(request):
             "delivery_fee": delivery_fee,
             "billing_amount": billing_amount,
         }
-
-    return render(request, "orders/create.html", context)
-
+        return render(request, "orders/create.html", context)
+    else: 
+        return redirect('/')
 
 # 주문 완료
 def order(request):
@@ -61,7 +73,7 @@ def order(request):
             order.save()
 
             snack.stock -= int(quantity)
-            snack.save()
+           # snack.save()
 
     cart_items.delete()
     return render(request, "orders/orderComplete.html")

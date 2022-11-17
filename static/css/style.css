@@ -442,6 +442,12 @@ a {
   background-color: #9bd9e1;
 }
 
+.top{
+  display:flex;
+  flex-direction:row;
+  padding:1rem;
+
+
 /* 사용자프로필 하단부 리뷰 이미지 hover 효과 css */
 
 .review-image-css {

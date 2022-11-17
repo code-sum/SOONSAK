@@ -6,7 +6,7 @@
 <div class="col-lg">
   <!-- 사용자 프로필 -->
   <p>
-    <a href="{% url 'accounts:detail' review.user.pk %}">
+    <a style="color:black;"href="{% url 'accounts:detail' review.user.pk %}">
       {% if review.user.profile_image %}
         <img src="{{ review.user.profile_image.url }}" alt="작성자 프로필 이미지" style="width: 50px; height: 50px; border-radius: 500px">
       {% endif %}
@@ -14,17 +14,17 @@
   </p>
   <!-- 작성 시간 -->
   {% if review.created_string == False %}
-  <small>{{ review.created_at|date:'Y-m-d H:i' }}</small>
+  <small style="margin-right:40px;"class="d-flex justify-content-end">{{ review.created_at|date:'Y-m-d H:i' }}</small>
   {% else %}
-  <small>{{ review.created_string }}</small>
+  <small style="margin-right:40px;" class="d-flex justify-content-end">{{ review.created_string }}</small>
   {% endif %}
   <!-- 리뷰 내용 -->
-  <p>후기별점:
-    {{ star}}</p>
+  <h3>후기별점:
+    {{ star}}</h3>
   {% if review.review_image %}
     <img src="{{ review.review_image.url }}" alt="">
   {% endif %}
-  <h5>{{ review.content }}</h5>
+  <h5 style="margin-top:12px;">{{ review.content }}</h5>
   <!-- 수정/삭제 버튼 -->
   <div class="d-flex justify-content-end">
     {% if request.user == review.user %}
@@ -52,7 +52,7 @@
   {% for comment in review.comments.all %}
   <div class="d-flex"> 
     <br><br><p>  
-      <a href="{% url 'accounts:detail' comment.user.pk %}">
+      <a style="color:black;" href="{% url 'accounts:detail' comment.user.pk %}">
         {% if comment.user.profile_image %}
              
         <div>
@@ -78,7 +78,7 @@
     </div>
       {% endif %}
     <div class="d-flex justify-content-end">
-      <a href="{% url 'reviews:delete_comment' review.pk comment.pk %}">댓글 삭제</a><br>
+      <a style="color:#FDAFAB" href="{% url 'reviews:delete_comment' review.pk comment.pk %}">댓글 삭제</a><br>
     </div>
     <br><br>
     {% empty %}
