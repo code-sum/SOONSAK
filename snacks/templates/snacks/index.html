@@ -14,54 +14,58 @@
         {% endif %}
     </div>
     <!-- 카테고리, 제품 등록 종료 -->
-<br><br>
-<div class>
-    {% if top1 and top2 and top3 %}
-    <h3>활동지수 top3</h3>
-    <div class="top" style="float: left;">
-        <h5><img style="width: 55px;" src="https://i.esdrop.com/d/f/bvRLlOwptP/tmpENG5GoK.png">{{ top1 }}</h5>
+    <br><br>
+    <div class>
+        {% if top1 and top2 and top3 %}
+        <h3>활동지수 top3</h3>
+        <div class="top" style="float: left;">
+            <h5><img style="width: 55px;" src="https://i.esdrop.com/d/f/bvRLlOwptP/tmpENG5GoK.png">{{ top1 }}</h5>
+        </div>
+        <div class="top" style="float: left;">
+            <h5><img style="width: 51px;" src="https://i.esdrop.com/d/f/bvRLlOwptP/G8Jl5tvNb6.png">{{ top2 }}</h5>
+        </div>
+        <div class="top">
+            <h5><img style="width: 57px;" src="https://i.esdrop.com/d/f/bvRLlOwptP/NLWUtWp7Jv.png">{{ top3 }}</h5>
+        </div>
+        {% else %}
+        <h5>아직 활동지수 집계가 안됐어요ㅜㅜ</h5>
+        {% endif %}
     </div>
-    <div class="top"style="float: left;">
-        <h5><img style="width: 51px;" src="https://i.esdrop.com/d/f/bvRLlOwptP/G8Jl5tvNb6.png">{{ top2 }}</h5>
+
+
+
+    <div class="sidebar" style="border-radius: 3%;">
+        <!--menu item-->
+        <br>
+        <h2 style="text-align:center; background-color:#FAD4AE">카테고리 선택</h2>
+        <div id="catebar"><br><br>
+            <!-- 사이드바 카테고리 -->
+            {% for category in snack_category %}
+            <a href="{% url 'snacks:search' category.category %}" target="">
+                <h3 style="text-align:center; ">{{ category.category }}</h3>
+            </a><br>
+            {% endfor %}
+        </div>
     </div>
-    <div class="top">    
-        <h5><img style="width: 57px;" src="https://i.esdrop.com/d/f/bvRLlOwptP/NLWUtWp7Jv.png">{{ top3 }}</h5>
-    </div>
-    {% else %}
-    <h5>아직 활동지수 집계가 안됐어요ㅜㅜ</h5>
-    {% endif %}
-</div>
+    <!-- 사이드바 종료-->
 
 
 
-<div class="sidebar" style="border-radius: 3%;">
-    <!--menu item-->
-    <br>
-    <h2 style="text-align:center; background-color:#FAD4AE">카테고리 선택</h2>
-    <div id="catebar"><br><br>
-        <!-- 사이드바 카테고리 -->
-        {% for category in snack_category %}
-        <a href="{% url 'snacks:search' category.category %}" target="">
-            <h3 style="text-align:center; ">{{ category.category }}</h3>
-        </a><br>
-        {% endfor %}
-    </div>
-</div>
-<!-- 사이드바 종료-->
-    
-
-
-    <div class="col-11">        
+    <div class="col-11">
         <!-- top6 캐러셀 -->
-        <div id="carouselExampleIndicators_top6" class="carousel slide mt-3" style="width: 100%; height: 320px;" data-bs-ride="false">
+        <div id="carouselExampleIndicators_top6" class="carousel slide mt-3" style="width: 100%; height: 320px;"
+            data-bs-ride="false">
             <h1 class="text-center">Top 6</h1>
             <div class="carousel-indicators">
-                <button type="button" data-bs-target="#carouselExampleIndicators_top6" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                <button type="button" data-bs-target="#carouselExampleIndicators_top6" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                <button type="button" data-bs-target="#carouselExampleIndicators_top6" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                <button type="button" data-bs-target="#carouselExampleIndicators_top6" data-bs-slide-to="0"
+                    class="active" aria-current="true" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#carouselExampleIndicators_top6" data-bs-slide-to="1"
+                    aria-label="Slide 2"></button>
+                <button type="button" data-bs-target="#carouselExampleIndicators_top6" data-bs-slide-to="2"
+                    aria-label="Slide 3"></button>
             </div>
             <div class="carousel-inner">
-                <div class="carousel_div"> 
+                <div class="carousel_div">
                     <!-- 찜하기 -->
                     <div class="carousel-item active">
                         <div class="d-flex justify-content-center">
@@ -73,7 +77,11 @@
                                 <div class="d-flex">
                                     {% for like in snack_like %}
                                     <a href="{% url 'snacks:detail' like.pk %}">
+                                        {% if like.snack_image %}
                                         <img src="{{ like.snack_image.url }}" class="d-block" alt="...">
+                                        {% else %}
+                                        <img src="{% static 'images/cookies.png' %}" class="d-block" alt="...">
+                                        {% endif %}
                                         <h5 class="text-center">{{ like.name }}</h5>
                                     </a>
                                     {% endfor %}
@@ -92,9 +100,14 @@
                                 <div class="d-flex">
                                     {% for new in snack_id %}
                                     <a href="{% url 'snacks:detail' new.pk %}">
+                                        {% if new.snack_image %}
                                         <img src="{{ new.snack_image.url }}" class="d-block" alt="...">
+                                        {% else %}
+                                        <img src="{% static 'images/cookies.png' %}" class="d-block" alt="...">
+                                        {% endif %}
                                         <h5 class="text-center">{{ new.name }}</h5>
                                     </a>
+                                    {% empty %}
                                     {% endfor %}
                                 </div>
                             </div>
@@ -111,9 +124,15 @@
                                 <div class="d-flex">
                                     {% for review in snack_reviews %}
                                     <a href="{% url 'snacks:detail' review.pk %}">
+                                        {% if review.snack_image %}
                                         <img src="{{ review.snack_image.url }}" class="d-block" alt="...">
+                                        {% else %}
+                                        <img src="{% static 'images/cookies.png' %}" class="d-block" alt="...">
+                                        {% endif %}
                                         <h5 class="text-center">{{ review.name }}</h5>
                                     </a>
+                                    {% empty %}
+                                    d
                                     {% endfor %}
                                 </div>
                             </div>
@@ -121,18 +140,20 @@
                     </div>
                 </div>
             </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators_top6" data-bs-slide="prev">
-                <img src="https://img.icons8.com/plasticine/100/000000/left-squared.png"/>
-              <span class="visually-hidden">Previous</span>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators_top6"
+                data-bs-slide="prev">
+                <img src="https://img.icons8.com/plasticine/100/000000/left-squared.png" />
+                <span class="visually-hidden">Previous</span>
             </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators_top6" data-bs-slide="next">
-                <img src="https://img.icons8.com/plasticine/100/000000/forward.png"/>
-              <span class="visually-hidden">Next</span>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators_top6"
+                data-bs-slide="next">
+                <img src="https://img.icons8.com/plasticine/100/000000/forward.png" />
+                <span class="visually-hidden">Next</span>
             </button>
         </div>
         <!-- 캐러셀 종료 -->
 
-         <!-- 상품 배치 및 디폴트 처리 -->
+        <!-- 상품 배치 및 디폴트 처리 -->
         <div class="container mt-5">
             <div class="row">
                 {% for snack in snacks %}
@@ -150,12 +171,14 @@
                         <h3 class="card-text"
                             style="position:static; text-align:center; margin:5px; text-decoration:none; color:black; margin-top: 12px;">
                             {{snack.name}}
-                            <span class="badge badge-primary"style="margin-left:12px;padding:5px;font-size:25px">{{ snack.category}}</span>
+                            <span class="badge badge-primary" style="margin-left:12px;padding:5px;font-size:25px">
+                                {{ snack.category}}</span>
                         </h3>
                         <div class="card-text a_title"
-                            style="text-align:center; text-decoration:none; color:black; font-size:20px;">{{snack.price}}원 
+                            style="text-align:center; text-decoration:none; color:black; font-size:20px;">
+                            {{snack.price}}원
                             {% if 10 >= snack.stock %}
-                                <h4 class="badge badge-secondary" style="padding:5px;font-size:18px">품절임박</h4>
+                            <h4 class="badge badge-secondary" style="padding:5px;font-size:18px">품절임박</h4>
                             {% endif %}
                         </div>
                     </a>
@@ -167,5 +190,4 @@
     </div>
 </section>
 
-{% endblock %} 
-
+{% endblock %}

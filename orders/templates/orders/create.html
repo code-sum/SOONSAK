@@ -15,7 +15,11 @@
       <div class="col-4 d-flex justify-content-center">
         <div class="cart_card_img d-flex justify-content-center align-items-center">
           <a href="{% url 'snacks:detail' cart_item.snack.id %}">
+            {% if snack.snack_image %}
             <img src="{{ cart_item.snack.snack_image.url }}" alt="...">
+            {% else %}
+            <img src="{% static 'images/cookies.png' %}" class="d-block" alt="...">
+            {% endif %}
           </a>
         </div>
       </div>
@@ -61,31 +65,31 @@
       <div class="mb-3 border rounded-pill text-center pt-3" style="width: 45%;">
         <p>합계금액 {{ total_price|intcomma }} + 배송비
           {{ delivery_fee|intcomma }}원 =
-           총 결제금액{{ billing_amount|intcomma }}원</p>
-          <p>(50000원 이상 또는 활동지수 1이상 배송비: 0원)</p>
+          총 결제금액{{ billing_amount|intcomma }}원</p>
+        <p>(50000원 이상 또는 활동지수 1이상 배송비: 0원)</p>
 
       </div>
       <div class="mb-3">
         <label for="exampleFormControlInput1" class="form-label">배송지</label>
         <input type="text" class="form-control" value="{{ shipping_address }}" style="width:800px"
-          name="shipping_address">
+          id="shipping_address">
       </div>
-  
+
       <div class="mb-3">
         <label for="exampleFormControlInput1" class="form-label">연락처</label>
         <input type="text" class="form-control" value="{{ shipping_phoneNum }}" style="width:800px"
-          name="shipping_phoneNum">
+          id="shipping_phoneNum">
       </div>
     </div>
     <div class="d-flex justify-content-center mb-5">
-     <button id="order_btn" type="submit" class="btn" style="width: 200px;">결제</button>
+      <button id="order_btn" type="submit" class="btn" style="width: 200px;">결제</button>
     </div>
   </form>
 </div>
 {% endif %}
 
 <!-- 결제연동 -->
-<!-- 
+
 <script src="http://code.jquery.com/jquery-1.12.4.min.js"></script>
 <script src="http://service.iamport.kr/js/iamport.payment-1.1.5.js"></script>
 <script>
@@ -134,5 +138,5 @@
       alert(msg);
     });
   });
-</script> -->
+</script>
 {% endblock %}
