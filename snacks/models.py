@@ -25,7 +25,7 @@ class Snack(models.Model):
         upload_to="images/snacks/",
         blank=True,
         #이미지 사이즈 추후 조정
-        # processors=[ResizeToFill(300, 300)],
+        processors=[ResizeToFill(300, 300)],
         #이미지 품질
         options={'quality': 80},
         format="JPEG",
