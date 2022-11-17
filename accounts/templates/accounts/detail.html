@@ -149,11 +149,34 @@
               <span style="background-color: #D9F1F1;">{{ user.username }}</span>
               님이 작성하신 댓글</h4>
             <p class="text-muted">{{ user_comments.count }}개를 작성하였습니다.</p>
-            {% for comment in user_comments %}
-              <p>
-                <a class="text-decoration-none" href="{% url 'reviews:detail' comment.review_id %}">{{ comment.content }}</a>
-              </p>
-            {% endfor %}
+            <div class="mt-2">
+              <table class="table table-hover">
+                <thead>
+                  <tr>
+                    <th scope="col">번호</th>
+                    <th scope="col">댓글내용</th>
+                    <th scope="col">작성시간</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for comment in user_comments %}
+                    <tr>
+                      <th scope="row">{{ forloop.counter }}</th>
+                      <td>
+                        <a href="{% url 'reviews:detail' comment.review_id %}" style="color: #81DAF5;">{{ comment.content }}</a>
+                      </td>
+                      <td>
+                        {% if comment.created_string == False %}
+                          <span>{{ comment.created_at|date:'Y-m-d H:i' }}</span>
+                        {% else %}
+                          <span>{{ comment.created_string }}</span>
+                        {% endif %}
+                      </td>
+                    </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
 
