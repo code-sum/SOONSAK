@@ -22,6 +22,10 @@ def signup(request):
         form = CustomUserCreationForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
+            user = form.save(commit=False)
+            user.address = request.POST.get('postcode') + request.POST.get('address') + request.POST.get('detailAddress') + request.POST.get('extraAddress')
+            user.save()
+            
             # 자동 로그인 
             username = form.cleaned_data.get("username")
             password = form.cleaned_data.get("password1")
