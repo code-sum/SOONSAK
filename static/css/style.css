@@ -441,3 +441,61 @@ a {
   color: white;
   background-color: #9bd9e1;
 }
+
+.top{
+  display:flex;
+  flex-direction:row;
+  padding:1rem;
+
+
+/* 사용자프로필 하단부 리뷰 이미지 hover 효과 css */
+
+.review-image-css {
+  width: 250px; 
+  height: 250px;
+  vertical-align: top;
+}
+
+.banner_img {
+  display:inline-block;
+  position: relative;
+}
+
+.banner_img:hover:after,
+.banner_img:hover > .hover_text
+{
+  display:block;
+}
+
+.banner_img:after,.hover_text{
+  display:none;
+}
+
+.banner_img:after {
+  content:'';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: rgba(37, 160, 169, 0.3);
+  z-index: 10;
+}
+.banner_img {
+  overflow: hidden;
+}
+.banner_img img{
+  height: 250px;
+}
+.banner_img:hover img{
+  transform: scale(1.2);
+  transition: 1s;
+}
+.hover_text {
+  position: absolute;
+  top: 0;
+  padding : 20px 20px;
+  color: #fff;
+  z-index: 20;
+  font-size: 20px;
+}

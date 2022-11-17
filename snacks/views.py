@@ -10,8 +10,9 @@ from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.db.models import Avg, Count, Q
 
-
 User = get_user_model()
+# 상품 메뉴 전체 조회
+
 # 상품 메뉴 전체 조회
 def index(request):
     snacks = Snack.objects.all()
@@ -30,7 +31,7 @@ def index(request):
     )
     # 카테고리
     snack_category = snack_Category.objects.all()
-    # 활동지수 높은 사용자 top 3
+    # 사용자들의 활동지수 
     users = User.objects.all()
     tmp_dict = {}
     for user in users:
@@ -40,19 +41,35 @@ def index(request):
             score += User.objects.filter(followings=user.pk).count()
             score += Comment.objects.filter(user__id=user.pk).count()
             tmp_dict[user.pk] = score
+    user_index_dict = sorted(tmp_dict.items(), key=lambda item: item[1], reverse=True)
+    # top3 활동지수 사용자
+    if len(user_index_dict) >= 3:
+        user_index_dict = sorted(tmp_dict.items(), key=lambda item: item[1], reverse=True)[0:3]
+        top1 = User.objects.get(pk=user_index_dict[0][0])
+        top2 = User.objects.get(pk=user_index_dict[1][0]) 
+        top3 = User.objects.get(pk=user_index_dict[2][0])
 
-    user_index_dict = sorted(tmp_dict.items(), key=lambda item: item[1], reverse=True)[0:3]
-    
-    context = {
-        "snacks": snacks,
-        "snack_id": snack_id,
-        "snack_category": snack_category,
-        "snack_like": snack_like,
-        "snack_reviews": snack_reviews,
-    }
-    return render(request, "snacks/index.html", context)
+        context = {
+            "snacks": snacks,
+            "snack_id": snack_id,
+            "snack_category": snack_category,
+            "snack_like": snack_like,
+            "snack_reviews": snack_reviews,
+            "top1": top1,
+            "top2": top2,
+            "top3": top3,
+        }
+        return render(request, "snacks/index.html", context)
+    else:
 
-
+        context = {
+            "snacks": snacks,
+            "snack_id": snack_id,
+            "snack_category": snack_category,
+            "snack_like": snack_like,
+            "snack_reviews": snack_reviews,
+        }
+        return render(request, "snacks/index.html", context)
 # 상품 카테고리 등록
 @login_required(login_url="accounts:login")
 def category_create(request):
@@ -197,15 +214,14 @@ def likes(request, snack_pk):
 
 
 # 상품 카테고리 검색
-def search(request, kw):
-    query = kw
+def search(request, category):
+    query = category
     snack_category = snack_Category.objects.get(category=query)
     snacks = Snack.objects.filter(category_id=snack_category)
     context = {
         "snacks": snacks,
     }
     return render(request, "snacks/search.html", context)
-
 
 # 상품 카테고리 검색
 def search_kwargs(request):
