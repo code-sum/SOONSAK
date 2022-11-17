@@ -393,6 +393,10 @@ a {
   border-radius: 1rem;
 }
 
+.card-text {
+  line-height: 90%;
+}
+
 /* 스낵인덱스 css */
 
 .carousel_div .carousel-item img {
