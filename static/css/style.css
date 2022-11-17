@@ -409,6 +409,11 @@ a {
   background-color: #D9F1F1;
 }
 
+.carousel-control-prev,
+.carousel-control-next {
+  width: 5%;
+}
+
 .carousel button img {
   width: 30px;
   height: 30px;
