@@ -81,6 +81,9 @@
               <div class="menu">
                 {% if request.user.is_authenticated %}
                   <li>
+                    <a href="{% url 'accounts:detail' request.user.pk %}" class="p-2">{{ request.user.username }}님</a>
+                  </li>
+                  <li>
                     <a href="{% url 'accounts:logout' %}" class="p-2">로그아웃</a>
                   </li>
                 {% else %}
