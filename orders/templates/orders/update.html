@@ -1,29 +1,41 @@
 {% extends 'base.html' %}
-{% block content %}
 {% load django_bootstrap5 %}
 
-<h4>{{ order.snack.name }}</h4>
-<h4>SKU: {{ order.snack.pk }}</h4>
-<h4>가격: {{ order.snack.price }}원</h4>
-<h4>total {{ order.quantity }}개 X {{ order.snack.price}}원</h4>
+{% block content %}
 
-<form action="{% url 'orders:update' order.pk %}" method="POST">
-    {% csrf_token %}
+  <div class="row d-flex justify-content-center align-items-center py-5">
+    <div class="d-flex flex-column justify-content-center align-items-center shadow p-5 rounded-5">
+      <div class="bg-tape">
+        <h1>주문변경</h1>
+      </div>
+      <div class="my-4">
+        <h4>{{ order.snack.name }}</h4>
+        <h4>SKU:
+          {{ order.snack.pk }}</h4>
+        <h4>가격:
+          {{ order.snack.price }}원</h4>
+        <h4>total
+          {{ order.quantity }}개 X
+          {{ order.snack.price}}원</h4>
 
-    <div>
-        <div class="mb-3">
-            <label for="exampleFormControlInput1" class="form-label">배송지</label>
-            <input type="text" class="form-control" id="exampleFormControlInput1" value="{{ shipping_address }}"
-                style="width:800px" name="shipping_address">
-        </div>
+        <form action="{% url 'orders:update' order.pk %}" method="POST">
+          {% csrf_token %}
 
-        <div class="mb-3">
-            <label for="exampleFormControlInput1" class="form-label">연락처</label>
-            <input type="text" class="form-control" id="exampleFormControlInput1" value="{{ contact_number }}"
-                style="width:800px" name="contact_number">
-        </div>
+          <div>
+            <div class="mb-3">
+              <label for="exampleFormControlInput1" class="form-label">배송지</label>
+              <input type="text" class="form-control" id="exampleFormControlInput1" value="{{ shipping_address }}" style="width:800px" name="shipping_address">
+            </div>
+
+            <div class="mb-3">
+              <label for="exampleFormControlInput1" class="form-label">연락처</label>
+              <input type="text" class="form-control" id="exampleFormControlInput1" value="{{ contact_number }}" style="width:800px" name="contact_number">
+            </div>
+          </div>
+          <button type="submit" class="btn me-2">주문 변경</button>
+        </form>
+      </div>
     </div>
-    <button type="submit" class="btn btn-outline-primary btn-lg me-2">주문 변경</button>
-</form>
+  </div>
 
 {% endblock %}
