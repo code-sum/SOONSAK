@@ -96,16 +96,14 @@
     <!-- 리뷰 작성 버튼 -->
 
     <div class="d-flex justify-content-end">
-      <a href="{% url 'reviews:create' snack.pk %}">
-        <button type="button" class="btn">리뷰작성</button>
-      </a>
+      <a href="{% url 'reviews:create' snack.pk %}" class="btn">리뷰작성</a>
     </div>
     <!--리뷰 카드-->
     <!--for문 스낵의 모든 리뷰-->
     {% for review in reviews %}
     <div class="row justify-content-center">
       <div class="review_card m-4 pt-5">
-        <a href="{% url 'reviews:detail' review.pk %}" class="row">
+        <a href="{% url 'reviews:detail' review.pk %}" class="row text-black">
           <div class="col-7">
             <!-- 리뷰별 별점 -->
             {% if review.grade == 5 %}

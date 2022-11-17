@@ -30,14 +30,11 @@
     
 <section class="row justify-content-end">
     <!-- 카테고리, 제품 등록 -->
-    <div class="mt-5 d-grid gap-2 d-md-flex justify-content-center">
+    <div class="mt-5 d-grid gap-2 d-md-flex justify-content-center" style="font-size:15px; margin-right: 10px;">
         {% if request.user.is_staff %}
-        <a href="{% url 'snacks:category_create' %}"><button type="button submit" class="btn"
-                style="font-size:15px; margin-right: 10px;">카테고리등록</button></a>
-        <a href="{% url 'snacks:create' %}"><button type="button submit" class="btn"
-                style="font-size:15px; margin-right: 10px;">제품등록</button></a>
-        <a href="{% url 'orders:order_list' %}"><button type="button submit" class="btn" style="font-size:15px;">주문 내역
-                관리</button></a>
+        <a href="{% url 'snacks:category_create' %}" class="btn">카테고리등록</a>
+        <a href="{% url 'snacks:create' %}" class="btn">제품등록</a>
+        <a href="{% url 'orders:order_list' %}" class="btn">주문 내역 관리</a>
         {% endif %}
     </div>
     <!-- 카테고리, 제품 등록 종료 -->

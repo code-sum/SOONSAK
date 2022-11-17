@@ -17,16 +17,16 @@ def index(request):
     snacks = Snack.objects.all()
     # 찜 많은순
     snack_like = (
-        Snack.objects.all().annotate(like_cnt=Count("likes")).order_by("-like_cnt")
+        Snack.objects.all().annotate(like_cnt=Count("likes")).order_by("-like_cnt")[:6]
     )
     # 최신순
-    snack_id = Snack.objects.all().order_by("-id")
+    snack_id = Snack.objects.all().order_by("-id")[:6]
     # 리뷰 많은 순
     snack_reviews = (
         Snack.objects.all()
         .prefetch_related("snack_review")
         .annotate(review_cnt=Count("snack_review"))
-        .order_by("-review_cnt")
+        .order_by("-review_cnt")[:6]
     )
     # 카테고리
     snack_category = snack_Category.objects.all()

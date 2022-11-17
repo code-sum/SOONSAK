@@ -9,15 +9,18 @@
     <!-- 결제완료 주문 -->
     <h3 class="mt-5">결제 내역</h3>
     <table class="table text-center complete_orders">
-      <thead class="thead thead-dark">
-        <td scope="col">No.</td>
-        <td scope="col">상품</td>
-        <td scope="col">수량</td>
-        <td scope="col">주문금액(배송비 미포함)</td>
-        <td scope="col">배송지</td>
-        <td scope="col">연락처</td>
-        <td scope="col">주문 상태</td>
-        <td scope="col">주문 날짜</td>
+      <thead>
+        <tr>
+          <th scope="col">No.</th>
+          <th scope="col">상품</th>
+          <th scope="col">수량</th>
+          <th scope="col">주문금액(배송비 미포함)</th>
+          <th scope="col">배송지</th>
+          <th scope="col">연락처</th>
+          <th scope="col">주문 상태</th>
+          <th scope="col">주문 날짜</th>
+          <th scope="col"></th>
+        </tr>
       </thead>
       <tbody class="">
         {% for order in complete_orders %}
@@ -29,13 +32,11 @@
             <td>{{ order.shipping_address }}</td>
             <td>{{ order.contact_number }}</td>
             <td>{{ order.order_status }}</td>
-            <td>{{ order.register_data }}
-              |
-              <a href="{% url 'orders:delete' order.pk %}">주문취소</a>
-              |
-              <a href="{% url 'orders:update' order.pk %}">주문 변경</a>
-              |
-              <a href="{% url 'reviews:create' order.snack.pk %}">리뷰 작성</a>
+            <td>{{ order.register_data }}</td>
+            <td class="d-grid gap-3 d-md-flex justify-content-center">
+              <a href="{% url 'reviews:create' order.snack.pk %}" class="btn" style="height: 27px;padding: 1px;width: 80px;">리뷰 작성</a>
+              <a href="{% url 'orders:update' order.pk %}" class="btn" style="height: 27px;padding: 1px;width: 80px;">주문 변경</a>
+              <a href="{% url 'orders:delete' order.pk %}" class="btn btn2" style="height: 27px;padding: 1px;width: 80px;">주문취소</a>
             </td>
 
           </tr>
@@ -47,14 +48,16 @@
     <!-- 취소 주문 -->
     <h3 class="mt-5">취소 내역</h3>
     <table class="table text-center cancel_orders mt-5">
-      <thead class="thead thead-dark">
-        <td scope="col">No.</td>
-        <td scope="col">상품</td>
-        <td scope="col">수량</td>
-        <td scope="col">취소금액(배송비 미포함)</td>
-        <td scope="col">연락처</td>
-        <td scope="col">주문 상태</td>
-        <td scope="col">취소날짜</td>
+      <thead>
+        <tr>
+          <th scope="col">No.</th>
+          <th scope="col">상품</th>
+          <th scope="col">수량</th>
+          <th scope="col">취소금액(배송비 미포함)</th>
+          <th scope="col">연락처</th>
+          <th scope="col">주문 상태</th>
+          <th scope="col">취소날짜</th>
+        </tr>
       </thead>
       <tbody class="">
         {% for order in cancel_orders %}

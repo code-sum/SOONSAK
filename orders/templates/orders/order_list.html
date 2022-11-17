@@ -37,17 +37,19 @@
       <div class="d-flex flex-column text-center mb-3">
         <h4 class="fw-bold">결제 완료 내역</h4>
         <table class="table text-center">
-          <thead class="thead thead-dark">
-            <td scope="col">No.</td>
-            <td scope="col">주문자</td>
-            <td scope="col">상품</td>
-            <td scope="col">수량</td>
-            <td scope="col">주문금액(배송비 미포함)</td>
-            <td scope="col">배송지</td>
-            <td scope="col">연락처</td>
-            <td scope="col">주문 상태</td>
-            <td scope="col">주문 날짜</td>
-            <td scope="col">배송 상태 변경</td>
+          <thead>
+            <tr>
+              <th scope="col">No.</th>
+              <th scope="col">주문자</th>
+              <th scope="col">상품</th>
+              <th scope="col">수량</th>
+              <th scope="col">주문금액(배송비 미포함)</th>
+              <th scope="col">배송지</th>
+              <th scope="col">연락처</th>
+              <th scope="col">주문 상태</th>
+              <th scope="col">주문 날짜</th>
+              <th scope="col">배송 상태 변경</th>
+            </tr>
           </thead>
           <tbody class="">
             {% for order in complete_orders %}
@@ -61,10 +63,9 @@
                 <td>{{ order.contact_number }}</td>
                 <td>{{ order.order_status }}</td>
                 <td>{{ order.register_data }}</td>
-                <td>
-                  <a href="{% url 'orders:delete' order.pk %}">주문취소</a>
-                  |
-                  <a href="{% url 'orders:delivery' order.pk %}">배송 준비중</a>
+                <td class="d-grid gap-3 d-md-flex justify-content-center">
+                  <a href="{% url 'orders:delete' order.pk %}" class="btn btn2" style="height: 27px;padding: 1px;width: 80px;">주문취소</a>
+                  <a href="{% url 'orders:delivery' order.pk %}" class="btn" style="height: 27px;padding: 1px;width: 80px;">배송 준비중</a>
                 </td>
               </tr>
             {% endfor %}
@@ -78,17 +79,19 @@
       <div class="d-flex flex-column text-center">
         <h4 class="fw-bold">배송 내역</h4>
         <table class="table text-center">
-          <thead class="thead thead-dark">
-            <td scope="col">No.</td>
-            <td scope="col">주문자</td>
-            <td scope="col">상품</td>
-            <td scope="col">수량</td>
-            <td scope="col">주문금액(배송비 미포함)</td>
-            <td scope="col">배송지</td>
-            <td scope="col">연락처</td>
-            <td scope="col">배송 상태</td>
-            <td scope="col">배송 날짜</td>
-            <td scope="col">배송 상태 변경</td>
+          <thead>
+            <tr>
+              <th scope="col">No.</th>
+              <th scope="col">주문자</th>
+              <th scope="col">상품</th>
+              <th scope="col">수량</th>
+              <th scope="col">주문금액(배송비 미포함)</th>
+              <th scope="col">배송지</th>
+              <th scope="col">연락처</th>
+              <th scope="col">배송 상태</th>
+              <th scope="col">배송 날짜</th>
+              <th scope="col">배송 상태 변경</th>
+            </tr>
           </thead>
           <tbody class="">
             {% for order in delivery_orders %}
@@ -103,7 +106,7 @@
                 <td>{{ order.order_status }}</td>
                 <td>{{ order.register_data }}</td>
                 <td>
-                  <a href="{% url 'orders:delivery_complete' order.pk %}">배송 완료</a>
+                  <a href="{% url 'orders:delivery_complete' order.pk %}" class="btn" style="height: 27px;padding: 1px;width: 80px;">배송 완료</a>
                 </td>
               </tr>
             {% endfor %}
@@ -114,16 +117,18 @@
       <div class="d-flex flex-column text-center mt-3 mb-3">
         <h4 class="fw-bold">배송 완료 내역</h4>
         <table class="table text-center">
-          <thead class="thead thead-dark">
-            <td scope="col">No.</td>
-            <td scope="col">주문자</td>
-            <td scope="col">상품</td>
-            <td scope="col">수량</td>
-            <td scope="col">주문금액(배송비 미포함)</td>
-            <td scope="col">배송지</td>
-            <td scope="col">연락처</td>
-            <td scope="col">배송 상태</td>
-            <td scope="col">배송 날짜</td>
+          <thead>
+            <tr>
+              <th scope="col">No.</th>
+              <th scope="col">주문자</th>
+              <th scope="col">상품</th>
+              <th scope="col">수량</th>
+              <th scope="col">주문금액(배송비 미포함)</th>
+              <th scope="col">배송지</th>
+              <th scope="col">연락처</th>
+              <th scope="col">배송 상태</th>
+              <th scope="col">배송 날짜</th>
+            </tr>
           </thead>
           <tbody class="">
             {% for order in delivery_complete_orders %}
@@ -149,15 +154,17 @@
       <div class="d-flex flex-column text-center mb-3">
         <h4 class="fw-bold">취소 주문 내역</h4>
         <table class="table text-center mt-3">
-          <thead class="thead thead-dark">
-            <td scope="col">No.</td>
-            <td scope="col">주문자</td>
-            <td scope="col">상품</td>
-            <td scope="col">수량</td>
-            <td scope="col">취소금액(배송비 미포함)</td>
-            <td scope="col">연락처</td>
-            <td scope="col">주문 상태</td>
-            <td scope="col">취소날짜</td>
+          <thead>
+            <tr>
+              <th scope="col">No.</th>
+              <th scope="col">주문자</th>
+              <th scope="col">상품</th>
+              <th scope="col">수량</th>
+              <th scope="col">취소금액(배송비 미포함)</th>
+              <th scope="col">연락처</th>
+              <th scope="col">주문 상태</th>
+              <th scope="col">취소날짜</th>
+            </tr>
           </thead>
           <tbody class="">
             {% for order in cancel_orders %}

@@ -42,19 +42,15 @@
               <div class="card_opitons d-flex justify-content-center">
                 <form action="{% url 'carts:add_cart' cart_item.snack.pk %}">
                   <input type="hidden" name="quantity">
-                  <button class="btn">+</button>
+                  <button class="btn btn">+</button>
                 </form>
                 <h5 class="mx-2">{{ cart_item.quantity }}</h5>
                 <!-- -버튼 -->
-                <a href="{% url 'carts:minus_cart_item' cart_item.snack.pk %}">
-                  <button class="btn">-</button>
-                </a>
+                <a href="{% url 'carts:minus_cart_item' cart_item.snack.pk %}" class="btn">-</a>
               </div>
               <!-- 삭제버튼 -->
               <div class="d-flex justify-content-center">
-                <a href="{% url 'carts:full_remove' cart_item.snack.pk %}">
-                  <button class="btn mt-3" style="width: 100px;">삭제</button>
-                </a>
+                <a href="{% url 'carts:full_remove' cart_item.snack.pk %}" class="btn mt-3" style="width: 100px;">삭제</a>
               </div>
               <!-- 장바구니에 담은 수량보다 재고가 부족하다면 더담기 못함 -->
             {% else %}
@@ -80,9 +76,7 @@
 <!-- 장바구니 비어있으면 결제하기 비활성화 -->
 {% if cart_items %}
 <div class="d-flex justify-content-center mb-5">
-  <a href="{% url 'orders:create' %}">
-    <button class="btn" style="width: 200px;">결제하기</button>
-  </a>
+  <a href="{% url 'orders:create' %}" class="btn" style="width: 200px;">결제하기</a>
 </div>
 
 {% endif %}
