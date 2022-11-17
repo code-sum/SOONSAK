@@ -1,12 +1,27 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load django_bootstrap5 %}
+
 {% block content %}
-  {% load django_bootstrap5 %}
-  <div>
-    <h1 class="d-flex justify-content-center">주문 완료</h1>
-    <p class="d-flex justify-content-center">주문이 성공적으로 완료 되었습니다.</p>
-    <div class="d-flex justify-content-center">
-      <a href="{% url 'orders:detail' request.user.pk %}" class="d-flex justify-content-center btn rounded-pill" style="width: 100px">주문내역</a>
+
+  <div class="row d-flex justify-content-center align-items-center py-5">
+    <div class="d-flex flex-column justify-content-center align-items-center shadow p-5 rounded-5">
+      <div class="bg-tape">
+        <h1>주문완료</h1>
+      </div>
+      <div class="my-4">
+        <div class="d-flex flex-column">
+          <div class="d-flex justify-content-center mt-3">
+            <img src="{% static 'images/delivery.png' %}" style="width: 200px; height: 200px;" alt="delivery">
+          </div>
+          <div class="mt-3">
+            <h5 class="d-flex justify-content-center text-muted">고객님의 소중한 주문을 접수했습니다.</h5>
+            <div class="d-flex justify-content-center mt-3">
+              <a href="{% url 'orders:detail' request.user.pk %}" class="d-flex justify-content-center btn rounded-pill" style="width: 100px">주문내역</a>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
