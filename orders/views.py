@@ -22,7 +22,7 @@ def create(request):
     # 할인적용
 
     # 활동지수(리뷰갯수 + 팔로워수 + 댓글수)
-    user_of_reviews = Review.objects.filter(userid=request.user.pk).count()
+    user_of_reviews = Review.objects.filter(user__id=request.user.pk).count()
     user_of_followers = User.objects.filter(followings=request.user.pk).count()
     user_of_comments = Comment.objects.filter(user__id=request.user.pk).count()
     active_index = user_of_reviews + user_of_followers + user_of_comments
