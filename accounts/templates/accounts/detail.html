@@ -42,13 +42,13 @@
           </div>
           <!-- 리뷰 / 팔로워 / 팔로우 집계 -->
           <div class="d-flex flex-row mb-4">
-            <div class="me-5">활동지수
+            <div class="me-5" style="font-size: 20px;">활동지수
               <b>{{ active_index }}</b>
             </div>
-            <div class="me-5">팔로워
+            <div class="me-5" style="font-size: 20px;">팔로워
               <b id="followers-count">{{ user.followers.all|length }}</b>
             </div>
-            <div>팔로잉
+            <div style="font-size: 20px;">팔로잉
               <b id="followings-count">{{ user.followings.all|length }}</b>
             </div>
           </div>
