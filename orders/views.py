@@ -108,9 +108,8 @@ def detail(request, user_pk):
 def delivery(request, order_pk):
     order = Order.objects.get(pk=order_pk)
     order.register_data = timezone.now()
-    with transaction.atomic():
-        order.order_status = "배송 준비중"
-        order.save()
+    order.order_status = "배송 준비중"
+    order.save()
     return redirect("orders:order_list")
 
 
@@ -118,10 +117,9 @@ def delivery(request, order_pk):
 def delivery_complete(request, order_pk):
     order = Order.objects.get(pk=order_pk)
     order.register_data = timezone.now()
-    with transaction.atomic():
-        order.order_status = "배송완료"
-        order.save()
-    return redirect("orders:order_list", request.user.pk)
+    order.order_status = "배송완료"
+    order.save()
+    return redirect("orders:order_list")
 
 
 # 주문 취소
