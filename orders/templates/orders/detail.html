@@ -34,6 +34,8 @@
               <a href="{% url 'orders:delete' order.pk %}">주문취소</a>
               |
               <a href="{% url 'orders:update' order.pk %}">주문 변경</a>
+              |
+              <a href="{% url 'reviews:create' order.snack.pk %}">리뷰 작성</a>
             </td>
 
           </tr>
