@@ -1,49 +1,49 @@
 {% extends 'base.html' %}
 {% load static %}
 {% load humanize %}
-{% block content %}
 {% load django_bootstrap5 %}
 
-{% comment %} {% for %} {% endcomment %}
- 
-<div class="container mt-5">
-    <h1 style="width: 600px;background-color: #FAD4AE;height: 50px; margin-bottom:20px; text-align:center;">검색 결과가 인기순으로 보여집니다</h1>
-    
-    <div class="row">
-    
+{% block content %}
+
+  <div class="row d-flex justify-content-center align-items-center py-5">
+    <div class="d-flex flex-column justify-content-center align-items-center shadow p-5 rounded-5">
+      <div>
+        <h1 style="width: 600px; background-color: #FAD4AE; height: 50px; margin-bottom:20px; text-align:center;">검색 결과가 인기순으로 보여집니다</h1>
+      </div>
+      <div class="my-4">
         {% for snack in snacks %}
-        <div class="col-4 p-5 d-flex">
-            
+          <div class="col-4 p-5 d-flex">
             <a href="{% url 'snacks:detail' snack.pk %}">
-                {% if snack.snack_image %}
-
+              {% if snack.snack_image %}
                 <img src="{{ snack.snack_image.url }}" class="card-img-top" alt="스낵이미지">
+              {% else %}
+                <img class="profile" style="width:100%; height:300px;" src="https://i.esdrop.com/d/t/bvRLlOwptP/2jK4vs4YjI.jpg" alt="스낵디폴트">
+              {% endif %}
 
-                {% else %}
-                <img class="profile" style="width:100%; height:300px;" src="https://i.esdrop.com/d/t/bvRLlOwptP/2jK4vs4YjI.jpg"
-                    alt="스낵디폴트">
-
+              <h3 class="card-text" style="text-align:center; margin:5px; text-decoration:none; color:black; margin-top: 12px;">
+                {{snack.name}}
+                <span class="badge badge-primary" style="margin-left:12px;padding:5px;font-size:25px">{{ snack.category}}</span>
+              </h3>
+              <div class="card-text a_title" style="text-align:center; text-decoration:none; color:black; font-size:20px;">
+                {{snack.price}}원
+                {% if 10 >= snack.stock %}
+                  <h4 class="badge badge-secondary" style="padding:5px;font-size:18px">품절임박</h4>
                 {% endif %}
-                
-                <h3 class="card-text"
-                    style="text-align:center; margin:5px; text-decoration:none; color:black; margin-top: 12px;">
-                    {{snack.name}}
-                    <span class="badge badge-primary"style="margin-left:12px;padding:5px;font-size:25px">{{ snack.category}}</span>
-                </h3>
-                <div class="card-text a_title" style="text-align:center; text-decoration:none; color:black; font-size:20px;">
-                    {{snack.price}}원
-                    {% if 10 >= snack.stock %}
-                    <h4 class="badge badge-secondary" style="padding:5px;font-size:18px">품절임박</h4>
-                    {% endif %}
-                </div>
+              </div>
             </a>
-        </div>
-        {% empty %}
-        <h1>검색 결과가 없습니다</h1>
+          </div>
+          {% empty %}
+          <div class="d-flex flex-column">
+            <div class="d-flex justify-content-center">
+              <img src="{% static 'images/sorry.png' %}" style="width: 200px; height: 200px;" alt="sorry">
+            </div>
+            <div>
+              <h3 class="text-muted">아직 준비되지 않은 상품이에요</h3>
+            </div>
+          </div>
         {% endfor %}
+      </div>
     </div>
-    
-</div>
-
+  </div>
 
 {% endblock %}
