@@ -1,17 +1,22 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block content %}
 {% load django_bootstrap5 %}
 
-<div class="container">
-    <div class="container mt-5">
-        <form action="" method="POST" enctype="multipart/form-data">
-            {% csrf_token %}
-            {% bootstrap_form form %}
-            <button class="btn mb-5" type="submit">제품등록</button>
-        </form>
-    </div>
+{% block content %}
 
-</div>
+  <div class="row d-flex justify-content-center align-items-center py-5">
+    <div class="d-flex flex-column justify-content-center align-items-center shadow p-5 rounded-5">
+      <div class="bg-tape">
+        <h1>제품등록</h1>
+      </div>
+      <div class="my-4">
+        <form action="" method="POST" enctype="multipart/form-data">
+          {% csrf_token %}
+          {% bootstrap_form form %}
+          <button class="btn mb-5" type="submit">제품등록</button>
+        </form>
+      </div>
+    </div>
+  </div>
 
 {% endblock %}
