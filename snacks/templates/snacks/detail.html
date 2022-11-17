@@ -2,217 +2,223 @@
 {% load static %}
 {% load humanize %}
 {% block content %}
-{% load django_bootstrap5 %}
+  {% load django_bootstrap5 %}
 
-<!-- 권한제한 메시지 -->
-{% if messages %}
-<div class="alert alert-danger my-3" role="alert">
-  {% for message in messages %}
-  <strong>{{ message.tags }}</strong>
-  <ul>
-    <li>{{ message.message }}</li>
-  </ul>
-  {% endfor %}
-</div>
-{% endif %}
-
-<section class="row gx-3">
-  <!--카테고리/제품명/제품이미지-->
-  <h6 class="mx-2">카테고리>
-    {{ snack.category }}</h6>
-
-  <div class="col-lg-7">
-    <div class="d-flex mx-4 align-items-center">
-      <h2>{{ snack.name }}</h2>
-      <!--상품 찜하기 , 찜하기 취소-->
-      <h4 class="mx-2" style="color: #FDAFAB;">
-        {% if request.user in snack.likes.all %}
-        <i class="bi bi-bookmark-heart-fill" id="likeBtn" data-snack-id="{{ snack.pk }}"></i>
-        {% else %}
-        <i class="bi bi-bookmark-heart" id="likeBtn" data-snack-id="{{ snack.pk }}"></i>
-        {% endif %}
-        <span id="like-count">{{ snack.likes.count}}</span>
-      </h4>
+  <!-- 권한제한 메시지 -->
+  {% if messages %}
+    <div class="alert alert-danger my-3" role="alert">
+      {% for message in messages %}
+        <strong>{{ message.tags }}</strong>
+        <ul>
+          <li>{{ message.message }}</li>
+        </ul>
+      {% endfor %}
     </div>
-    
-    <div class="wrap mx-5" id="magny">
-      <img class="target" src="{{ snack.snack_image.url }}" alt="{{ snack.name }}_이미지">
-    </div>
-  </div>
+  {% endif %}
 
-  <!--별점평균/제품 콘텐츠-->
-  <div class="col-lg-5 mb-5 mt-5 row">
-    <div class="d-flex justify-content-between">
-      <h4>평균별점: {{ snack_avg }}{{ avg_star }}</h4>
-      <!-- 관리자 버튼 -->
-      <h4 class="d-grid gap-2 d-md-flex justify-content-md-end" >
-        {% if request.user.is_staff %}
-        <!-- 제품수정 -->
-        <a href="{% url 'snacks:update' snack.pk %}" style="color: #B6E3E9;">
-          <i class="bi bi-pencil-square"></i>
-        </a>
-        <!-- 제품삭제 -->
-        <a href="{% url 'snacks:delete' snack.pk %}" style="color: red;">
-          <i class="bi bi-trash"></i>
-        </a>
-        {% endif %}
-      </h4>
-    </div>
-    <table class="table">
-      <tbody>
-        <tr>
-          <th class="col-3">제품 설명</th>
-          <td class="col-9">{{ snack.content }}</td>
-        </tr>
-        <tr>
-          <th class="col-3">가격</th>
-          <td class="col-9">{{ snack.price|intcomma }}</td>
-        </tr>
-        <tr>
-          <th class="col-3">배송비</th>
-          <td class="col-9">3,000원</td>
-        </tr>
-        <tr>
-          <th class="col-3">재고</th>
-          <td class="col-9">{{ snack.stock }}개</td>
-        </tr>
-      </tbody>
-    </table>
-    <div class="Cart_form">
-      <form method="POST" action="{% url 'carts:add_cart' snack.pk %}">
-        {% csrf_token %}
-        {% bootstrap_form form %}
-        
-        <div class="d-grid gap-2 d-md-flex justify-content-end">
-          <button type="submit" class="btn">바로 주문</button>
-          <button type="submit" class="btn">장바구니에 담기</button>
-        </div>
-      </form>
-    </div>
-  </div>
-  <!-- 리뷰 -->
-  <div>
+  <section class="row gx-3">
+    <!--카테고리/제품명/제품이미지-->
+    <h6 class="mx-2">카테고리 >
+      {{ snack.category }}</h6>
 
-    <!-- 리뷰 작성 버튼 -->
-
-    <div class="d-flex justify-content-end">
-      <a href="{% url 'reviews:create' snack.pk %}">
-        <button type="button" class="btn">리뷰작성</button>
-      </a>
-    </div>
-    <!--리뷰 카드-->
-    <!--for문 스낵의 모든 리뷰-->
-    {% for review in reviews %}
-    <div class="row justify-content-center">
-      <div class="review_card m-4 pt-5">
-        <a href="{% url 'reviews:detail' review.pk %}" class="row">
-          <div class="col-7">
-            <!-- 리뷰별 별점 -->
-            {% if review.grade == 5 %}
-            <h4>⭐⭐⭐⭐⭐</h4>
-            {% elif review.grade == 4 %}
-            <h4>⭐⭐⭐⭐</h4>
-            {% elif review.grade == 3 %}
-            <h4>⭐⭐⭐</h4>
-            {% elif review.grade == 2 %}
-            <h4>⭐⭐</h4>
-            {% elif review.grade == 1 %}
-            <h4>⭐</h4>
-            {% endif %}
-            <p>{{ review.content}}
-              <!-- 댓글 개수 -->
-              <span>
-                {% if review.comments %}
-                [{{ review.comments.count }}]
-                {% endif %}
-              </span>
-            </p>
-            <!-- 유저 프로필 불러오기 -->
-            <div class="d-flex px-5">
-              {% if review.user.profile_image %}
-              <img src="{{ review.user.profile_image.url }}" alt="작성자 프로필 이미지">
-              {% endif %}
-              <h3 class="mx-3">작성자: {{ review.user.username }}</h3>
-            </div>
-          </div>
-          <div class="col-5 text-center" style="display: table; width:400px; height: 350px;">
-            <div style="display: table-cell; vertical-align:middle;">
-              {% if review.review_image %}
-              <img src="{{ review.review_image.url }}" style="width:100%;" alt="상품후기 사진">
-              {% endif %}
-            </div>
-          </div>
-        </a>
-        <p class="position-absolute bottom-0 end-0 mx-3">작성:
-          {% if review.created_string == False %}
-          <small>{{ review.created_at|date:'Y-m-d H:i' }}</small>
+    <div class="col-lg-7">
+      <div class="d-flex mx-4 align-items-center">
+        <h2>{{ snack.name }}</h2>
+        <!--상품 찜하기 , 찜하기 취소-->
+        <h4 class="mx-2" style="color: #FDAFAB;">
+          {% if request.user in snack.likes.all %}
+            <i class="bi bi-bookmark-heart-fill" id="likeBtn" data-snack-id="{{ snack.pk }}"></i>
           {% else %}
-          <small>{{ review.created_string }}</small>
+            <i class="bi bi-bookmark-heart" id="likeBtn" data-snack-id="{{ snack.pk }}"></i>
           {% endif %}
-        </p>
+          <span id="like-count">{{ snack.likes.count}}</span>
+        </h4>
+      </div>
+
+      <div class="wrap mx-5" id="magny">
+        <img class="target" src="{{ snack.snack_image.url }}" alt="{{ snack.name }}_이미지">
       </div>
     </div>
-    {% empty %}
-    <h3>아직 작성된 리뷰가 없습니다.</h3>
-    {% endfor %}
-    <!--for문 종료-->
-</section>
 
-{% endblock content %}
-{% block script %}
-<!-- 좋아요 비동기 -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.1.3/axios.min.js"> </script>
-<script type="text/javascript" src="{% static 'js/좋아요비동기.js' %}"></script>
-<!-- 디테일 이미지 돋보기 -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script>
-  //주의 : hTML에서 보여지는 이미지 크기가 본래 이미지 크기보다 작아야 함. ( width , height )
-window.onload = function () {
-  $(".wrap")
-    .on('mousemove', magnify)
-    .prepend("<div class='magnifier'></div>")
-    .children('.magnifier').css({
-      "background": "url('" + $(".target").attr("src") + "') no-repeat"
-    });
+    <!--별점평균/제품 콘텐츠-->
+    <div class="col-lg-5 mb-5 mt-5 row">
+      <div class="d-flex justify-content-between">
+        <h4>평균별점:
+          {{ snack_avg }}{{ avg_star }}</h4>
+        <!-- 관리자 버튼 -->
+        <h4 class="d-grid gap-2 d-md-flex justify-content-md-end">
+          {% if request.user.is_staff %}
+            <!-- 제품수정 -->
+            <a href="{% url 'snacks:update' snack.pk %}" style="color: #B6E3E9;">
+              <i class="bi bi-pencil-square"></i>
+            </a>
+            <!-- 제품삭제 -->
+            <a href="{% url 'snacks:delete' snack.pk %}" style="color: red;">
+              <i class="bi bi-trash"></i>
+            </a>
+          {% endif %}
+        </h4>
+      </div>
+      <table class="table">
+        <tbody>
+          <tr>
+            <th class="col-3">제품 설명</th>
+            <td class="col-9">{{ snack.content }}</td>
+          </tr>
+          <tr>
+            <th class="col-3">가격</th>
+            <td class="col-9">{{ snack.price|intcomma }}</td>
+          </tr>
+          <tr>
+            <th class="col-3">배송비</th>
+            <td class="col-9">3,000원</td>
+          </tr>
+          <tr>
+            <th class="col-3">재고</th>
+            <td class="col-9">{{ snack.stock }}개</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="Cart_form">
+        <form method="POST" action="{% url 'carts:add_cart' snack.pk %}">
+          {% csrf_token %}
+          {% bootstrap_form form %}
 
-  var target = $('.target');
-  var magnifier = $('.magnifier');
+          <div class="d-grid gap-2 d-md-flex justify-content-end">
+            <button type="submit" class="btn">바로 주문</button>
+            <button type="submit" class="btn">장바구니에 담기</button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <!-- 리뷰 -->
+    <div>
 
-  function magnify(e) {
+      <!-- 리뷰 작성 버튼 -->
 
-    // 마우스 위치에서 .magnify의 위치를 차감해 컨테이너에 대한 마우스 좌표를 얻는다.
-    var mouseX = e.pageX - $(this).offset().left;
-    var mouseY = e.pageY - $(this).offset().top;
+      <div class="d-flex justify-content-end">
+        <a href="{% url 'reviews:create' snack.pk %}">
+          <button type="button" class="btn">리뷰작성</button>
+        </a>
+      </div>
+      <!--리뷰 카드-->
+      <!--for문 스낵의 모든 리뷰-->
+      {% for review in reviews %}
+        <div class="row justify-content-center">
+          <div class="review_card m-4 pt-5">
+            <a href="{% url 'reviews:detail' review.pk %}" class="row">
+              <div class="col-7">
+                <!-- 리뷰별 별점 -->
+                {% if review.grade == 5 %}
+                  <h4>⭐⭐⭐⭐⭐</h4>
+                {% elif review.grade == 4 %}
+                  <h4>⭐⭐⭐⭐</h4>
+                {% elif review.grade == 3 %}
+                  <h4>⭐⭐⭐</h4>
+                {% elif review.grade == 2 %}
+                  <h4>⭐⭐</h4>
+                {% elif review.grade == 1 %}
+                  <h4>⭐</h4>
+                {% endif %}
+                <p>{{ review.content}}
+                  <!-- 댓글 개수 -->
+                  <span>
+                    {% if review.comments %}
+                      [{{ review.comments.count }}]
+                    {% endif %}
+                  </span>
+                </p>
+                <!-- 유저 프로필 불러오기 -->
+                <div class="d-flex px-5">
+                  {% if review.user.profile_image %}
+                    <img src="{{ review.user.profile_image.url }}" alt="작성자 프로필 이미지">
+                  {% endif %}
+                  <h3 class="mx-3">작성자:
+                    {{ review.user.username }}</h3>
+                </div>
+              </div>
+              <div class="col-5 text-center" style="display: table; width:400px; height: 350px;">
+                <div style="display: table-cell; vertical-align:middle;">
+                  {% if review.review_image %}
+                    <img src="{{ review.review_image.url }}" style="width:100%;" alt="상품후기 사진">
+                  {% endif %}
+                </div>
+              </div>
+            </a>
+            <p class="position-absolute bottom-0 end-0 mx-3">작성:
+              {% if review.created_string == False %}
+                <small>{{ review.created_at|date:'Y-m-d H:i' }}</small>
+              {% else %}
+                <small>{{ review.created_string }}</small>
+              {% endif %}
+            </p>
+          </div>
+        </div>
+        {% empty %}
+        <h3>아직 작성된 리뷰가 없습니다.</h3>
+      {% endfor %}
+      <!--for문 종료-->
+    </section>
 
-    // 컨테이너 밖으로 마우스가 벗어나면 돋보기를 없앤다.
-    if (mouseX < $(this).width() && mouseY < $(this).height() && mouseX > 0 && mouseY > 0) {
-      magnifier.fadeIn(100);
-    }
-    else {
-      magnifier.fadeOut(100);
-    }
+  {% endblock content %}
+  {% block script %}
+    <!-- 좋아요 비동기 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.1.3/axios.min.js"></script>
+    <script type="text/javascript" src="{% static 'js/좋아요비동기.js' %}"></script>
+    <!-- 디테일 이미지 돋보기 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>
+      //주의 : hTML에서 보여지는 이미지 크기가 본래 이미지 크기보다 작아야 함. ( width , height )
+      window.onload = function () {
+        $(".wrap")
+          .on('mousemove', magnify)
+          .prepend("<div class='magnifier'></div>")
+          .children('.magnifier')
+          .css({
+            "background": "url('" + $(".target").attr("src") + "') no-repeat"
+          });
 
-    //돋보기가 존재할 때
-    if (magnifier.is(":visible")) {
+        var target = $('.target');
+        var magnifier = $('.magnifier');
 
-      /* 이미지에 대한 마우스 포인터 아래의 픽셀 비율(본래 이미지 크기에 대한)을 얻고 
-      이를 사용하여 돋보기 내부에 큰 이미지를 배치한다. */
-      var rx = -(mouseX / target.width() * target[0].naturalWidth - magnifier.width() / 2);
-      var ry = -(mouseY / target.height() * target[0].naturalHeight - magnifier.height() / 2);
+        function magnify(e) {
 
-      //돋보기를 마우스 위치에 따라 움직인다.
-      //돋보기의 width, height 절반을 마우스 좌표에서 차감해 마우스와 돋보기 위치를 일치시킨다.
-      var px = mouseX - magnifier.width() / 2;
-      var py = mouseY - magnifier.height() / 2;
+          // 마우스 위치에서 .magnify의 위치를 차감해 컨테이너에 대한 마우스 좌표를 얻는다.
+          var mouseX = e.pageX - $(this)
+            .offset()
+            .left;
+          var mouseY = e.pageY - $(this)
+            .offset()
+            .top;
 
-      //적용
-      magnifier.css({
-        left: px,
-        top: py,
-        backgroundPosition: rx + "px " + ry + "px"
-      });
-    }
-  }
-};
-</script>
-{% endblock script %}
+          // 컨테이너 밖으로 마우스가 벗어나면 돋보기를 없앤다.
+          if (mouseX < $(this).width() && mouseY < $(this).height() && mouseX > 0 && mouseY > 0) {
+            magnifier.fadeIn(100);
+          } else {
+            magnifier.fadeOut(100);
+          }
+
+          //돋보기가 존재할 때
+          if (magnifier.is(":visible")) {
+
+            /* 이미지에 대한 마우스 포인터 아래의 픽셀 비율(본래 이미지 크기에 대한)을 얻고
+                이를 사용하여 돋보기 내부에 큰 이미지를 배치한다. */
+            var rx = -(mouseX / target.width() * target[0].naturalWidth - magnifier.width() / 2);
+            var ry = -(mouseY / target.height() * target[0].naturalHeight - magnifier.height() / 2);
+
+            //돋보기를 마우스 위치에 따라 움직인다.
+            //돋보기의 width, height 절반을 마우스 좌표에서 차감해 마우스와 돋보기 위치를 일치시킨다.
+            var px = mouseX - magnifier.width() / 2;
+            var py = mouseY - magnifier.height() / 2;
+
+            //적용
+            magnifier.css({
+              left: px,
+              top: py,
+              backgroundPosition: rx + "px " + ry + "px"
+            });
+          }
+        }
+      };
+    </script>
+  {% endblock script %}

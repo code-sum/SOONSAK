@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load django_bootstrap5 %}
+
+{% block content %}
+  <div class="row d-flex justify-content-center align-items-center py-5">
+    <div class="d-flex flex-column justify-content-center align-items-center shadow p-5 rounded-5">
+      <!-- 상단부 영역 -->
+      <div class="text-center">
+        <h1>
+          <i class="bi bi-bookmark-heart-fill" style="color: #FDAFAB;"></i>
+          {{ user.username }}
+          님이 찜한 상품
+        </h1>
+        <h5 class="text-muted">{{ user.likes.count }}개 상품을 찜했습니다.</h3>
+      </div>
+      <!-- 하단부 영역 -->
+      <div class="d-flex flex-row mt-3">
+        {% for i in user.likes.all %}
+          <div class="col-lg-3 mx-1">
+            <div class="banner_img" style="cursor: pointer;" onclick="location.href='#'">
+              {% if i.snack_image %}
+                <img src="{{ i.snack_image.url }}" alt="snack_img" class="review-image-css">
+              {% else %}
+                <img src="{% static 'images/cookies.png' %}" alt="no_snack_img" class="review-image-css">
+              {% endif %}
+              <p class="hover_text">
+                <span>{{ i.name }}</span>
+              </p>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+{% endblock content %}
