@@ -58,14 +58,21 @@
                   {% endif %}
                 </li>
                 <li>
-                  <a href="#">
-                    <i class="fas bi bi-heart-fill"></i>
-                    <i class="fas bi bi-heart-fill"></i>
-                  </a>
+                  {% if request.user.is_authenticated %}
+                    <a href="{% url 'accounts:likelist' request.user.pk %}">
+                      <i class="fas bi bi-heart-fill"></i>
+                      <i class="fas bi bi-heart-fill"></i>
+                    </a>
+                  {% else %}
+                    <a href="{% url 'accounts:login' %}">
+                      <i class="fas bi bi-heart-fill"></i>
+                      <i class="fas bi bi-heart-fill"></i>
+                    </a>
+                  {% endif %}
                 </li>
                 <li>
                   {% if request.user.is_authenticated %}
-                    <a href="{% url 'accounts:detail' user.pk %}">
+                    <a href="{% url 'accounts:detail' request.user.pk %}">
                       <i class="fas bi bi-person-fill"></i>
                       <i class="fas bi bi-person-fill"></i>
                     </a>
@@ -80,8 +87,14 @@
               <!-- Navbar etc. -->
               <div class="menu">
                 {% if request.user.is_authenticated %}
-                  <li>
-                    <a href="{% url 'accounts:detail' request.user.pk %}" class="p-2">{{ request.user.username }}님</a>
+                  <li class="me-3">
+                    {% if request.user.profile_image %}
+                      <span><img src="{{ request.user.profile_image.url }}" style="margin-right: 5px; border-radius: 10rem; width: 2rem; height: 2rem;"></span>
+                    {% else %}
+                      <span><img src="{% static 'images/cookieman.png' %}" style="margin-right: 5px; width: 2rem; height: 2rem;"></span>
+                    {% endif %}
+                    <span class="text-muted" style="font-size: 20px;">{{ request.user.username }}
+                      님</span>
                   </li>
                   <li>
                     <a href="{% url 'accounts:logout' %}" class="p-2">로그아웃</a>

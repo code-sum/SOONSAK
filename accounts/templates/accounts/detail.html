@@ -16,7 +16,7 @@
           {% if user.profile_image %}
             <img src="{{ user.profile_image.url }}" class="rounded-circle" alt="profile_image">
           {% else %}
-            <img src="{% static 'images/cookieman.png' %}" class="rounded-circle" style="width: 200px;" alt="default_profile_image">
+            <img src="{% static 'images/cookieman.png' %}" style="width: 200px;" alt="default_profile_image">
           {% endif %}
         </div>
         <!-- 프로필 상단/이미지 영역 제외 나머지 -->
@@ -109,47 +109,116 @@
         </div>
 
         <!-- 리뷰 버튼 누르면 나오는 목록 -->
-        <div id="myReviewResult" style="display: none;">
+        <div id="myReviewResult" style="display: none; padding-bottom: 2rem;">
           <div class="d-flex flex-column text-center">
             <h4 class="fw-bold">
               <span style="background-color: #D9F1F1;">{{ user.username }}</span>
               님이 작성하신 리뷰</h4>
             <p class="text-muted">{{ user_reviews.count }}개를 작성하였습니다.</p>
-            {% for review in user_reviews %}
-              <p>
-                <a class="text-decoration-none" href="{% url 'reviews:detail' review.pk %}">{{ review.content }}</a>
-              </p>
-            {% endfor %}
+            <div class="d-flex flex-row mt-3">
+              {% for review in user_reviews %}
+                <div class="col-lg-3 mx-1">
+                  <div class="banner_img" style="cursor: pointer;" onclick="location.href='{% url 'reviews:detail' review.pk %}'">
+                    {% if review.review_image %}
+                      <img src="{{ review.review_image.url }}" alt="review_img" class="review-image-css">
+                    {% else %}
+                      <img src="{% static 'images/no-camera.png' %}" alt="no_review_img" class="review-image-css">
+                    {% endif %}
+                    <p class="hover_text">
+                      {% if review.created_string == False %}
+                        <b>{{ review.created_at|date:'Y-m-d' }}</b>
+                        <br>
+                        <span>{{ review.content }}</span>
+                      {% else %}
+                        <b>{{ review.created_string }}</b>
+                        <br>
+                        <span>{{ review.content }}</span>
+                      {% endif %}
+                    </p>
+                  </div>
+                </div>
+              {% endfor %}
+            </div>
           </div>
         </div>
 
         <!-- 댓글 버튼 누르면 나오는 목록 -->
-        <div id="myCommentResult" style="display: none;">
+        <div id="myCommentResult" style="display: none; padding-bottom: 2rem;">
           <div class="d-flex flex-column text-center">
             <h4 class="fw-bold">
               <span style="background-color: #D9F1F1;">{{ user.username }}</span>
               님이 작성하신 댓글</h4>
             <p class="text-muted">{{ user_comments.count }}개를 작성하였습니다.</p>
-            {% for comment in user_comments %}
-              <p>
-                <a class="text-decoration-none" href="{% url 'reviews:detail' comment.review_id %}">{{ comment.content }}</a>
-              </p>
-            {% endfor %}
+            <div class="mt-2">
+              <table class="table table-hover">
+                <thead>
+                  <tr>
+                    <th scope="col">No.</th>
+                    <th scope="col">댓글내용</th>
+                    <th scope="col">작성시간</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for comment in user_comments %}
+                    <tr>
+                      <th scope="row">{{ forloop.counter }}</th>
+                      <td>
+                        <a href="{% url 'reviews:detail' comment.review_id %}" style="color: #81DAF5;">{{ comment.content }}</a>
+                      </td>
+                      <td>
+                        {% if comment.created_string == False %}
+                          <span>{{ comment.created_at|date:'Y-m-d' }}</span>
+                        {% else %}
+                          <span>{{ comment.created_string }}</span>
+                        {% endif %}
+                      </td>
+                    </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
 
-        <!-- 구매내역 누르면 나오는 목록 -->
-        <div id="myOrderResult" style="display: none;">
+        <!-- 구매내역 누르면 나오는 목록 (본인 프로필 페이지 접속했을 때만 보이기) -->
+        <div id="myOrderResult" style="display: none; padding-bottom: 2rem;">
           <div class="d-flex flex-column text-center">
             <h4 class="fw-bold">
               <span style="background-color: #D9F1F1;">{{ user.username }}</span>
               님이 구매하신 상품</h4>
-            <p class="text-muted">{{ user_orders.count }}개를 구매하였습니다.</p>
-            {% for order in user_orders %}
-              <p>
-                <a class="text-decoration-none" href="{% url 'orders:detail' order.user_id %}">{{ order.snack }}</a>
-              </p>
-            {% endfor %}
+            {% if request.user == user %}
+              <p class="text-muted">{{ user_orders.count }}개를 구매하였습니다.</p>
+              <div class="mt-2">
+                <table class="table table-hover">
+                  <thead>
+                    <tr>
+                      <th scope="col">No.</th>
+                      <th scope="col">상품이름</th>
+                      <th scope="col">주문상태</th>
+                      <th scope="col">주문날짜</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for order in user_orders %}
+                      <tr>
+                        <th scope="row">{{ forloop.counter }}</th>
+                        <td>
+                          <a href="{% url 'orders:detail' order.user_id %}" style="color: #81DAF5;">{{ order.snack }}</a>
+                        </td>
+                        <td>
+                          <span>{{ order.order_status }}</span>
+                        </td>
+                        <td>
+                          <span>{{ order.register_data|date:'Y-m-d' }}</span>
+                        </td>
+                      </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            {% else %}
+              <p class="text-muted">본인만 확인할 수 있어요!</p>
+            {% endif %}
           </div>
         </div>
       </div>
