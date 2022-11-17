@@ -15,7 +15,7 @@
       <div class="col-4 d-flex justify-content-center">
         <div class="cart_card_img d-flex justify-content-center align-items-center">
           <a href="{% url 'snacks:detail' cart_item.snack.id %}">
-            {% if snack.snack_image %}
+            {% if cart_item.snack.snack_image %}
             <img src="{{ cart_item.snack.snack_image.url }}" alt="...">
             {% else %}
             <img src="{% static 'images/cookies.png' %}" class="d-block" alt="...">

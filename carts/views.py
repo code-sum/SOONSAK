@@ -47,7 +47,7 @@ def add_cart(request, snack_pk):
 def my_cart(request):
     # 사용자의 장바구니 가져오기 
     cart_items = CartItem.objects.filter(user__id=request.user.pk)
- 
+    print(cart_items)
     # 주문 금액 계산
     total_price = 0
     for each_total in cart_items:
