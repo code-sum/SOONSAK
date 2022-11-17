@@ -126,7 +126,7 @@
                     {% endif %}
                     <p class="hover_text">
                       {% if review.created_string == False %}
-                        <b>{{ review.created_at|date:'Y-m-d H:i' }}</b>
+                        <b>{{ review.created_at|date:'Y-m-d' }}</b>
                         <br>
                         <span>{{ review.content }}</span>
                       {% else %}
@@ -167,7 +167,7 @@
                       </td>
                       <td>
                         {% if comment.created_string == False %}
-                          <span>{{ comment.created_at|date:'Y-m-d H:i' }}</span>
+                          <span>{{ comment.created_at|date:'Y-m-d' }}</span>
                         {% else %}
                           <span>{{ comment.created_string }}</span>
                         {% endif %}
