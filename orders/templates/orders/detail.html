@@ -23,7 +23,7 @@
         {% for order in complete_orders %}
           <tr>
             <td>{{ order.id}}</td>
-            <td>{{ order.snack }}</td>
+            <td> <a href="{% url 'snacks:detail' order.snack.pk %}">{{ order.snack }}</a></td>
             <td>{{ order.quantity }}</td>
             <td>{{ order.total|intcomma }}원</td>
             <td>{{ order.shipping_address }}</td>
