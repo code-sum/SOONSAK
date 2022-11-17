@@ -28,11 +28,14 @@
   <!-- 수정/삭제 버튼 -->
   <div class="d-flex justify-content-end">
     {% if request.user == review.user %}
-      <a href="{% url 'reviews:update' review.pk %}" class="btn btn-primary">리뷰 수정</a>
-      <a href="{% url 'reviews:delete' review.pk %}" class="btn btn-primary" style="margin-left:12px;background-color:#FDAFAB;">리뷰 삭제</a>
+
+      <a href="{% url 'reviews:update' review.pk %}" class="btn">리뷰 수정</a>
+      <a href="{% url 'reviews:delete' review.pk %}" class="btn btn2">리뷰 삭제</a>
+
     {% endif %}
   </div>
 </div>
+
 
 <div class="col-lg mt-5" style="margin-top:250px;">
  
@@ -43,7 +46,7 @@
        {% bootstrap_form comment_form %}
        </div>
     <div class="align-middle p-0 col-2 col-md-3 col-lg-2 text-center"><br>
-       <button style="display:inline-block float:left; padding-top:9px;font-size:18px; margin-left:12px;"type="submit" class="btn btn-primary">댓글 등록</button>
+       <button type="submit" class="btn">댓글 등록</button>
    </div>
   </form>
 
@@ -75,10 +78,11 @@
     {% else %}
     <div class="d-flex">
       <p class="text-muted">{{ comment.created_string }}</p>
+
     </div>
       {% endif %}
     <div class="d-flex justify-content-end">
-      <a style="color:#FDAFAB" href="{% url 'reviews:delete_comment' review.pk comment.pk %}">댓글 삭제</a><br>
+      <a style="color:#FDAFAB" href="{% url 'reviews:delete_comment' review.pk comment.pk %}" class="btn btn2" style="height: 23px;padding: 0px;width: 63px;">댓글 삭제</a><br>
     </div>
     <br><br>
     {% empty %}
