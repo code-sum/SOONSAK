@@ -29,7 +29,7 @@
   <div class="d-flex justify-content-end">
     {% if request.user == review.user %}
       <a href="{% url 'reviews:update' review.pk %}" class="btn btn-primary">리뷰 수정</a>
-      <a href="{% url 'reviews:delete' review.pk %}" class="btn btn-primary">리뷰 삭제</a>
+      <a href="{% url 'reviews:delete' review.pk %}" class="btn btn-primary" style="margin-left:12px;background-color:#FDAFAB;">리뷰 삭제</a>
     {% endif %}
   </div>
 </div>
