@@ -16,7 +16,7 @@
           {% if user.profile_image %}
             <img src="{{ user.profile_image.url }}" class="rounded-circle" alt="profile_image">
           {% else %}
-            <img src="{% static 'images/cookieman.png' %}" class="rounded-circle" style="width: 200px;" alt="default_profile_image">
+            <img src="{% static 'images/cookieman.png' %}" style="width: 200px;" alt="default_profile_image">
           {% endif %}
         </div>
         <!-- 프로필 상단/이미지 영역 제외 나머지 -->
@@ -109,22 +109,41 @@
         </div>
 
         <!-- 리뷰 버튼 누르면 나오는 목록 -->
-        <div id="myReviewResult" style="display: none;">
+        <div id="myReviewResult" style="display: none; padding-bottom: 2rem;">
           <div class="d-flex flex-column text-center">
             <h4 class="fw-bold">
               <span style="background-color: #D9F1F1;">{{ user.username }}</span>
               님이 작성하신 리뷰</h4>
             <p class="text-muted">{{ user_reviews.count }}개를 작성하였습니다.</p>
-            {% for review in user_reviews %}
-              <p>
-                <a class="text-decoration-none" href="{% url 'reviews:detail' review.pk %}">{{ review.content }}</a>
-              </p>
-            {% endfor %}
+            <div class="d-flex flex-row mt-3">
+              {% for review in user_reviews %}
+                <div class="col-lg-3 mx-1">
+                  <div class="banner_img" style="cursor: pointer;" onclick="location.href='{% url 'reviews:detail' review.pk %}'">
+                    {% if review.review_image %}
+                      <img src="{{ review.review_image.url }}" alt="review_img" class="review-image-css">
+                    {% else %}
+                      <img src="{% static 'images/no-camera.png' %}" alt="no_review_img" class="review-image-css">
+                    {% endif %}
+                    <p class="hover_text">
+                      {% if review.created_string == False %}
+                        <b>{{ review.created_at|date:'Y-m-d H:i' }}</b>
+                        <br>
+                        <span>{{ review.content }}</span>
+                      {% else %}
+                        <b>{{ review.created_string }}</b>
+                        <br>
+                        <span>{{ review.content }}</span>
+                      {% endif %}
+                    </p>
+                  </div>
+                </div>
+              {% endfor %}
+            </div>
           </div>
         </div>
 
         <!-- 댓글 버튼 누르면 나오는 목록 -->
-        <div id="myCommentResult" style="display: none;">
+        <div id="myCommentResult" style="display: none; padding-bottom: 2rem;">
           <div class="d-flex flex-column text-center">
             <h4 class="fw-bold">
               <span style="background-color: #D9F1F1;">{{ user.username }}</span>
@@ -139,7 +158,7 @@
         </div>
 
         <!-- 구매내역 누르면 나오는 목록 -->
-        <div id="myOrderResult" style="display: none;">
+        <div id="myOrderResult" style="display: none; padding-bottom: 2rem;">
           <div class="d-flex flex-column text-center">
             <h4 class="fw-bold">
               <span style="background-color: #D9F1F1;">{{ user.username }}</span>
