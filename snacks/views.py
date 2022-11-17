@@ -46,6 +46,8 @@ def index(request):
         "snacks": snacks,
         "snack_id": snack_id,
         "snack_category": snack_category,
+        "snack_like": snack_like,
+        "snack_reviews": snack_reviews,
     }
     return render(request, "snacks/index.html", context)
 

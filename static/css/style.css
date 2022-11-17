@@ -252,6 +252,8 @@ a {
   color: black;
 }
 
+/* 기본버튼 */
+
 .btn {
   background-color: #D9F1F1;
   color: black;
@@ -311,8 +313,8 @@ a {
 }
 
 .magnifier {
-  width: 250px;
-  height: 250px;
+  width: 150px;
+  height: 150px;
   position: absolute;
   border-radius: 100%;
   box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.85), 0 0 3px 3px rgba(0, 0, 0, 0.25);
@@ -420,7 +422,8 @@ a {
   background-image: url(https://cdn.pixabay.com/photo/2013/07/12/19/33/note-154962_960_720.png);
   background-size: 100%;
 }
-.badge-secondary{
+
+.badge-secondary {
   color: black;
   background-color: #FDAFAB;
 }
