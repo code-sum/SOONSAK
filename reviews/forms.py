@@ -17,6 +17,11 @@ class ReviewForm(forms.ModelForm):
         widgets = {
             "grade": starWidget,
         }
+        labels = {
+            "content": "내용",
+            "review_image": "이미지",
+            "grade": "별점"
+        }
 
 class CommentForm(forms.ModelForm):
     class Meta:

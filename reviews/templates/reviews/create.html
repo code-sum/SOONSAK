@@ -1,12 +1,22 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load django_bootstrap5 %}
+
 {% block content %}
-  {% load django_bootstrap5 %}
-  <div class="container">
-    <form action="" method="POST" enctype="multipart/form-data">
-      {% csrf_token %}
-      {% bootstrap_form form %}
-      <button class="btn" type="submit">작성</button>
-    </form>
+
+  <div class="row d-flex justify-content-center align-items-center py-5">
+    <div class="d-flex flex-column justify-content-center align-items-center shadow p-5 rounded-5">
+      <div class="bg-tape">
+        <h1>리뷰작성</h1>
+      </div>
+      <div class="my-4">
+        <form action="" method="POST" enctype="multipart/form-data">
+          {% csrf_token %}
+          {% bootstrap_form form %}
+          <button class="btn" type="submit">작성완료</button>
+        </form>
+      </div>
+    </div>
   </div>
+
 {% endblock %}
