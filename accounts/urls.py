@@ -4,8 +4,6 @@ from . import views
 app_name = 'accounts'
 
 urlpatterns = [
-    # 인덱스
-    path('', views.index, name="index"),
     # 사용자 회원가입
     path('signup/', views.signup, name="signup"),
     # 사용자 로그인
@@ -22,6 +20,8 @@ urlpatterns = [
     path('<int:user_pk>/passwordchange', views.passwordchange, name="passwordchange"),
     # 팔로우
     path('<int:user_pk>/follow/', views.follow, name="follow"),
+    # 찜한상품
+    path('<int:user_pk>/likelist/', views.likelist, name="likelist"),
     # 고객센터
     path('cs/', views.cs, name='cs'),
 ]

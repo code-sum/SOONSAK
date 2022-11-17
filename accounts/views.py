@@ -15,9 +15,6 @@ from django.views.decorators.http import require_POST, require_safe
 from django.http import JsonResponse
 from django.db.models import Count
 
-def index(request):
-    return render(request, 'accounts/index.html')
-
 # 회원가입
 def signup(request):
 
@@ -72,8 +69,6 @@ def detail(request, user_pk):
     user_comments = Comment.objects.filter(user__id=user_pk)
     # 사용자 구매내역
     user_orders = Order.objects.filter(user__id=user_pk)
-    # 사용자가 찜한 상품
-    likes_snacks = Snack.objects.all().filter(likes__id=user_pk)
     # 활동지수(리뷰갯수 + 팔로워수 + 댓글수)
     user_of_reviews = Review.objects.filter(user__id=user_pk).count()
     user_of_followers = User.objects.filter(followings=user.pk).count()
@@ -85,7 +80,6 @@ def detail(request, user_pk):
         'user_reviews': user_reviews,
         'user_orders': user_orders,
         'user_comments':user_comments,
-        'likes_snacks':likes_snacks,
         'active_index':active_index,
     }
     return render(request, 'accounts/detail.html', context)
@@ -155,6 +149,16 @@ def follow(request, user_pk):
             return JsonResponse(context)
         return redirect("accounts:detail", you.username)
     return redirect("accounts:login")
+
+def likelist(request, user_pk):
+    user = get_object_or_404(get_user_model(), pk=user_pk)
+    # 사용자가 찜한 상품
+    likes_snacks = Snack.objects.all().filter(likes__id=user_pk)
+    context = {
+        'user': user,
+        'likes_snacks':likes_snacks,
+    }
+    return render(request, 'accounts/likelist.html', context)
 
 # 고객센터
 def cs(request):
