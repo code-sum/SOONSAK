@@ -393,6 +393,10 @@ a {
   border-radius: 1rem;
 }
 
+.card-text {
+  line-height: 90%;
+}
+
 /* 스낵인덱스 css */
 
 .carousel_div .carousel-item img {
@@ -407,6 +411,11 @@ a {
 
 .carousel .carousel-indicators button {
   background-color: #D9F1F1;
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+  width: 5%;
 }
 
 .carousel button img {

@@ -3,21 +3,28 @@
 {% block content %}
 {% load django_bootstrap5 %}
 
-<div class="container mt-5">
-  <h2>{{ request.user }}님의 주문내역</h2>
+<h2 class="mx-5">{{ request.user }}님의 주문내역</h2>
 
-  {% for cart_item in cart_items %}
-  <!-- 카드 -->
-  <div class="card mb-3" style="max-width: 800px;">
-    <div class="row g-0">
-      <div class="col-md-4">
-        <img src="{{ cart_item.snack.snack_image.url }}" class="img-fluid rounded-start" alt="...">
+{% for cart_item in cart_items %}
+<!-- 카드 -->
+<div class="row justify-content-center">
+  <div class="cart_card mb-3">
+    <div class="row justify-content-around align-items-start">
+      <!-- 이미지 -->
+      <div class="col-4 d-flex justify-content-center">
+        <div class="cart_card_img d-flex justify-content-center align-items-center">
+          <a href="{% url 'snacks:detail' cart_item.snack.id %}">
+            <img src="{{ cart_item.snack.snack_image.url }}" alt="...">
+          </a>
+        </div>
       </div>
-      <div class="col-md-8 d-flex align-items-center">
+      <!-- 주문정보-->
+      <div class="col-8 d-flex align-items-center">
         <!-- 주문 정보 -->
         <div class="card-body">
           <h5 class="card-title">상품명:
             {{ cart_item.snack.name }}</h5>
+          <hr>
           <p class="card-text">상품가격:
             {{ cart_item.snack.price }}원</p>
           <p class="card-text">주문수량:
@@ -28,50 +35,52 @@
             {{ delivery_fee }}원 =
             {{ billing_amount }}원
           </p>
-          <p>(50000원 이상은 배송비: 0원)</p>
+          <p>(50,000원 이상은 배송비: 0원)</p>
         </div>
         <!-- 주문변경 버튼 -->
         <div class="card-body">
           <div class="d-flex justify-content-center">
             <a href="{% url 'carts:my_cart' %}">
-              <button class="">변경하기</button>
+              <button class="btn">변경하기</button>
             </a>
           </div>
         </div>
       </div>
     </div>
   </div>
-  {% empty %}
-  <h4>주문 내역이 없습니다.</h4>
-  <a href="{% url 'carts:my_cart' %}">
-    <button type="button" class="btn btn-outline-primary btn-lg">나의 장바구니</button>
-  </a>
-  {% endfor %}
-  <!-- 배송지 & 결제수단 -->
-
 </div>
+{% empty %}
+<h4 class="mt-5">주문 내역이 없습니다.</h4>
+<a href="{% url 'carts:my_cart' %}">
+  <button type="button" class="btn btn-outline-primary btn-lg">나의 장바구니</button>
+</a>
+{% endfor %}
+<!-- 배송지 & 결제수단 -->
+
 <!-- 주문내역이 없으면 비활성화 -->
 {% if cart_items %}
-<form action="{% url 'orders:order' %}" name="order_form">
-  <div>
-    <div class="mb-3">
-      <label for="exampleFormControlInput1" class="form-label">배송지</label>
-      <input type="text" class="form-control" value="{{ shipping_address }}" style="width:800px"
-        name="shipping_address">
+<div class="d-flex justify-content-center mb-5">
+  <form action="{% url 'orders:order' %}" name="order_form">
+    <div>
+      <div class="mb-3">
+        <label for="exampleFormControlInput1" class="form-label">배송지</label>
+        <input type="text" class="form-control" value="{{ shipping_address }}" style="width:800px"
+          name="shipping_address">
+      </div>
+  
+      <div class="mb-3">
+        <label for="exampleFormControlInput1" class="form-label">연락처</label>
+        <input type="text" class="form-control" value="{{ shipping_phoneNum }}" style="width:800px"
+          name="shipping_phoneNum">
+      </div>
     </div>
-
-    <div class="mb-3">
-      <label for="exampleFormControlInput1" class="form-label">연락처</label>
-      <input type="text" class="form-control" value="{{ shipping_phoneNum }}" style="width:800px"
-        name="shipping_phoneNum">
+    <div class="d-flex justify-content-center mb-5">
+     <button id="order_btn" type="submit" class="btn" style="width: 200px;">결제</button>
     </div>
-  </div>
-  <button id="order_btn" type="submit" class="btn btn-outline-primary btn-lg me-2">결제</button>
-
-  </div>
-</form>
-{% endif %}
+  </form>
 </div>
+{% endif %}
+
 <!-- 결제연동 -->
 <!-- 
 <script src="http://code.jquery.com/jquery-1.12.4.min.js"></script>
