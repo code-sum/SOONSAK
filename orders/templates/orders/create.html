@@ -56,13 +56,14 @@
   <div>
     <div class="mb-3">
       <label for="exampleFormControlInput1" class="form-label">배송지</label>
-      <input type="text" class="form-control" value="{{ shipping_address }}" style="width:800px" id="shipping_address">
+      <input type="text" class="form-control" value="{{ shipping_address }}" style="width:800px"
+        name="shipping_address">
     </div>
 
     <div class="mb-3">
       <label for="exampleFormControlInput1" class="form-label">연락처</label>
       <input type="text" class="form-control" value="{{ shipping_phoneNum }}" style="width:800px"
-        id="shipping_phoneNum">
+        name="shipping_phoneNum">
     </div>
   </div>
   <button id="order_btn" type="submit" class="btn btn-outline-primary btn-lg me-2">결제</button>
