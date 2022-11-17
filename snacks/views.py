@@ -41,7 +41,8 @@ def index(request):
             score += Comment.objects.filter(user__id=user.pk).count()
             tmp_dict[user.pk] = score
 
-    user_index_dict = sorted(tmp_dict.items(), key=lambda item: item[1], reverse=True)
+    user_index_dict = sorted(tmp_dict.items(), key=lambda item: item[1], reverse=True)[0:3]
+    
     context = {
         "snacks": snacks,
         "snack_id": snack_id,
