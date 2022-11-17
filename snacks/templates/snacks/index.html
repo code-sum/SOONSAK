@@ -3,32 +3,8 @@
 {% load humanize %}
 {% block content %}
 {% load django_bootstrap5 %}
-
-
-<!--사이드바 시작 -->
-<div class="sidebar" style="border-radius: 3%;">
-    <!--menu item-->
-    <br>
-    <h2 style="text-align:center; background-color:#FAD4AE">카테고리 선택</h2>
-    <div id="catebar"><br><br>
-        <!-- 사이드바 카테고리 -->
-        <a href="{% url 'snacks:search' '과자' %}" target="">
-            <h3 style="text-align:center; " name="kw">과자</h3>
-        </a><br>
-        <a href="{% url 'snacks:search' '사탕' %}" target="">
-            <h3 style="text-align:center; " name="kw">사탕</h3>
-        </a><br>
-        <a href="{% url 'snacks:search' '초콜릿' %}" target="">
-            <h3 style="text-align:center; " name="kw">초콜릿</h3>
-        </a><br>
-        <a href="{% url 'snacks:search' '해외과자' %}" target="">
-            <h3 style="text-align:center; " name="kw">해외과자</h3>
-        </a><br>
-    </div>
-</div>
-<!-- 사이드바 종료-->
-    
-<section class="row justify-content-end">
+<!-- 활동지수 top3 -->
+<section class="justify-content-end">
     <!-- 카테고리, 제품 등록 -->
     <div class="mt-5 d-grid gap-2 d-md-flex justify-content-center">
         {% if request.user.is_staff %}
@@ -41,6 +17,42 @@
         {% endif %}
     </div>
     <!-- 카테고리, 제품 등록 종료 -->
+<br><br>
+<div class>
+    {% if top1 and top2 and top3 %}
+    <h3>활동지수 top3</h3>
+    <div class="top" style="float: left;">
+        <h5><img style="width: 55px;" src="https://i.esdrop.com/d/f/bvRLlOwptP/tmpENG5GoK.png">{{ top1 }}</h5>
+    </div>
+    <div class="top"style="float: left;">
+        <h5><img style="width: 51px;" src="https://i.esdrop.com/d/f/bvRLlOwptP/G8Jl5tvNb6.png">{{ top2 }}</h5>
+    </div>
+    <div class="top">    
+        <h5><img style="width: 57px;" src="https://i.esdrop.com/d/f/bvRLlOwptP/NLWUtWp7Jv.png">{{ top3 }}</h5>
+    </div>
+    {% else %}
+    <h5>아직 활동지수 집계가 안됐어요ㅜㅜ</h5>
+    {% endif %}
+</div>
+
+
+
+<div class="sidebar" style="border-radius: 3%;">
+    <!--menu item-->
+    <br>
+    <h2 style="text-align:center; background-color:#FAD4AE">카테고리 선택</h2>
+    <div id="catebar"><br><br>
+        <!-- 사이드바 카테고리 -->
+        {% for category in snack_category %}
+        <a href="{% url 'snacks:search' category.category %}" target="">
+            <h3 style="text-align:center; ">{{ category.category }}</h3>
+        </a><br>
+        {% endfor %}
+    </div>
+</div>
+<!-- 사이드바 종료-->
+    
+
 
     <div class="col-11">        
         <!-- top6 캐러셀 -->

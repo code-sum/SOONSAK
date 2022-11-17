@@ -441,3 +441,8 @@ a {
   color: white;
   background-color: #9bd9e1;
 }
+.top{
+  display:flex;
+  flex-direction:row;
+  padding:1rem;
+}
