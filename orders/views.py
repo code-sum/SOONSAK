@@ -55,7 +55,7 @@ def order(request):
 
     cart_items = CartItem.objects.filter(user__id=request.user.pk)
     shipping_address = request.GET.get("shipping_address")
-    contact_number = request.GET.get("contact_number")
+    contact_number = request.GET.get("shipping_phoneNum")
 
     for cart_item in cart_items:
 
