@@ -21,7 +21,7 @@
         <div class="mt-5">
           <h4 class="d-flex justify-content-center">회원가입 없이 소셜 로그인 하기</h4>
           <div class="d-flex justify-content-between mt-3">
-            <a href="{% provider_login_url 'google' %}" class="btn rounded-pill">
+            {% comment %} <a href="{% provider_login_url 'google' %}" class="btn rounded-pill">
               <i class="bi bi-google"></i>
               구글</a>
             <a href="{% provider_login_url 'kakao' %}" class="btn rounded-pill">
@@ -29,7 +29,7 @@
               카카오</a>
             <a href="{% provider_login_url 'naver' %}" class="btn rounded-pill">
               <i class="bi bi-link-45deg"></i>
-              네이버</a>
+              네이버</a> {% endcomment %}
           </div>
         </div>
       </div>
