@@ -5,34 +5,6 @@
 {% load django_bootstrap5 %}
 <!-- 활동지수 top3 -->
 <section class="row justify-content-end">
-    <!-- 카테고리, 제품 등록 -->
-    <div class="mt-5 d-grid gap-2 d-md-flex justify-content-center" style="font-size:15px; margin-right: 10px;">
-        {% if request.user.is_staff %}
-        <a href="{% url 'snacks:category_create' %}" class="btn">카테고리등록</a>
-        <a href="{% url 'snacks:create' %}" class="btn">제품등록</a>
-        <a href="{% url 'orders:order_list' %}" class="btn">주문 내역 관리</a>
-        {% endif %}
-    </div>
-    <!-- 카테고리, 제품 등록 종료 -->
-    <br><br>
-    <div class>
-        {% if top1 and top2 and top3 %}
-        <h3>활동지수 top3</h3>
-        <div class="top" style="float: left;">
-            <h5><img style="width: 55px;" src="https://i.esdrop.com/d/f/bvRLlOwptP/tmpENG5GoK.png">{{ top1 }}</h5>
-        </div>
-        <div class="top" style="float: left;">
-            <h5><img style="width: 51px;" src="https://i.esdrop.com/d/f/bvRLlOwptP/G8Jl5tvNb6.png">{{ top2 }}</h5>
-        </div>
-        <div class="top">
-            <h5><img style="width: 57px;" src="https://i.esdrop.com/d/f/bvRLlOwptP/NLWUtWp7Jv.png">{{ top3 }}</h5>
-        </div>
-        {% else %}
-        <h5>아직 활동지수 집계가 안됐어요ㅜㅜ</h5>
-        {% endif %}
-    </div>
-
-
 
     <div class="sidebar" style="border-radius: 3%;">
         <!--menu item-->
@@ -52,6 +24,33 @@
 
 
     <div class="col-11">
+            <!-- 카테고리, 제품 등록 -->
+        <div class="mt-5 d-grid gap-2 d-md-flex justify-content-center" style="font-size:15px; margin-right: 10px;">
+            {% if request.user.is_staff %}
+            <a href="{% url 'snacks:category_create' %}" class="btn">카테고리등록</a>
+            <a href="{% url 'snacks:create' %}" class="btn">제품등록</a>
+            <a href="{% url 'orders:order_list' %}" class="btn">주문 내역 관리</a>
+            {% endif %}
+        </div>
+        <!-- 카테고리, 제품 등록 종료 -->
+        <br><br>
+        <div class>
+            {% if top1 and top2 and top3 %}
+            <h3>활동지수 top3</h3>
+            <div class="top" style="float: left;">
+                <h5><img style="width: 55px;" src="https://i.esdrop.com/d/f/bvRLlOwptP/tmpENG5GoK.png">{{ top1 }}</h5>
+            </div>
+            <div class="top" style="float: left;">
+                <h5><img style="width: 51px;" src="https://i.esdrop.com/d/f/bvRLlOwptP/G8Jl5tvNb6.png">{{ top2 }}</h5>
+            </div>
+            <div class="top">
+                <h5><img style="width: 57px;" src="https://i.esdrop.com/d/f/bvRLlOwptP/NLWUtWp7Jv.png">{{ top3 }}</h5>
+            </div>
+            {% else %}
+            <h5>아직 활동지수 집계가 안됐어요ㅜㅜ</h5>
+            {% endif %}
+        </div>
+
         <!-- top6 캐러셀 -->
         <div id="carouselExampleIndicators_top6" class="carousel slide mt-3" style="width: 100%; height: 320px;"
             data-bs-ride="false">
