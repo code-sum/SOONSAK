@@ -7,6 +7,10 @@ from django.core.validators import RegexValidator
 class User(AbstractUser):
 
     pass
+    # 소셜 로그인
+    kakao_id = models.BigIntegerField(null=True, unique=True)
+    naver_id = models.CharField(null=True, unique=True, max_length=100)
+    # googld_id = models.CharField(null=True, unique=True, max_length=50)
     # 회원가입 주소
     address = models.CharField(max_length=250)
     # 회원가입 연락처

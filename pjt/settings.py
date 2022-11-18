@@ -47,12 +47,7 @@ INSTALLED_APPS = [
     'storages',
     'django_cleanup.apps.CleanupConfig',
     'imagekit',
-    'allauth',
-    'allauth.account',
-    'allauth.socialaccount',
-    'allauth.socialaccount.providers.google',
-    'allauth.socialaccount.providers.kakao',
-    'allauth.socialaccount.providers.naver',
+    'django.contrib.sites',
     'django.contrib.humanize',
     'django_bootstrap5',
     'django.contrib.admin',
@@ -204,7 +199,3 @@ AUTHENTICATION_BACKENDS = (
     'allauth.account.auth_backends.AuthenticationBackend',
 )
 SITE_ID = 1
-
-# LOGIN_REDIRECT_URL = '/'  # 로그인 후 리다이렉트 될 경로
-# ACCOUNT_LOGOUT_REDIRECT_URL = reverse_lazy('accountapp:login')  
-# ACCOUNT_LOGOUT_ON_GET = True
