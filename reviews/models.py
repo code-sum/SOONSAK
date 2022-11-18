@@ -17,7 +17,7 @@ class Review(models.Model):
     review_image = ProcessedImageField(
         upload_to="images/reviews/",
         blank=True,
-        # processors=[ResizeToFill(300, 480)],
+        processors=[ResizeToFill(400, 400)],
         format="JPEG",
         options={"quality": 80},
     )
