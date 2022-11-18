@@ -34,13 +34,14 @@
           <span id="like-count">{{ snack.likes.count}}</span>
         </h4>
       </div>
-
-      <div class="wrap mx-5" id="magny">
-        {% if snack.snack_image %}
+      <div class="row justify-content-center">
+        <div class="wrap mx-5" id="magny">
+          {% if snack.snack_image %}
           <img class="target" src="{{ snack.snack_image.url }}" alt="{{ snack.name }}_이미지">
-        {% else %}
-          <img src="{% static 'images/cookies.png' %}" class="d-block" alt="...">
-        {% endif %}
+          {% else %}
+          <img src="{% static 'images/cookies.png' %}" class="d-block target" alt="...">
+          {% endif %}
+        </div>
       </div>
     </div>
 
@@ -127,7 +128,7 @@
                   {% endif %}
                 </div>
                 <!-- 유저 프로필 불러오기 -->
-                <div class="d-flex px-5 mt-3">
+                <div class="d-flex align-items-start px-5 mt-3">
                   {% if review.user.profile_image %}
                     <img src="{{ review.user.profile_image.url }}" alt="작성자 프로필 이미지">
                   {% else %}
@@ -136,22 +137,27 @@
                   <h3 class="mx-3 d-flex align-items-center my-0">작성자:
                     {{ review.user.username }}</h3>
                 </div>
-                <div class="mt-3 px-5">
-                  <h3>
-                    {{ review.content}}
+                <div class="d-flex justify-content-center mt-3 px-5">
+                  <!-- 리뷰 내용 -->
+                  <div class="row">
+                    <div class="card_content">
+                      <h3>{{ review.content}}</h3>
+                    </div>
                     <!-- 댓글 개수 -->
-                    <span>
+                    <p class="d-grid justify-content-end">
                       {% if review.comments %}
-                        [{{ review.comments.count }}]
+                        댓글: {{ review.comments.count }}개
                       {% endif %}
-                    </span>
-                  </h3>
+                    </p>
+                  </div>
                 </div>
               </div>
               <div class="col-5 text-center" style="display: table; width:400px; height: 350px;">
                 <div style="display: table-cell; vertical-align:middle;">
                   {% if review.review_image %}
                     <img src="{{ review.review_image.url }}" style="width:100%;" alt="상품후기 사진">
+                    {% else %}
+                    <img src="{% static 'images/no-camera.png' %}" style="width: 50px; height: 50px; border-radius: 500px" alt="default_profile_image">
                   {% endif %}
                 </div>
               </div>
