@@ -343,9 +343,6 @@ a {
 }
 
 .card_content {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
   width: 450px;
   height: 100px;
 }
@@ -353,8 +350,9 @@ a {
 .card_content h3 {
   overflow: hidden;
   text-overflow: ellipsis;
-  white-space: nowrap;
-  height: 100px;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
 }
 
 /* 사이드바2 시작 */
