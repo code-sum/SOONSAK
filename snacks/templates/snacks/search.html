@@ -5,12 +5,12 @@
 
 {% block content %}
 
-  <div class="row d-flex justify-content-center align-items-center py-5">
-    <div class="d-flex flex-column justify-content-center align-items-center shadow p-5 rounded-5">
+  <!--<div class="row d-flex justify-content-center align-items-center py-5">-->
+    <div class="justify-content-center align-items-center shadow p-5 rounded-5">
       <div>
         <h1 style="width: 600px; background-color: #FAD4AE; height: 50px; margin-bottom:20px; text-align:center;">검색 결과가 인기순으로 보여집니다</h1>
       </div>
-      <div class="my-4">
+      <div class="row">
         {% for snack in snacks %}
           <div class="col-4 p-5 d-flex">
             <a href="{% url 'snacks:detail' snack.pk %}">
