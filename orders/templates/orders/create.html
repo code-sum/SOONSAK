@@ -72,13 +72,13 @@
       <div class="mb-3">
         <label for="exampleFormControlInput1" class="form-label">배송지</label>
         <input type="text" class="form-control" value="{{ shipping_address }}" style="width:800px"
-          id="shipping_address" required >
+          name="shipping_address" required >
       </div>
 
       <div class="mb-3">
         <label for="exampleFormControlInput1" class="form-label">연락처</label>
         <input type="text" class="form-control" value="{{ shipping_phoneNum }}" style="width:800px"
-          id="shipping_phoneNum" required >
+          name="shipping_phoneNum" required >
       </div>
     </div>
     <div class="d-flex justify-content-center mb-5">
@@ -88,7 +88,7 @@
 </div>
 {% endif %}
 
-{% comment %} 결제연동 {% endcomment %}
+<!-- 결제연동
 
 <script src="http://code.jquery.com/jquery-1.12.4.min.js"></script>
 <script src="http://service.iamport.kr/js/iamport.payment-1.1.5.js"></script>
@@ -138,5 +138,5 @@
       alert(msg);
     });
   });
-</script>
+</script> -->
 {% endblock %}
