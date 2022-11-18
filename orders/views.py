@@ -84,9 +84,13 @@ def order(request):
 # 주문 상세
 def detail(request, user_pk):
     # 결제 완료된 주문들
-    complete_orders = Order.objects.filter(
+    user_orders = (Order.objects.filter(
         user__id=user_pk, order_status="결제완료"
-    ).order_by("-register_data")
+    ) | Order.objects.filter(
+        user__id=user_pk, order_status="배송 준비중"
+    ) | Order.objects.filter(
+        user__id=user_pk, order_status="배송완료"
+    )).order_by('-register_data')
     # 취소된 주문들
     cancel_orders = Order.objects.filter(
         user__id=user_pk, order_status="취소주문"
@@ -99,7 +103,7 @@ def detail(request, user_pk):
             accumulated_amount += int(order.snack.price * order.quantity)
 
     context = {
-        "complete_orders": complete_orders,
+        "user_orders": user_orders,
         "cancel_orders": cancel_orders,
         "accumulated_amount": accumulated_amount,
     }
