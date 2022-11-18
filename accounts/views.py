@@ -1,7 +1,11 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import User
 from django.contrib.auth.forms import PasswordChangeForm
-from .forms import CustomUserCreationForm, CustomUserChangeForm, CustomPasswordChangeForm
+from .forms import (
+    CustomUserCreationForm,
+    CustomUserChangeForm,
+    CustomPasswordChangeForm,
+)
 from django.contrib.auth import authenticate, update_session_auth_hash, get_user_model
 from django.contrib.auth import login as user_login
 from django.contrib.auth import logout as user_logout
@@ -18,44 +22,49 @@ from django.db.models import Count
 # 회원가입
 def signup(request):
 
-    if request.method == 'POST':
+    if request.method == "POST":
         form = CustomUserCreationForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
             user = form.save(commit=False)
-            user.address = request.POST.get('postcode') + request.POST.get('address') + request.POST.get('detailAddress') + request.POST.get('extraAddress')
+            user.address = (
+                request.POST.get("postcode")
+                + request.POST.get("address")
+                + request.POST.get("detailAddress")
+                + request.POST.get("extraAddress")
+            )
             user.save()
-            
-            # 자동 로그인 
+
+            # 자동 로그인
             username = form.cleaned_data.get("username")
             password = form.cleaned_data.get("password1")
             user = authenticate(username=username, password=password)
             user_login(request, user)
-            return redirect('/')
-        
+            return redirect("/")
+
     else:
         form = CustomUserCreationForm()
-    
-    context = {
-        'form':form
-    }
-    return render(request, 'accounts/signup.html', context)
+
+    context = {"form": form}
+    return render(request, "accounts/signup.html", context)
+
 
 # 로그인
 def login(request):
 
-    if request.method == 'POST':
+    if request.method == "POST":
         form = AuthenticationForm(request, data=request.POST)
         if form.is_valid():
             user_login(request, form.get_user())
-            return redirect('/')
+            return redirect("/")
     else:
         form = AuthenticationForm()
 
-    context ={
-        'form':form,
+    context = {
+        "form": form,
     }
-    return render(request, 'accounts/login.html', context)
+    return render(request, "accounts/login.html", context)
+
 
 # 로그아웃
 def logout(request):
@@ -63,6 +72,7 @@ def logout(request):
     user_logout(request)
 
     return redirect("/")
+
 
 # 회원 상세 정보
 def detail(request, user_pk):
@@ -72,21 +82,22 @@ def detail(request, user_pk):
     # 사용자가 작성한 댓글
     user_comments = Comment.objects.filter(user__id=user_pk)
     # 사용자 구매내역
-    user_orders = Order.objects.filter(user__id=user_pk).order_by('-register_data')
+    user_orders = Order.objects.filter(user__id=user_pk).order_by("-register_data")
     # 활동지수(리뷰갯수 + 팔로워수 + 댓글수)
     user_of_reviews = Review.objects.filter(user__id=user_pk).count()
     user_of_followers = User.objects.filter(followings=user.pk).count()
     user_of_comments = Comment.objects.filter(user__id=user_pk).count()
     active_index = user_of_reviews + user_of_followers + user_of_comments
-    
+
     context = {
-        'user': user,
-        'user_reviews': user_reviews,
-        'user_orders': user_orders,
-        'user_comments':user_comments,
-        'active_index':active_index,
+        "user": user,
+        "user_reviews": user_reviews,
+        "user_orders": user_orders,
+        "user_comments": user_comments,
+        "active_index": active_index,
     }
-    return render(request, 'accounts/detail.html', context)
+    return render(request, "accounts/detail.html", context)
+
 
 # 회원 프로필 수정
 def update(request, user_pk):
@@ -96,17 +107,23 @@ def update(request, user_pk):
         if form.is_valid():
             form.save()
             user = form.save(commit=False)
-            user.address = request.POST.get('postcode') + request.POST.get('address') + request.POST.get('detailAddress') + request.POST.get('extraAddress')
+            user.address = (
+                request.POST.get("postcode")
+                + request.POST.get("address")
+                + request.POST.get("detailAddress")
+                + request.POST.get("extraAddress")
+            )
             user.save()
-            return redirect('accounts:detail', user_pk)
+            return redirect("accounts:detail", user_pk)
 
     else:
         form = CustomUserChangeForm(instance=request.user)
     context = {
-        'form':form,
+        "form": form,
     }
 
-    return render(request, 'accounts/update.html', context)
+    return render(request, "accounts/update.html", context)
+
 
 # 회원 탈퇴
 def delete(request, user_pk):
@@ -114,13 +131,13 @@ def delete(request, user_pk):
     user = User.objects.get(pk=user_pk)
     user.delete()
     user_logout(request)
-    return redirect('/')    
+    return redirect("/")
 
 
 # 회원 비밀번호 변경
 @login_required
-def passwordchange(request, user_pk):    
-    if request.method == 'POST':
+def passwordchange(request, user_pk):
+    if request.method == "POST":
         form = CustomPasswordChangeForm(request.user, request.POST)
         if form.is_valid():
             form.save()
@@ -130,9 +147,10 @@ def passwordchange(request, user_pk):
     else:
         form = CustomPasswordChangeForm(request.user)
     context = {
-        'form':form,
+        "form": form,
     }
-    return render(request, 'accounts/passwordchange.html', context)
+    return render(request, "accounts/passwordchange.html", context)
+
 
 # 팔로우
 @require_POST
@@ -157,23 +175,26 @@ def follow(request, user_pk):
         return redirect("accounts:detail", you.username)
     return redirect("accounts:login")
 
+
 def likelist(request, user_pk):
     user = get_object_or_404(get_user_model(), pk=user_pk)
     # 사용자가 찜한 상품
     likes_snacks = Snack.objects.all().filter(likes__id=user_pk)
     context = {
-        'user': user,
-        'likes_snacks':likes_snacks,
+        "user": user,
+        "likes_snacks": likes_snacks,
     }
-    return render(request, 'accounts/likelist.html', context)
+    return render(request, "accounts/likelist.html", context)
+
 
 # 고객센터
 def cs(request):
-    return render(request, 'accounts/cs.html')
+    return render(request, "accounts/cs.html")
 
 
 # 소셜 로그인 연동
 import secrets, requests
+
 state_token = secrets.token_urlsafe(16)
 
 # 카카오 로그인
@@ -182,6 +203,7 @@ def kakao_request(request):
     redirect_uri = "http://soonsak-env.eba-rnwyi2s3.ap-northeast-2.elasticbeanstalk.com/accounts/login/kakao/callback"
     client_id = "e354ba53e1c46a96b9483564296d7ca9"  # 배포시 보안적용 해야함
     return redirect(f"{kakao_api}&client_id={client_id}&redirect_uri={redirect_uri}")
+
 
 def kakao_callback(request):
     data = {
@@ -212,8 +234,9 @@ def kakao_callback(request):
         kakao_login_user.set_password(str(state_token))
         kakao_login_user.save()
         kakao_user = get_user_model().objects.get(kakao_id=kakao_id)
-    user_login(request, kakao_user, 'django.contrib.auth.backends.ModelBackend')
+    user_login(request, kakao_user, "django.contrib.auth.backends.ModelBackend")
     return redirect(request.GET.get("next") or "/")
+
 
 # 네이버 로그인
 def naver_request(request):
@@ -225,6 +248,7 @@ def naver_request(request):
         f"{naver_api}&client_id={client_id}&redirect_uri={redirect_uri}&state={state_token}"
     )
 
+
 def naver_callback(request):
     data = {
         "grant_type": "authorization_code",
@@ -235,7 +259,9 @@ def naver_callback(request):
         "redirect_uri": "http://soonsak-env.eba-rnwyi2s3.ap-northeast-2.elasticbeanstalk.com/accounts/login/naver/callback",
     }
     naver_token_request_url = "https://nid.naver.com/oauth2.0/token"
-    access_token = requests.post(naver_token_request_url, data=data).json()["access_token"]
+    access_token = requests.post(naver_token_request_url, data=data).json()[
+        "access_token"
+    ]
 
     headers = {"Authorization": f"bearer {access_token}"}
     naver_call_user_api = "https://openapi.naver.com/v1/nid/me"
@@ -254,8 +280,9 @@ def naver_callback(request):
         naver_login_user.set_password(str(state_token))
         naver_login_user.save()
         naver_user = get_user_model().objects.get(naver_id=naver_id)
-    user_login(request, naver_user, 'django.contrib.auth.backends.ModelBackend')
+    user_login(request, naver_user, "django.contrib.auth.backends.ModelBackend")
     return redirect(request.GET.get("next") or "/")
+
 
 # # 구글 로그인
 # def google_request(request):
