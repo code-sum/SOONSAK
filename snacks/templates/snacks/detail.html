@@ -34,13 +34,14 @@
           <span id="like-count">{{ snack.likes.count}}</span>
         </h4>
       </div>
-
-      <div class="wrap mx-5" id="magny">
-        {% if snack.snack_image %}
+      <div class="row justify-content-center">
+        <div class="wrap mx-5" id="magny">
+          {% if snack.snack_image %}
           <img class="target" src="{{ snack.snack_image.url }}" alt="{{ snack.name }}_이미지">
-        {% else %}
-          <img src="{% static 'images/cookies.png' %}" class="d-block" alt="...">
-        {% endif %}
+          {% else %}
+          <img src="{% static 'images/cookies.png' %}" class="d-block target" alt="...">
+          {% endif %}
+        </div>
       </div>
     </div>
 

@@ -307,7 +307,7 @@ a {
 }
 
 .wrap {
-  width: 450px;
+  width: 300px;
   position: relative;
   margin: 0 auto;
 }
@@ -352,6 +352,18 @@ a {
   text-overflow: ellipsis;
   display: -webkit-box;
   -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+.comment_area {
+  height: 600px;
+}
+
+.comment_area_item {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
   -webkit-box-orient: vertical;
 }
 
@@ -435,6 +447,10 @@ a {
   height: 30px;
 }
 
+.wrap_img {
+  width: 250px;
+}
+
 /* accounts h1 태그 배경 이미지 */
 
 .bg-tape {
@@ -514,4 +530,9 @@ a {
   color: #fff;
   z-index: 20;
   font-size: 20px;
+}
+
+.card_img {
+  width: 300px;
+  height: 300px;
 }
