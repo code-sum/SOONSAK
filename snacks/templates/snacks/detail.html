@@ -139,9 +139,9 @@
                 <div class="d-flex justify-content-center mt-3 px-5">
                   <!-- 리뷰 내용 -->
                   <div class="row">
-                    <h3 style="width: 450px;height: 100px;">
-                      {{ review.content}}
-                    </h3>
+                    <div class="card_content">
+                      <h3>{{ review.content}}</h3>
+                    </div>
                     <!-- 댓글 개수 -->
                     <p class="d-grid justify-content-end">
                       {% if review.comments %}
