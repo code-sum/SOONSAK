@@ -179,7 +179,7 @@ state_token = secrets.token_urlsafe(16)
 # 카카오 로그인
 def kakao_request(request):
     kakao_api = "https://kauth.kakao.com/oauth/authorize?response_type=code"
-    redirect_uri = "http://localhost:8000/accounts/login/kakao/callback"
+    redirect_uri = "http://soonsak-env.eba-rnwyi2s3.ap-northeast-2.elasticbeanstalk.com/accounts/login/kakao/callback"
     client_id = "e354ba53e1c46a96b9483564296d7ca9"  # 배포시 보안적용 해야함
     return redirect(f"{kakao_api}&client_id={client_id}&redirect_uri={redirect_uri}")
 
@@ -187,7 +187,7 @@ def kakao_callback(request):
     data = {
         "grant_type": "authorization_code",
         "client_id": "e354ba53e1c46a96b9483564296d7ca9",  # 배포시 보안적용 해야함
-        "redirect_uri": "http://localhost:8000/accounts/login/kakao/callback",
+        "redirect_uri": "http://soonsak-env.eba-rnwyi2s3.ap-northeast-2.elasticbeanstalk.com/accounts/login/kakao/callback",
         "code": request.GET.get("code"),
     }
     kakao_token_api = "https://kauth.kakao.com/oauth/token"
@@ -219,7 +219,7 @@ def kakao_callback(request):
 def naver_request(request):
     naver_api = "https://nid.naver.com/oauth2.0/authorize?response_type=code"
     client_id = "FuDxFWBVKojR52KP2ndd"  # 배포시 보안적용 해야함
-    redirect_uri = "http://localhost:8000/accounts/login/naver/callback"
+    redirect_uri = "http://soonsak-env.eba-rnwyi2s3.ap-northeast-2.elasticbeanstalk.com/accounts/login/naver/callback"
     state_token = secrets.token_urlsafe(16)
     return redirect(
         f"{naver_api}&client_id={client_id}&redirect_uri={redirect_uri}&state={state_token}"
@@ -232,7 +232,7 @@ def naver_callback(request):
         "client_secret": "8canpavPj_",
         "code": request.GET.get("code"),
         "state": request.GET.get("state"),
-        "redirect_uri": "http://localhost:8000/accounts/login/naver/callback",
+        "redirect_uri": "http://soonsak-env.eba-rnwyi2s3.ap-northeast-2.elasticbeanstalk.com/accounts/login/naver/callback",
     }
     naver_token_request_url = "https://nid.naver.com/oauth2.0/token"
     access_token = requests.post(naver_token_request_url, data=data).json()["access_token"]
