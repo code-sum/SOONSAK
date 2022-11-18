@@ -6,6 +6,7 @@ from django.db import transaction
 from django.utils import timezone
 from reviews.models import Review, Comment
 from django.contrib.auth import get_user_model
+
 User = get_user_model()
 
 # 주문생성
@@ -47,8 +48,9 @@ def create(request):
             "billing_amount": billing_amount,
         }
         return render(request, "orders/create.html", context)
-    else: 
-        return redirect('/')
+    else:
+        return redirect("/")
+
 
 # 주문 완료
 def order(request):
@@ -73,7 +75,7 @@ def order(request):
             order.save()
 
             snack.stock -= int(quantity)
-           # snack.save()
+            snack.save()
 
     cart_items.delete()
     return render(request, "orders/orderComplete.html")
