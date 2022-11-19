@@ -284,53 +284,53 @@ def naver_callback(request):
     return redirect(request.GET.get("next") or "/")
 
 
-# # 구글 로그인
-# def google_request(request):
-#     google_api = "https://accounts.google.com/o/oauth2/v2/auth"
-#     client_id = "184916314988-t244n3si5jvjidlulkuucmh1jclrkvfo.apps.googleusercontent.com"  # 배포시 보안적용 해야함
-#     redirect_uri = "http://localhost:8000/accounts/login/google/callback"
-#     google_base_url = "https://www.googleapis.com/auth"
-#     google_email = "/userinfo.email"
-#     google_myinfo = "/userinfo.profile"
-#     scope = f"{google_base_url}{google_email}+{google_base_url}{google_myinfo}"
-#     return redirect(
-#         f"{google_api}?client_id={client_id}&response_type=code&redirect_uri={redirect_uri}&scope={scope}"
-#     )
+# 구글 로그인
+def google_request(request):
+    google_api = "https://accounts.google.com/o/oauth2/v2/auth"
+    client_id = "184916314988-t244n3si5jvjidlulkuucmh1jclrkvfo.apps.googleusercontent.com"  # 배포시 보안적용 해야함
+    redirect_uri = "http://localhost:8000/accounts/login/google/callback"
+    google_base_url = "https://www.googleapis.com/auth"
+    google_email = "/userinfo.email"
+    google_myinfo = "/userinfo.profile"
+    scope = f"{google_base_url}{google_email}+{google_base_url}{google_myinfo}"
+    return redirect(
+        f"{google_api}?client_id={client_id}&response_type=code&redirect_uri={redirect_uri}&scope={scope}"
+    )
 
-# def google_callback(request):
-#     data = {
-#         "code": request.GET.get("code"),
-#         "state": request.GET.get("state"),
-#         "grant_type": "authorization_code",
-#         "client_id": "184916314988-t244n3si5jvjidlulkuucmh1jclrkvfo.apps.googleusercontent.com",  # 배포시 보안적용 해야함
-#         "client_secret": "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",
-#         "redirect_uri": "http://localhost:8000/accounts/login/google/callback",
-#     }
-#     google_token_request_url = "https://oauth2.googleapis.com/token"
-#     access_token = requests.post(google_token_request_url, data=data).json()[
-#         "access_token"
-#     ]
-#     params = {
-#         "access_token": f"{access_token}",
-#     }
-#     google_call_user_api = "https://www.googleapis.com/oauth2/v3/userinfo"
-#     google_user_information = requests.get(google_call_user_api, params=params).json()
+def google_callback(request):
+    data = {
+        "code": request.GET.get("code"),
+        "state": request.GET.get("state"),
+        "grant_type": "authorization_code",
+        "client_id": "184916314988-t244n3si5jvjidlulkuucmh1jclrkvfo.apps.googleusercontent.com",  # 배포시 보안적용 해야함
+        "client_secret": "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",
+        "redirect_uri": "http://localhost:8000/accounts/login/google/callback",
+    }
+    google_token_request_url = "https://oauth2.googleapis.com/token"
+    access_token = requests.post(google_token_request_url, data=data).json()[
+        "access_token"
+    ]
+    params = {
+        "access_token": f"{access_token}",
+    }
+    google_call_user_api = "https://www.googleapis.com/oauth2/v3/userinfo"
+    google_user_information = requests.get(google_call_user_api, params=params).json()
 
-#     googld_id = google_user_information["sub"]
-#     googld_name = google_user_information["name"]
-#     googld_email = google_user_information["email"]
-#     googld_picture = google_user_information["picture"]
-#     print(googld_id)
-#     if get_user_model().objects.filter(googld_id=googld_id).exists():
-#         google_user = get_user_model().objects.get(googld_id=googld_id)
-#     else:
-#         google_login_user = get_user_model()()
-#         google_login_user.username = googld_name
-#         google_login_user.email = googld_email
-#         google_login_user.social_profile_picture = googld_picture
-#         google_login_user.googld_id = googld_id
-#         google_login_user.set_password(str(state_token))
-#         google_login_user.save()
-#         google_user = get_user_model().objects.get(googld_id=googld_id)
-#     user_login(request, google_user,  'django.contrib.auth.backends.ModelBackend')
-#     return redirect(request.GET.get("next") or "/")
+    googld_id = google_user_information["sub"]
+    googld_name = google_user_information["name"]
+    googld_email = google_user_information["email"]
+    googld_picture = google_user_information["picture"]
+    print(googld_id)
+    if get_user_model().objects.filter(googld_id=googld_id).exists():
+        google_user = get_user_model().objects.get(googld_id=googld_id)
+    else:
+        google_login_user = get_user_model()()
+        google_login_user.username = googld_name
+        google_login_user.email = googld_email
+        google_login_user.social_profile_picture = googld_picture
+        google_login_user.googld_id = googld_id
+        google_login_user.set_password(str(state_token))
+        google_login_user.save()
+        google_user = get_user_model().objects.get(googld_id=googld_id)
+    user_login(request, google_user,  'django.contrib.auth.backends.ModelBackend')
+    return redirect(request.GET.get("next") or "/")
