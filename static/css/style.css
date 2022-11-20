@@ -110,7 +110,7 @@ ul li a:hover:before {
   height: 50px;
   width: 300px;
   margin-left: 170px;
-  top: 28%;
+  top: 25%;
   left: 80%;
   transform: translate(-50%, -50%);
 }
