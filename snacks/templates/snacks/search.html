@@ -15,9 +15,13 @@
           <div class="col-4 p-5 d-flex">
             <a href="{% url 'snacks:detail' snack.pk %}">
               {% if snack.snack_image %}
-                <img src="{{ snack.snack_image.url }}" class="card-img-top" alt="스낵이미지">
+                <div class="banner_img">
+                  <img src="{{ snack.snack_image.url }}" class="card-img-top" alt="스낵이미지">
+                </div>
               {% else %}
-                <img class="profile" style="width:100%; height:300px;" src="https://i.esdrop.com/d/t/bvRLlOwptP/2jK4vs4YjI.jpg" alt="스낵디폴트">
+                <div class="banner_img">
+                  <img class="profile" style="width:100%; height:300px;" src="https://i.esdrop.com/d/t/bvRLlOwptP/2jK4vs4YjI.jpg" alt="스낵디폴트">
+                </div>
               {% endif %}
 
               <h3 class="card-text" style="text-align:center; margin:5px; text-decoration:none; color:black; margin-top: 12px;">
