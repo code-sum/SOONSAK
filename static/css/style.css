@@ -560,3 +560,65 @@ a {
   width: 300px;
   height: 300px;
 }
+
+
+/* accounts/login.html 구글 소셜로그인 버튼 css */
+
+.button {
+  width: 183px;
+  height: 45px;
+  display: flex;
+  justify-content: center;
+  padding: 0 15px 0 15px;
+  border: 0 none;
+  border-radius: 5px;
+  text-decoration: none;
+  transition: all 250ms linear;
+  margin-left: 12px;
+}
+.button:hover {
+  text-decoration: none;
+  color: #fff;
+}
+
+.button--social-login {
+  margin-bottom: 7px;
+  margin-right: 12px;
+  color: white;
+  height: 50px;
+  line-height: 46px;
+  position: relative;
+  text-align: left;
+}
+.button--social-login .icon {
+  margin-right: 12px;
+  font-size: 24px;
+  line-height: 24px;
+  width: 42px;
+  height: 24px;
+  text-align: center;
+  display: inline-block;
+  position: relative;
+  top: 4px;
+}
+.button--social-login .icon:before {
+  display: inline-block;
+  width: 40px;
+}
+.button--social-login .icon:after {
+  content: "";
+}
+
+.button--google {
+  background-color: #3F85F4;
+  border: 1px solid #0f66f1;
+}
+.button--google .icon {
+  border-right: 1px solid #0f66f1;
+}
+.button--google .icon:after {
+  border-right: 1px solid #6fa4f7;
+}
+.button--google:hover {
+  background-color: #2776f3;
+}
