@@ -29,3 +29,6 @@ class CommentForm(forms.ModelForm):
         fields = [
             'content',
         ]
+        labels = {
+            "content": "댓글"
+        }

@@ -76,7 +76,9 @@
               <!-- 카테고리 등록 -->
               <a href="{% url 'snacks:category_create' %}" class="btn rounded-pill me-2" type="submit">카테고리 등록</a>
               <!-- 제품등록 -->
-              <a href="{% url 'snacks:create' %}" class="btn rounded-pill" type="submit">제품 등록</a>
+              <a href="{% url 'snacks:create' %}" class="btn rounded-pill me-2" type="submit">제품 등록</a>
+              <!-- 주문내역 관리 -->
+              <a href="{% url 'orders:order_list' %}" class="btn rounded-pill">주문내역 관리</a>
             {% endif %}
           </div>
         </div>
