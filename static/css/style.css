@@ -485,8 +485,9 @@ a {
 }
 
 .badge-secondary {
-  color: black;
-  background-color: #FDAFAB;
+  color: rgb(255, 255, 255);
+  background-image: url(https://i.pinimg.com/originals/7c/36/80/7c3680f8a53fbac84dfb4a7f0c1f1942.gif);
+  margin-left: 5px;
 }
 
 .badge-primary {
