@@ -354,11 +354,12 @@ a {
 
 .review_card {
   width: 90%;
-  height: 500px;
+  height: auto;
   background-color: #FAF1D6;
   border-radius: 1rem;
   padding: 1rem;
   position: relative;
+  margin-bottom: 3rem;
 }
 
 .review_card img {
