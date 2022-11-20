@@ -244,6 +244,30 @@ ul li a:hover:before {
   transform: translate(-100%, -50%);
 }
 
+/* base.html 맨 위로 올라가기 버튼 */
+
+.scrollToTop {
+  all: unset;
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+  position: fixed;
+  right: 30px;
+  bottom: 30px;
+  color:#FDAFAB;
+  }
+
+.scrollToTop:hover {
+  all: unset;
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+  position: fixed;
+  right: 30px;
+  bottom: 30px;
+  color:#B6E3E9;
+}
+
 a {
   text-decoration: none;
 }
