@@ -110,7 +110,7 @@ ul li a:hover:before {
   height: 50px;
   width: 300px;
   margin-left: 170px;
-  top: 28%;
+  top: 25%;
   left: 80%;
   transform: translate(-50%, -50%);
 }
@@ -244,6 +244,30 @@ ul li a:hover:before {
   transform: translate(-100%, -50%);
 }
 
+/* base.html 맨 위로 올라가기 버튼 */
+
+.scrollToTop {
+  all: unset;
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+  position: fixed;
+  right: 30px;
+  bottom: 30px;
+  color:#FDAFAB;
+  }
+
+.scrollToTop:hover {
+  all: unset;
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+  position: fixed;
+  right: 30px;
+  bottom: 30px;
+  color:#B6E3E9;
+}
+
 a {
   text-decoration: none;
 }
@@ -330,11 +354,12 @@ a {
 
 .review_card {
   width: 90%;
-  height: 500px;
+  height: auto;
   background-color: #FAF1D6;
   border-radius: 1rem;
   padding: 1rem;
   position: relative;
+  margin-bottom: 3rem;
 }
 
 .review_card img {
@@ -461,8 +486,9 @@ a {
 }
 
 .badge-secondary {
-  color: black;
-  background-color: #FDAFAB;
+  color: rgb(255, 255, 255);
+  background-image: url(https://i.pinimg.com/originals/7c/36/80/7c3680f8a53fbac84dfb4a7f0c1f1942.gif);
+  margin-left: 5px;
 }
 
 .badge-primary {
@@ -535,4 +561,66 @@ a {
 .card_img {
   width: 300px;
   height: 300px;
+}
+
+
+/* accounts/login.html 구글 소셜로그인 버튼 css */
+
+.button {
+  width: 183px;
+  height: 45px;
+  display: flex;
+  justify-content: center;
+  padding: 0 15px 0 15px;
+  border: 0 none;
+  border-radius: 5px;
+  text-decoration: none;
+  transition: all 250ms linear;
+  margin-left: 12px;
+}
+.button:hover {
+  text-decoration: none;
+  color: #fff;
+}
+
+.button--social-login {
+  margin-bottom: 7px;
+  margin-right: 12px;
+  color: white;
+  height: 50px;
+  line-height: 46px;
+  position: relative;
+  text-align: left;
+}
+.button--social-login .icon {
+  margin-right: 12px;
+  font-size: 24px;
+  line-height: 24px;
+  width: 42px;
+  height: 24px;
+  text-align: center;
+  display: inline-block;
+  position: relative;
+  top: 4px;
+}
+.button--social-login .icon:before {
+  display: inline-block;
+  width: 40px;
+}
+.button--social-login .icon:after {
+  content: "";
+}
+
+.button--google {
+  background-color: #3F85F4;
+  border: 1px solid #0f66f1;
+}
+.button--google .icon {
+  border-right: 1px solid #0f66f1;
+}
+.button--google .icon:after {
+  border-right: 1px solid #6fa4f7;
+}
+.button--google:hover {
+  background-color: #2776f3;
 }
