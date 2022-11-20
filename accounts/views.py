@@ -288,7 +288,7 @@ def naver_callback(request):
 def google_request(request):
     google_api = "https://accounts.google.com/o/oauth2/v2/auth"
     client_id = "184916314988-t244n3si5jvjidlulkuucmh1jclrkvfo.apps.googleusercontent.com"  # 배포시 보안적용 해야함
-    redirect_uri = "http://localhost:8000/accounts/login/google/callback"
+    redirect_uri = "https://soonsak-env.eba-rnwyi2s3.ap-northeast-2.elasticbeanstalk.com/accounts/login/google/callback"
     google_base_url = "https://www.googleapis.com/auth"
     google_email = "/userinfo.email"
     google_myinfo = "/userinfo.profile"
@@ -304,7 +304,7 @@ def google_callback(request):
         "grant_type": "authorization_code",
         "client_id": "184916314988-t244n3si5jvjidlulkuucmh1jclrkvfo.apps.googleusercontent.com",  # 배포시 보안적용 해야함
         "client_secret": "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",
-        "redirect_uri": "http://localhost:8000/accounts/login/google/callback",
+        "redirect_uri": "https://soonsak-env.eba-rnwyi2s3.ap-northeast-2.elasticbeanstalk.com/accounts/login/google/callback",
     }
     google_token_request_url = "https://oauth2.googleapis.com/token"
     access_token = requests.post(google_token_request_url, data=data).json()[
