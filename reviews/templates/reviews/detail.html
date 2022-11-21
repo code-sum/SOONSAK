@@ -4,93 +4,112 @@
 {% load django_bootstrap5 %}
 
 {% block content %}
-  <div class="d-flex">
-    <div class="col-lg">
-      <!-- 사용자 프로필 -->
-      <p>
-        <a style="color:black;" href="{% url 'accounts:detail' review.user.pk %}">
-          {% if review.user.profile_image %}
-            <img src="{{ review.user.profile_image.url }}" alt="작성자 프로필 이미지" style="width: 50px; height: 50px; border-radius: 500px">
-          {% else %}
-            <img src="{% static 'images/cookieman.png' %}" style="width: 50px; height: 50px; border-radius: 500px" alt="default_profile_image">
-          {% endif %}
-          {{ review.user.username }}</a>
-      </p>
-      <!-- 작성 시간 -->
-      {% if review.created_string == False %}
-        <small style="margin-right:40px;" class="d-flex justify-content-end">{{ review.created_at|date:'Y-m-d H:i' }}</small>
-      {% else %}
-        <small style="margin-right:40px;" class="d-flex justify-content-end">{{ review.created_string }}</small>
-      {% endif %}
-      <!-- 리뷰 내용 -->
-      <h3>
-        {{ star}}</h3>
-      {% if review.review_image %}
-        <img src="{{ review.review_image.url }}" alt="">
-      {% endif %}
-      <h5 style="margin-top:12px;">{{ review.content }}</h5>
-      <!-- 수정/삭제 버튼 -->
-      <div class="d-flex justify-content-end">
-        {% if request.user == review.user %}
-
-          <a href="{% url 'reviews:update' review.pk %}" class="btn">리뷰 수정</a>
-          <a href="{% url 'reviews:delete' review.pk %}" class="btn btn2">리뷰 삭제</a>
-
-        {% endif %}
-      </div>
-    </div>
-
-    <div class="col-lg mt-5" style="margin-top:250px;">
-
-      <!-- 댓글 등록 부분-->
-      <form action="{% url 'reviews:add_comment' review.pk %}" class=" m-sm-0 p-sm-0 container container-sm-none container-md row" style="width:600px; height:100px float:left;" method="POST">
-        {% csrf_token %}
-        <div class="align-middle p-0 col-10 col-md-9 col-lg-10 rounded-pill">
-          {% bootstrap_form comment_form %}
-        </div>
-        <div class="align-middle p-0 col-2 col-md-3 col-lg-2 text-center"><br>
-          <button type="submit" class="btn">등록</button>
-        </div>
-      </form>
-
-      <br><br>
-      <!--프로필부분-->
-      {% for comment in review.comments.all %}
-        <div class="d-flex">
-          <br><br>
-          <p>
-            <a style="color:black;" href="{% url 'accounts:detail' comment.user.pk %}">
-              {% if comment.user.profile_image %}
-                <img src="{{ comment.user.profile_image.url }}" alt="작성자 프로필 이미지" style="margin-right:7px;width: 25px; height: 25px; border-radius: 500px">
+  <div class="row d-flex py-5">
+    <div class="d-flex shadow p-5 rounded-5">
+      <div class="col-lg">
+        <!-- 좌측 레이아웃 -->
+        <div class="d-flex flex-column">
+          <!-- 사용자 프로필 -->
+          <h3>
+            <a style="color:black;" href="{% url 'accounts:detail' review.user.pk %}">
+              {% if review.user.profile_image %}
+                <img src="{{ review.user.profile_image.url }}" alt="작성자 프로필 이미지" style="width: 50px; height: 50px; border-radius: 500px">
               {% else %}
-                <img src="{% static 'images/cookieman.png' %}" style="width: 25px; height: 25px; border-radius: 500px" alt="default_profile_image">
+                <img src="{% static 'images/cookieman.png' %}" style="width: 50px; height: 50px; border-radius: 500px" alt="default_profile_image">
               {% endif %}
-              <div>
-                <h4>{{ comment.user}}</h4>
+              <span class="ms-2">{{ review.user.username }}</span></a>
+          </h2>
+          <!-- 리뷰 이미지&내용 -->
+          <h3 class="my-2">
+            {{ star}}</h3>
+          <div class="d-flex flex-column">
+            {% if review.review_image %}
+              <div class="d-flex">
+                <img src="{{ review.review_image.url }}" class="img-thumbnail" style="width: 400px;" alt="review_img">
               </div>
-            </a>
+            {% else %}
+              <div class="d-flex">
+                <img src="{% static 'images/no-camera.png' %}" class="img-thumbnail" style="width: 400px;" alt="review_img">
+              </div>
+            {% endif %}
+            <div class="d-flex me-3">
+              <h5 style="margin-top:12px;">{{ review.content }}</h5>
+            </div>
+            <div class="me-3 mb-3">
+              <!-- 작성 시간 -->
+              {% if review.created_string == False %}
+                <small style="margin-right:40px;" class="d-flex justify-content-end">{{ review.created_at|date:'Y-m-d H:i' }}</small>
+              {% else %}
+                <small style="margin-right:40px;" class="d-flex justify-content-end">{{ review.created_string }}</small>
+              {% endif %}
+            </div>
           </div>
-          <span>
-            <h4>{{ comment.content }}</h4>
-          </span>
-        </p>
+          <!-- 수정/삭제 버튼 -->
+          <div class="d-flex justify-content-end me-5">
+            {% if request.user == review.user %}
 
-        {% if comment.created_string == False %}
+              <a href="{% url 'reviews:update' review.pk %}" class="btn me-2">리뷰 수정</a>
+              <a href="{% url 'reviews:delete' review.pk %}" class="btn btn2">리뷰 삭제</a>
 
-          <p class="text-muted">{{ comment.created_at|date:'Y-m-d H:i' }}</p>
-        {% else %}
-          <div class="d-flex">
-            <p class="text-muted">{{ comment.created_string }}</p>
-
+            {% endif %}
           </div>
-        {% endif %}
-        <div class="d-flex justify-content-end">
-          <a style="height: 23px;padding: 0px;width: 63px;" href="{% url 'reviews:delete_comment' review.pk comment.pk %}" class="btn btn2">삭제</a><br>
         </div>
+      </div>
+
+      <!-- 우측 레이아웃 -->
+      <div class="col-lg mt-5" style="margin-top:250px;">
+        <!-- 댓글 등록 부분-->
+        <form action="{% url 'reviews:add_comment' review.pk %}" class=" m-sm-0 p-sm-0 container container-sm-none container-md row" style="width:600px; height:100px float:left;" method="POST">
+          {% csrf_token %}
+          <div class="align-middle p-0 col-10 col-md-9 col-lg-10 rounded-pill">
+            {% bootstrap_form comment_form %}
+          </div>
+          <div class="align-middle p-0 col-2 col-md-3 col-lg-2 text-center"><br>
+            <button type="submit" class="btn">등록</button>
+          </div>
+        </form>
+
         <br><br>
-        {% empty %}
-        <h1>아직 댓글이 없습니다.</h1>
-      {% endfor %}
+        <!--프로필부분-->
+        {% for comment in review.comments.all %}
+          <div class="d-flex">
+            <br>
+            <hr>
+            <p>
+              <a style="color:black;" href="{% url 'accounts:detail' comment.user.pk %}">
+                {% if comment.user.profile_image %}
+                  <img src="{{ comment.user.profile_image.url }}" alt="작성자 프로필 이미지" style="margin-right:7px;width: 25px; height: 25px; border-radius: 500px">
+                {% else %}
+                  <img src="{% static 'images/cookieman.png' %}" style="width: 25px; height: 25px; border-radius: 500px" alt="default_profile_image">
+                {% endif %}
+                <div>
+                  <p>{{ comment.user}}</p>
+                </div>
+              </a>
+            </div>
+            <span>
+              <p>{{ comment.content }}</p>
+            </span>
+          </p>
+
+          {% if comment.created_string == False %}
+
+            <p class="text-muted">{{ comment.created_at|date:'Y-m-d H:i' }}</p>
+          {% else %}
+            <div class="d-flex">
+              <p class="text-muted">{{ comment.created_string }}</p>
+
+            </div>
+          {% endif %}
+          <div class="d-flex justify-content-end">
+            <a href="{% url 'reviews:delete_comment' review.pk comment.pk %}" class="btn btn-sm btn2">삭제</a><br>
+          </div>
+          <br>
+          {% empty %}
+          <hr>
+          <p class="mt-5 text-center">아직 작성된 댓글이 없습니다.</p>
+        {% endfor %}
+      </div>
     </div>
   </div>
 

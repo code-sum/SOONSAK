@@ -17,14 +17,14 @@
   {% endif %}
 
   <section class="row gx-3">
-    <!--카테고리/제품명/제품이미지-->
+    <!-- 카테고리/제품명/제품이미지 -->
     <h4 class="mx-2">카테고리 >
       {{ snack.category }}</h4>
 
     <div class="col-lg-7">
       <div class="d-flex mx-4 mt-3 align-items-center">
         <h1>{{ snack.name }}</h1>
-        <!--상품 찜하기 , 찜하기 취소-->
+        <!-- 상품 찜하기, 찜하기 취소 -->
         <h4 class="mx-4" style="color: #FDAFAB;">
           {% if request.user in snack.likes.all %}
             <i class="bi bi-bookmark-heart-fill" id="likeBtn" data-snack-id="{{ snack.pk }}"></i>
@@ -54,11 +54,11 @@
         <h4 class="d-grid gap-2 d-md-flex justify-content-md-end">
           {% if request.user.is_staff %}
             <!-- 제품수정 -->
-            <a href="{% url 'snacks:update' snack.pk %}" style="color: #B6E3E9;">
+            <a href="{% url 'snacks:update' snack.pk %}" style="color: #FAD4AE;">
               <i class="bi bi-pencil-square"></i>
             </a>
             <!-- 제품삭제 -->
-            <a href="{% url 'snacks:delete' snack.pk %}" style="color: red;">
+            <a href="{% url 'snacks:delete' snack.pk %}" style="color: #FAD4AE;">
               <i class="bi bi-trash"></i>
             </a>
           {% endif %}
@@ -86,19 +86,20 @@
       </table>
       <div class="Cart_form">
         {% if snack.stock != 0 %}
-        <form method="POST" action="{% url 'carts:add_cart' snack.pk %}">
-          {% csrf_token %}
-          {% bootstrap_form form %}
+          <form method="POST" action="{% url 'carts:add_cart' snack.pk %}">
+            {% csrf_token %}
+            {% bootstrap_form form %}
 
-          <div class="d-grid gap-2 d-md-flex justify-content-end">
-            <button type="submit" class="btn">바로 주문</button>
-            <button type="submit" class="btn">장바구니에 담기</button>
-          </div>
-        </form>
+            <div class="d-grid gap-2 d-md-flex justify-content-end">
+              <button type="submit" class="btn">바로 주문</button>
+              <button type="submit" class="btn">장바구니에 담기</button>
+            </div>
+          </form>
         {% else %}
-        <div class="d-grid gap-2 d-md-flex justify-content-center">
-          <h4 class="badge badge-secondary" style="padding:5px;font-size:30px">품절</h4>
-        </div>
+          <div class="d-grid gap-2 d-md-flex justify-content-center">
+
+            <h3 class="px-2 badge badge-dark" style="margin-left:5px;padding:5px;font-size:25px">품절</h3>
+          </div>
         {% endif %}
       </div>
     </div>
@@ -108,7 +109,7 @@
       <!-- 리뷰 작성 버튼 -->
 
       <div class="d-flex justify-content-end mb-5">
-        <a href="{% url 'reviews:create' snack.pk %}" class="btn rounded-pill">리뷰쓰기</a>
+        <a href="{% url 'reviews:create' snack.pk %}" class="btn rounded-pill me-3">리뷰쓰기</a>
       </div>
       <!--리뷰 카드-->
       <!--for문 스낵의 모든 리뷰-->
@@ -116,7 +117,7 @@
         <div class="row justify-content-center">
           <div class="review_card py-5">
             <a href="{% url 'reviews:detail' review.pk %}" class="row text-dark justify-content-around">
-              <div class="col-7">
+              <div class="col-7 bg-light rounded-4 pt-4 ps-4 text-muted">
                 <div>
                   <!-- 리뷰별 별점 -->
                   {% if review.grade == 5 %}
@@ -147,11 +148,11 @@
                     <div class="card_content">
                       <h5>{{ review.content}}</h5>
                     </div>
-                    <!-- 댓글 개수 -->
+                    <!-- 리뷰 작성시간 -->
                     <div class="d-flex justify-content-end mt-3 me-5">
                       <p>
                         {% if review.created_string == False %}
-                          <span>{{ review.created_at|date:' y-m-d="Y-m-d" H:i' }}</span>
+                          <span>{{ review.created_at|date:'Y-m-d' }}</span>
                         {% else %}
                           <span>{{ review.created_string }}</span>
                         {% endif %}
@@ -164,9 +165,9 @@
               <div class="col-5" style="display: table; width:300px; height: 300px;">
                 <div style="display: table-cell; vertical-align:middle;">
                   {% if review.review_image %}
-                    <img src="{{ review.review_image.url }}" style="width:100%;" alt="상품후기 사진">
+                    <img src="{{ review.review_image.url }}" style="width:300px;" alt="상품후기 사진">
                   {% else %}
-                    <img src="{% static 'images/no-camera.png' %}" style="width: 50px; height: 50px; border-radius: 500px" alt="default_profile_image">
+                    <img src="{% static 'images/no-camera.png' %}" style="width: 300px;" alt="default_profile_image">
                   {% endif %}
                 </div>
               </div>

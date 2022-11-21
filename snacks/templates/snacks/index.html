@@ -24,12 +24,12 @@
     <div class="col-11">
       <!-- 카테고리, 제품 등록 종료 -->
       <br><br>
-      <div class="d-flex flex-column justify-content-end">
+      <div class="d-flex flex-column text-center border rounded-pill mt-3 mb-5">
         {% if top1 and top2 and top3 %}
-          <div>
+          <div class="mt-4">
             <h3>활동지수 Top 3</h3>
           </div>
-          <div class="d-flex flex-row">
+          <div class="d-flex flex-row justify-content-center">
             <div class="top" style="float: left;">
               <h5><img style="width: 55px;" src="https://i.esdrop.com/d/f/bvRLlOwptP/tmpENG5GoK.png">{{ top1 }}</h5>
             </div>
@@ -46,8 +46,8 @@
       </div>
 
       <!-- top6 캐러셀 -->
-      <div id="carouselExampleIndicators_top6" class="carousel slide mt-3" style="width: 100%; height: 320px;" data-bs-ride="false">
-        <h1 class="text-center mb-3">Top 6</h1>
+      <div id="carouselExampleIndicators_top6" class="carousel slide mt-5" style="width: 100%; height: 320px;" data-bs-ride="false">
+        <h1 class="text-center mb-3">순삭랭킹 Top 6</h1>
         <div class="carousel-indicators">
           <button type="button" data-bs-target="#carouselExampleIndicators_top6" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
           <button type="button" data-bs-target="#carouselExampleIndicators_top6" data-bs-slide-to="1" aria-label="Slide 2"></button>
@@ -162,8 +162,14 @@
                 </h3>
                 <div class="card-text a_title" style="text-align:center; text-decoration:none; color:black; font-size:20px;">
                   {{snack.price|intcomma}}원
-                  {% if 10 >= snack.stock %}
-                    <h4 class="badge badge-secondary" style="padding:5px;font-size:18px">품절임박</h4>
+                  
+                  {% if 0 == snack.stock %}
+                  <h4 class="badge badge-dark" style="margin-left:5px;padding:5px;font-size:18px">품절</h4>
+                  {% elif 10 >= snack.stock %}
+                  <h4 class="badge badge-secondary" style="padding:5px;font-size:18px">품절임박</h4>
+                  {% else %}
+
+                    
                   {% endif %}
                 </div>
               </a>

@@ -29,9 +29,14 @@
               </h3>
               <div class="card-text a_title" style="text-align:center; text-decoration:none; color:black; font-size:20px;">
                 {{snack.price}}원
-                {% if 10 >= snack.stock %}
-                  <h4 class="badge badge-secondary" style="padding:5px;font-size:18px">품절임박</h4>
+
+                {% if 0 == snack.stock %}
+                <h4 class="badge badge-dark" style="margin-left:5px;padding:5px;font-size:18px">품절</h4>
+                {% elif 10 >= snack.stock %}
+                <h4 class="badge badge-secondary" style="padding:5px;font-size:18px">품절임박</h4>
+                {% else %}
                 {% endif %}
+              
               </div>
             </a>
           </div>
