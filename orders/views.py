@@ -57,7 +57,7 @@ def order(request):
 
     cart_items = CartItem.objects.filter(user__id=request.user.pk)
     shipping_address = request.GET.get("shipping_address")
-    contact_number = request.GET.get("shipping_phoneNum")
+    contact_number = request.GET.get("contact_number")
 
     for cart_item in cart_items:
 
@@ -84,13 +84,11 @@ def order(request):
 # 주문 상세
 def detail(request, user_pk):
     # 결제 완료된 주문들
-    user_orders = (Order.objects.filter(
-        user__id=user_pk, order_status="결제완료"
-    ) | Order.objects.filter(
-        user__id=user_pk, order_status="배송 준비중"
-    ) | Order.objects.filter(
-        user__id=user_pk, order_status="배송완료"
-    )).order_by('-register_data')
+    user_orders = (
+        Order.objects.filter(user__id=user_pk, order_status="결제완료")
+        | Order.objects.filter(user__id=user_pk, order_status="배송 준비중")
+        | Order.objects.filter(user__id=user_pk, order_status="배송완료")
+    ).order_by("-register_data")
     # 취소된 주문들
     cancel_orders = Order.objects.filter(
         user__id=user_pk, order_status="취소주문"
