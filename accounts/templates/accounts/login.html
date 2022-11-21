@@ -20,13 +20,13 @@
         <div class="mt-4">
           <h4 class="d-flex justify-content-center">간편 로그인</h4>
           <div class="d-flex flex-column text-center mt-3">
-            <a href="{% url 'accounts:login' %}google" class="button button--social-login button--google">
+            {% comment %} <a href="{% url 'accounts:login' %}google" class="button button--social-login button--google">
               <i class="bi bi-google"></i>
-              <span class="ms-2">구글 로그인</span></a>
+              <span class="ms-2">구글 로그인</span></a> {% endcomment %}
             <a href="{% url 'accounts:login' %}kakao" class="mb-2">
               <img src="{% static 'images/kakao_login.png' %}" alt="kakao"></a>
-            <a href="{% url 'accounts:login' %}naver">
-              <img src="{% static 'images/naver_login.png' %}" alt="naver"></a>
+            {% comment %} <a href="{% url 'accounts:login' %}naver">
+              <img src="{% static 'images/naver_login.png' %}" alt="naver"></a> {% endcomment %}
           </div>
         </div>
       </div>
