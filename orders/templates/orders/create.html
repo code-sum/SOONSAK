@@ -127,7 +127,7 @@
     }, function (rsp) {
       if (rsp.success) {
         var msg = '결제가 완료되었습니다.';
-        msg += '결제 금액 : ' + rsp.paid_amount;
+        msg += '결제 금액 : ' + rsp.paid_amount +'원';
         location.href = "/orders/order/?shipping_address=" + shipping_address.value + "&contact_number=" + shipping_phoneNum.value;
 
       }
