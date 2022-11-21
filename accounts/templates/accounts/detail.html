@@ -32,7 +32,7 @@
                 <form id="follow-form" data-user-id="{{ user.pk }}">
                   {% csrf_token %}
                   {% if request.user in user.followers.all %}
-                    <input type="submit" class="btn2" value="팔로우 취소">
+                    <input type="submit" class="btn btn2" value="팔로우 취소">
                   {% else %}
                     <input type="submit" class="btn" value="팔로우">
                   {% endif %}
@@ -45,10 +45,11 @@
             <div class="me-5" style="font-size: 20px;">활동지수
               <b>{{ active_index }}</b>
             </div>
-            <div class="me-5" style="font-size: 20px;">팔로워
+            <!-- 팔로워 박스 누르면 팔로워 목록 모달로 이동 -->
+            <div class="me-5" style="font-size: 20px; cursor: pointer;" data-bs-toggle="modal" data-bs-target="#exampleModal">팔로워
               <b id="followers-count">{{ user.followers.all|length }}</b>
             </div>
-            <div style="font-size: 20px;">팔로잉
+            <div style="font-size: 20px; cursor: pointer;" data-bs-toggle="modal" data-bs-target="#exampleModal2">팔로잉
               <b id="followings-count">{{ user.followings.all|length }}</b>
             </div>
           </div>
@@ -228,6 +229,59 @@
     </div>
   </div>
 
+  <!-- 팔로워 리스트 모달 -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">팔로워</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body d-flex flex-column">
+          {% for follower in user_followers %}
+            <div class="my-1">
+              <a href="{% url 'accounts:detail' follower.pk %}">
+                {% if follower.profile_image %}
+                  <img src="{{ follower.profile_image.url }}" style="width: 50px; border-radius: 50px;" alt="follower_profile">
+                {% else %}
+                  <img src="{% static 'images/cookieman.png' %}" style="width: 50px;" alt="default_follower_profile">
+                {% endif %}
+                <span class="ms-2" style="color: black;">{{ follower.username }}</span></a>
+            </div>
+            {% empty %}
+            <p>아직 팔로워가 없어요</p>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 팔로잉 리스트 모달 -->
+  <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModal2Label" aria-hidden="true">
+    <div class="modal-dialog modal-sm modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModal2Label">팔로잉</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body d-flex flex-column">
+          {% for following in user_followings %}
+            <div class="my-1">
+              <a href="{% url 'accounts:detail' following.pk %}">
+                {% if following.profile_image %}
+                  <img src="{{ following.profile_image.url }}" style="width: 50px; border-radius: 50px;" alt="following_profile">
+                {% else %}
+                  <img src="{% static 'images/cookieman.png' %}" style="width: 50px;" alt="default_following_profile">
+                {% endif %}
+                <span class="ms-2" style="color: black;">{{ following.username }}</span></a>
+            </div>
+            {% empty %}
+            <p>아직 팔로잉하는 회원이 없어요</p>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
 {% endblock content %}
 
 {% block script %}

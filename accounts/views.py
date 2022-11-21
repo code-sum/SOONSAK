@@ -83,6 +83,10 @@ def detail(request, user_pk):
     user_comments = Comment.objects.filter(user__id=user_pk)
     # 사용자 구매내역
     user_orders = Order.objects.filter(user__id=user_pk).order_by("-register_data")
+    # 사용자의 팔로워 목록
+    user_followers = user.followers.order_by("pk")
+    # 사용자의 팔로잉 목록
+    user_followings = user.followings.order_by("pk")
     # 활동지수(리뷰갯수 + 팔로워수 + 댓글수)
     user_of_reviews = Review.objects.filter(user__id=user_pk).count()
     user_of_followers = User.objects.filter(followings=user.pk).count()
@@ -94,6 +98,8 @@ def detail(request, user_pk):
         "user_reviews": user_reviews,
         "user_orders": user_orders,
         "user_comments": user_comments,
+        "user_followers": user_followers,
+        "user_followings": user_followings,
         "active_index": active_index,
     }
     return render(request, "accounts/detail.html", context)
