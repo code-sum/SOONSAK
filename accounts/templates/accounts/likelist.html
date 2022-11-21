@@ -15,18 +15,18 @@
         <h5 class="text-muted">{{ user.likes.count }}개 상품을 찜했습니다.</h3>
       </div>
       <!-- 하단부 영역 -->
-      <div class="d-flex flex-wrap mt-3">
+      <div class="d-flex flex-wrap mt-3" style="width: 1200px;">
         {% for i in user.likes.all %}
-          <div class="col-4">
-            <div class="banner_img" style="cursor: pointer;" onclick="location.href='{% url 'snacks:detail' i.pk %}'">
-              {% if i.snack_image %}
-                <img src="{{ i.snack_image.url }}" alt="snack_img" class="review-image-css">
-              {% else %}
-                <img src="{% static 'images/cookies.png' %}" alt="no_snack_img" class="review-image-css">
-              {% endif %}
-              <p class="hover_text">
-                <span>{{ i.name }}</span>
-              </p>
+          <div class="col-3 mt-1">
+              <div class="banner_img" style="cursor: pointer;" onclick="location.href='{% url 'snacks:detail' i.pk %}'">
+                {% if i.snack_image %}
+                  <img src="{{ i.snack_image.url }}" alt="snack_img" class="review-image-css">
+                {% else %}
+                  <img src="{% static 'images/cookies.png' %}" alt="no_snack_img" class="review-image-css">
+                {% endif %}
+                <p class="hover_text">
+                  <span>{{ i.name }}</span>
+                </p>
             </div>
           </div>
         {% endfor %}
