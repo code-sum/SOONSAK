@@ -85,6 +85,7 @@
         </tbody>
       </table>
       <div class="Cart_form">
+        {% if snack.stock != 0 %}
         <form method="POST" action="{% url 'carts:add_cart' snack.pk %}">
           {% csrf_token %}
           {% bootstrap_form form %}
@@ -94,6 +95,11 @@
             <button type="submit" class="btn">장바구니에 담기</button>
           </div>
         </form>
+        {% else %}
+        <div class="d-grid gap-2 d-md-flex justify-content-center">
+          <h4 class="badge badge-secondary" style="padding:5px;font-size:30px">품절</h4>
+        </div>
+        {% endif %}
       </div>
     </div>
     <!-- 리뷰 -->
