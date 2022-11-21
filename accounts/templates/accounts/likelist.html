@@ -17,7 +17,7 @@
       <!-- 하단부 영역 -->
       <div class="d-flex flex-wrap mt-3">
         {% for i in user.likes.all %}
-          <div class="col-lg-3">
+          <div class="col-4">
             <div class="banner_img" style="cursor: pointer;" onclick="location.href='{% url 'snacks:detail' i.pk %}'">
               {% if i.snack_image %}
                 <img src="{{ i.snack_image.url }}" alt="snack_img" class="review-image-css">
