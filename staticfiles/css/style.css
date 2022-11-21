@@ -490,7 +490,10 @@ a {
   background-image: url(https://i.pinimg.com/originals/7c/36/80/7c3680f8a53fbac84dfb4a7f0c1f1942.gif);
   margin-left: 5px;
 }
-
+.badge-dark{
+  color:white;
+  background-color:black;
+}
 .badge-primary {
   color: white;
   background-color: #9bd9e1;
