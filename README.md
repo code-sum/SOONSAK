@@ -4,11 +4,15 @@
 >
 > 제작 기간 : 2022-11-09 ~ 2022-11-21
 >
-> 팀 구성 : 16팀 SOONSAK (이동영, 이순철, 강문주, 박상준, 한가을, 이수경)
+> 팀 구성 : 16팀 SOONSAK / 이동영, 이순철, 강문주, 박상준, 한가을, 이수경
+>
+> 결과 : 전체 20팀 중 공동4위 [아차상]
 >
 > 🌐 Link : http://soonsak-env.eba-rnwyi2s3.ap-northeast-2.elasticbeanstalk.com/
 
 
+
+![award](README.assets/award.png)
 
 ![index](README.assets/index.png)
 
